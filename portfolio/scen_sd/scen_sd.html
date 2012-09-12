@@ -215,19 +215,29 @@ has already been pressed </li>
 Elevator </h2>
 <h3> Scenario 4A: Passenger is in the elevator as it arrives at the
 passenger's desired hallway. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nick Mazurek </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is inside the car, traveling to desired floor <b>f</b>
 and hallway <b>b</b>. </li>
-  <li>Car is traveling in direction <b>d</b> </li>
+  <li>Car is traveling in direction <b>d</b>. </li>
   <li>All doors are closed. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+		<li>Elevator stops at floor <b>f</b>. </li>
+		<li>Door[<b>b</b>,*] open. </li>
+		<li>Passenger exits car. </li>
+		<li>Door[<b>b</b>,*] close. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+		<li>Elevator is at passenger's floor. </li>
+		<li>Passenger is outside of elevator. </li>
+		<li>Door is closed. </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario4.gif"><br>
-</a> </p>
+<p> <a href="sd4a.png"><img src="sd4a.png" alt="4A"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -235,7 +245,7 @@ and hallway <b>b</b>. </li>
 Triggers Door Reversal </h2>
 <h3> <a name="scenario5a" id="scenario5a"></a>Scenario 5A: Passenger
 attempts to enter the car as the doors begin to close. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nick Mazurek </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is outside the car. </li>
@@ -246,29 +256,48 @@ attempts to enter the car as the doors begin to close. </h3>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+		<li>Doors[<b>b</b>, *] begin to close. </li>
+		<li>Passenger arrives at hallway[<b>b</b>,<b>f</b>].</li>
+		<li>Passenger triggers door reversal. </li>
+		<li>Doors [<b>b</b>,*] open. </li>
+		<li>Passenger enters car. </li>
+		<li>Doors[<b>b</b>,*] close. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+		<li>Passenger is in car. </li>
+		<li>Elevator doors are closed. </li>
+		<li>Hall call lights are off. </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario5a.gif"><br>
-</a> </p>
+<p> <a href="sd5a.png"><img src="sd5a.png" alt="5A"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <h3> <a name="scenario5b" id="scenario5b"></a>Scenario 5B: Passenger
 attempts to exit the car as the doors begin to close. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nick Mazurek </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is inside the car. </li>
-  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.
-
-
-  </li>
+  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>. </li>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+		<li>Doors[<b>b</b>, <b>*</b>] begin to close. </li>
+		<li>Passenger triggers DoorReversal[b,*]. </li>
+		<li>Doors[<b>b</b>, <b>*</b>] open. </li>
+		<li>Passenger exits car. </li>
+		<li>Doors[<b>b</b>, <b>*</b>] close. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+		<li>Passenger is outside of car. </li>
+		<li>Doors are closed. </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario5b.gif"><br>
-</a> </p>
+<p> <a href="sd5b.png"><img src="sd5b.png" alt="4A"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
