@@ -303,7 +303,7 @@ suffice.</p>
 Direction </h2>
 <h3> <a name="scenario7a" id="scenario7a"></a>Scenario 7A: Elevator
 opens doors when Dispatcher's intended direction is Up or Down. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nipunn Koorapati </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Elevator is stopped at floor <b>f</b>, and AtFloor[<b>f</b>,<b>b</b>]
@@ -316,45 +316,63 @@ hallway <b>b</b>. </li>
   <li>Both Car Lanterns are off. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>CarLantern[<b>d</b>] turns on. </li>
+  <li>Both Door[<b>b</b>,<b>*</b>] open. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul>
+  <li>Elevator is stopped at floor <b>f</b>. </li>
+  <li>All DoorOpened[<b>b</b>,<b>*</b>] are True. </li>
+  <li>CarLantern[<b>d</b>] is set to On. </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario7a.gif"><br>
-</a> </p>
+<p> <a href="sd7a.png"><img src="sd7a.png" alt="7A"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <h3> <a name="scenario7b" id="scenario7b"></a>Scenario 7B: Elevator
 arrives at a hallway and the desired direction is Stop. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nipunn Koorapati </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Elevator is stopped at floor <b>f</b>, and AtFloor[<b>f</b>,<b>b</b>]
-was
-last
-received as True. </li>
+was last received as True. </li>
   <li>Dispatcher intends direction <b>Stop</b> (i.e., no selected
 direction), with enabled pickup in hallway <b>b</b>. </li>
   <li>All doors are closed. </li>
   <li>Both Car Lanterns are off. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>Both Door[<b>b</b>,<b>*</b>] open. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+  <li>Elevator is stopped at floor <b>f</b>. </li>
+  <li>All DoorOpened[<b>b</b>,<b>*</b>] are True. </li>
+  <li>Both Car Lanterns are off. </li>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario7b.gif"><br>
-</a> </p>
+<p> <a href="sd7b.png"><img src="sd7b.png" alt="7B"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <h3> <a name="scenario7c" id="scenario7c"></a>Scenario 7C: Elevator
 doors close on a hallway. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Nipunn Koorapati </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>At least one Door[<b>b</b>,<b>r</b>] is open. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>All Door[<b>b</b>,<b>r</b>] close. </li>
+  <li>Both car lanterns turn off. </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>All Door[<b>b</b>,<b>r</b>] are closed. </li>
+  <li>Both CarLantern[<b>d</b>] are set to Off. </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario7c.gif"><br>
-</a> </p>
+<p> <a href="sd7c.png"><img src="sd7c.png" alt="7C"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
