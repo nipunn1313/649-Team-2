@@ -284,18 +284,28 @@ some portion of the trip, and the CarLevelPosition Sensor to plan when
 to slow down. You will be given information on how to design a Fast
 Drive in the upcoming projects. For Project 2, a Slow Drive will
 suffice.</p>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Ben Clark </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Car is at hallway [<b>f</b>, <b>b</b>]. </li>
   <li>All elevator doors are closed. </li>
-  <li>Car is moving in hoistway. </li>
+  <li>Car is moving in hoistway in direction <b>d</b>.</li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>Elevator stops once AtFloor[<b>y,g</b>] is TRUE</li>
+  <li>CarPositionIndicator updates to correct floor y when AtFloor[<b>y,g</b>] is TRUE.</li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>Drive is set to (STOP,<b>d</b>)</li>
+  <li>AtFloor[<b>y,g</b>] is TRUE.</li>
+  <li>All doors are closed.</li>
+  <li>CarPositionIndicator is set to floor y</li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario6.gif"><br>
-</a> </p>
+<p> <a href="sd6a.png"><img src="sd6a.png" alt="6A" name="_x0000_i1027"
+ style="border: 0px solid ;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -383,17 +393,29 @@ hallway c} in
 direction d. </h3>
 <p> Note: You will want to create other scenarios that involve fast
 speed for your elevator, but this is a starting point. </p>
+<h3> Author name: Ben Clark </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Elevator is at floor <b>f</b>, with at least one Door[<b>b</b>,<b>r</b>]
 open.
-
   </li>
   <li>Drive is stopped. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>All Door[<b>b,r</b>] close.</li>
+  <li>CarLantern[*] is set to OFF.</li>
+  <li>Drive is set to (SLOW,<b>d</b>).</li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>Drive is set to (SLOW,<b>d</b>).</li>
+  <li>All Door[<b>b,r</b>] are closed.</li>
+  <li>Elevator has not yet arrived at desired floor. AtFloor[<b>g,c</b>] is false.</li>
+</ul>
 <h3> Sequence Diagram: </h3>
+<p> <a href="sd8a.png"><img src="sd8a.png" alt="8A" name="_x0000_i1027"
+ style="border: 0px solid ;"></a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
@@ -403,15 +425,29 @@ computes next desired floor just as doors open. Doors close. </h3>
 <p> Note: This dispatcher is really dumb and stops at every floor, in
 order. It would be much better to stop only at floors with people on
 them or that people want to go to. </p>
+<h3> Author name: Ben Clark </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Car is stopped. </li>
-  <li>AtFloor[f,b] was last received as True. </li>
+  <li>AtFloor[<b>f,b</b>] was last received as True. </li>
   <li>All doors are closed. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>All Door[b,*] are set to open.</li>
+  <li>Dispatcher sends mDesiredFloor.</li>
+  <li>CarLantern[<b>d</b>] is set to ON</li>
+  <li>All Door[<b>b,*</b>] set to close.</li>
+  <li>CarLantern[<b>*</b>] set to OFF.</li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>All Door[<b>b,*</b>] closed.</li>
+  <li>Elevator is stopped at floor f.</li>
+</ul>
 <h3> Sequence Diagram: </h3>
+<p> <a href="sd8a.png"><img src="sd9a.png" alt="9A" name="_x0000_i1027"
+ style="border: 0px solid ;"></a> </p>
 <br>
 </div>
 </body>
