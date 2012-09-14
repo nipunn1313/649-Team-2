@@ -21,16 +21,50 @@ something similar.<br>
 <br>
 Project 1<br>
 <ul>
-  <li>&lt;copy improvements for all group members from the individual
-from the project 1 submission&gt;</li>
-  <li>...<br>
+  <li>
+    It was not immediately obvious to me what parameters I was supposed to write
+    into the .cf file. At first, I was trying to create a SimTime as the first
+    parameter, with something like
+
+    TestLight (new SimTime(100, SimTime.MILLISECOND)) .....
+
+    but, that didn't even remotely work, and the error message wasn't particularly
+    helpful. Eventually I guessed that it wanted the string "100ms", and everything
+    was okay, but I think that there could be a bit more documentation for this,
+    maybe even a small example file?
+  </li>
+  <li>
+    Couple of typos which I found:
+
+    1) TestLight.java:169  s/blcok/block
+    2) testlight_01.mf:13  s/intialize/initialize
+
+    Also, make clean deletes ALL the class files, including the ones which come
+    with the tar file (and can never be recreated).
+    This is stupid! Why even include a make clean if it doesn't
+    put you in a state which you could ever function from again.
+
+    You should either
+    a) Provide the source and have us compile it
+    b) Modify make clean to only delete class files which are compilable
+    c) Eliminate make clean.
+
+    It was super-confusing when my Elevator didn't run. I had no idea it was
+    because of the make clean.
+
+    --Nipunn Koorapati
+  </li>
+  <li>
+    Didn't notice any major bugs with this lab, but it was difficult to
+    find the right resources to get the environment completely set up.  I
+    would suggest adding a hint to students to read the mf files for ways to
+    set up the cf files since that helped me to get the parameters correct.
+    Otherwise, no complaints!
   </li>
 </ul>
 Project 2<br>
 <ul>
-  <li>&lt;add an improvement here&gt;</li>
-  <li>...<br>
-  </li>
+  <li>No comment</li>
 </ul>
 &lt;add the rest of the project entries here&gt;<br>
 </body>
