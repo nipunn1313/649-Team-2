@@ -150,7 +150,7 @@ but after doors are too fully closed for passenger to enter. </li>
 A Car Call </h2>
 <h3> <a name="scenario2a" id="scenario2a"></a>Scenario 2A: Passenger
 is in the car and elevator is not at the desired destination floor. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Jacob Olson</h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Car is at floor <b>f</b>, with at least one Door[<b>b</b>,<b>r</b>]
@@ -163,27 +163,75 @@ b</b> might or might not be equal to <b>c</b>. </li>
   <li>Car call button for the desired destination is not lit. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>
+    Passenger pushes CarCall[<b>g</b>,<b>c</b>].
+  </li>
+  <li>
+    Passenger observes that CarLight[<b>g</b>,<b>c</b>] lights up.
+  </li>
+  <li>
+    Both Door[<b>b</b>,<b>*</b>] close.
+  </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>
+    All DoorClosed[<b>b</b>,<b>r</b>] are true.
+  </li>
+  <li>
+    Passenger is in the car and AtFloor[<b>g</b>,<b>c</b>] is False.
+  </li>
+  <li>
+    CarLight[<b>g</b>,<b>c</b>] is on.
+  </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario2a.gif"><br>
+<p> <a href="sd2a.png"><br>
+  <img src="sd2a.png"/>
 </a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <h3> <a name="scenario2b" id="scenario2b"></a>2B: Passenger is in the
 car and the elevator has arrived at the passenger's desired floor, but
 passenger has not yet exited the car as the doors begin to close. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Jacob Olson </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is in the car. </li>
-  <li>Elevator has arrived at the desired hallway, but the passenger
-has not yet exited the car. </li>
+  <li>Elevator is AtFloor[<b>f</b>,<b>b</b>], the desired destination, but the
+    passenger has not yet exited the car. </li>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>
+    Both Door[<b>b</b>,<b>*</b>] begin to close.
+  </li>
+  <li>
+    Passenger presses the CarCall[<b>f</b>,<b>b</b>] button for the desired
+    destination.
+  </li>
+  <li>
+    Both Door[<b>b</b>,<b>*</b>] open.
+  </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>
+    Passenger is in the car.
+  </li>
+  <li>
+    Elevator is AtFloor[<b>f</b>,<b>b</b>], but the passenger has not yet
+    exited the car.
+  </li>
+  <li>
+    Both DoorOpened[<b>b</b>,<b>*</b>] are True.
+  </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario2b.gif"><br>
+<p> <a href="sd2b.png"><br>
+  <img src="sd2b.png"/>
 </a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
@@ -192,21 +240,51 @@ has not yet exited the car. </li>
 Elevator </h2>
 <h3> Scenario 3A: Passenger is waiting at a hallway for the elevator
 and has already pressed the hall call button. </h3>
-<h3> Author name: Example Solutions </h3>
+<h3> Author name: Jacob Olson </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Car is about to arrive at a hallway [<b>f</b>,<b>b</b>] at which
 passenger is waiting. </li>
-  <li>The hall call button for passenger's desired direction <b>d</b>
-has already been pressed </li>
+  <li>HallCall[<b>f</b>,<b>b</b>,<b>d</b>] for passenger's desired direction
+    <b>d</b> has already been pressed </li>
   <li>The elevator is going in direction <b>d</b>. </li>
   <li>Passenger is outside the car. </li>
-  <li>All doors are closed. </li>
+  <li>All DoorClosed[b,r] are True. </li>
 </ul>
 <h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>
+    Car arrives at the hallway [<b>f</b>,<b>b</b>] at which passenger is
+    waiting.
+  </li>
+  <li>
+    Passenger observes that HallLight[<b>f</b>,<b>b</b>,<b>d</b>] turns off.
+  </li>
+  <li>
+    Both Door[<b>b</b>,<b>*</b>] open.
+  </li>
+  <li>
+    Passenger observes that CarLantern[<b>d</b>] lights up.
+  </li>
+  <li>
+    The passenger enters the car.
+  </li>
+</ol>
 <h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>
+    HallLight[<b>f</b>,<b>b</b>,<b>d</b>] is Off.
+  </li>
+  <li>
+    CarLantern[<b>d</b>] is On.
+  </li>
+  <li>
+    Passenger is inside the car.
+  </li>
+</ul>
 <h3> Sequence Diagram: </h3>
-<p> <a href="proj2_scenario3.gif"><br>
+<p> <a href="sd3a.png"><br>
+  <img src="sd3a.png"/>
 </a> </p>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
