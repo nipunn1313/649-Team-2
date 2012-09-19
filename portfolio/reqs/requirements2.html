@@ -258,11 +258,11 @@ passengers.
 <h3> Constraints: </h3>
 <ul>
   <li>
-    1.1:&nbsp; Passengers are prevented from entering or exiting the Car
+    1.1&nbsp; Passengers are prevented from entering or exiting the Car
     whenever the appropriate doors are not open far enough. </p>
   </li>
   <li>
-    1.2:&nbsp; If Passenger p is outside the car and the CarWeightAlarm is
+    1.2&nbsp; If Passenger p is outside the car and the CarWeightAlarm is
     triggered, the passenger shall not try to enter the car or press a hall
     call for 10 seconds after the doors fully close.<br>
   </li>
@@ -273,18 +273,18 @@ differ from those of the other system objects.&nbsp; <br>
 <br>
 <ul>
   <li>
-    1.3.&nbsp; When the passenger arrives at the start landing, if the hall
+    1.3&nbsp; When the passenger arrives at the start landing, if the hall
     call light it is not lit, the passenger shall press the hall call
     button in the hallCallDirection.<br/>
   </li>
   <li>
-    1.4.&nbsp; While waiting for the car (while the doors are closed at the
+    1.4&nbsp; While waiting for the car (while the doors are closed at the
     landing), the passenger shall monitor the hall call button in
     hallCallDirection and shall press it again if the hall call light is
     extinguished.<br>
   </li>
   <li>
-    1.5.&nbsp; When the passenger is waiting at the landing and the doors
+    1.5&nbsp; When the passenger is waiting at the landing and the doors
     at the start landing begin to open, the passenger shall try to enter
     the car if:<br>
   </li>
@@ -309,7 +309,7 @@ differ from those of the other system objects.&nbsp; <br>
     still open, the passenger shall exit the car at the start landing.<br>
   </li>
   <li>
-    1.7.&nbsp; The passengers shall traverse the door one at a time.&nbsp;
+    1.7&nbsp; The passengers shall traverse the door one at a time.&nbsp;
     Passenger priority shall be determined by the following guidelines:<br>
   </li>
   <ul>
@@ -687,23 +687,23 @@ None
     false, set the Emergency Brake to on.<br>
   </li>
   <li>
-    2.3&nbsp; If any DoorReversal[b, r] is True and any
+    2.4&nbsp; If any DoorReversal[b, r] is True and any
     DoorMotor[b, r] is anything other than Open or Nudge for greater than
     200msec
     (accumulated while DoorReversal[b, r] remains True), set EmergencyBrake
     to on.&nbsp;<br>
   </li>
   <li>
-    2.4 &nbsp; If any HoistwayLimit[d] is True, set EmergencyBrake to
+    2.5 &nbsp; If any HoistwayLimit[d] is True, set EmergencyBrake to
     on.<br>
   </li>
   <li>
-    2.5 &nbsp; If a Drive command is not "adjacent to" or the same as
+    2.6 &nbsp; If a Drive command is not "adjacent to" or the same as
     the current DriveSpeed value, set EmergencyBrake to on.<br>
   </li>
   <ul>
     <li>
-      2.5.1&nbsp; In the following table, any entry with an 'X'
+      2.6.1&nbsp; In the following table, any entry with an 'X'
       means that that Drive command is considered adjacent to the
       corresponding value of {DriveSpeed}:<br>
     </li>
@@ -891,7 +891,7 @@ None
   </table>
   <br>
   <li>
-    2.6&nbsp; If DriveSpeed.speed exceeds LevelSpeed and
+    2.7&nbsp; If DriveSpeed.speed exceeds LevelSpeed and
     DriveSpeed.direction is not equal to Stop and CarWeight MaxCarCapacity,
     set the EmergencyBrake to on.
   </li>
@@ -944,66 +944,66 @@ position. </li>
 <h3> BEHAVIORS: </h3>
 <ul>
   <li>
-    3.2&nbsp; Drive(Stop,d) and Drive(s,Stop) shall stop the
+    3.3&nbsp; Drive(Stop,d) and Drive(s,Stop) shall stop the
     Car regardless of values for s or d.<br>
-  </li>
-  <li>
-    3.2.1&nbsp; The time to Stop the Car from Fast speed
-    depends on the Car speed before Stop is commanded and is determined by
-    an acceleration profile.<br>
   </li>
   <ul>
     <li>
-      3.2.2&nbsp; The time to Stop the Car from Slow speed shall
+      3.3.1&nbsp; The time to Stop the Car from Fast speed
+      depends on the Car speed before Stop is commanded and is determined by
+      an acceleration profile.<br>
+    </li>
+    <li>
+      3.3.2&nbsp; The time to Stop the Car from Slow speed shall
       be less than or equal to 250 msec.<br>
     </li>
     <li>
-      3.2.2&nbsp; The time to Stop the Car from Level speed shall
+      3.3.3&nbsp; The time to Stop the Car from Level speed shall
       be less than or equal to 50 msec.<br>
     </li>
   </ul>
   <li>
-    3.3&nbsp; Drive(level, d), where d is not Stop, shall move the elevator
+    3.4&nbsp; Drive(level, d), where d is not Stop, shall move the elevator
     at a leveling speed in the direction d.<br>
   </li>
   <ul>
     <li>
-      3.3.1&nbsp; The time to achieve Level speed depends on speed
+      3.4.1&nbsp; The time to achieve Level speed depends on speed
       preceding the Level movement command and is determined by an
       acceleration profile.<br>
     </li>
     <li>
-      3.3.2&nbsp; The actual velocity at Level speed depends on
+      3.4.2&nbsp; The actual velocity at Level speed depends on
       the drive equipment installed.<br>
     </li>
   </ul>
   <li>
-    3.4&nbsp; Drive(Slow,d), where d is not Stop, shall move
+    3.5&nbsp; Drive(Slow,d), where d is not Stop, shall move
     the elevator at a slow speed in the direction d.<br>
   </li>
   <ul>
     <li>
-      3.4.1&nbsp; The time to achieve Slow speed depends on speed
+      3.5.1&nbsp; The time to achieve Slow speed depends on speed
       preceding the Slow movement command and is determined by an
       acceleration profile.<br>
     </li>
     <li>
-      3.4.2&nbsp; The actual velocity at Slow speed depends on
+      3.5.2&nbsp; The actual velocity at Slow speed depends on
       the drive equipment installed.<br>
     </li>
   </ul>
   <li>
-    3.5&nbsp; Drive(Fast,d), where d is not Stop, shall move
+    3.6&nbsp; Drive(Fast,d), where d is not Stop, shall move
     the elevator at maximum possible speed in the direction d as determined
     by a velocity profile.<br>
   </li>
   <li>
-    3.6&nbsp; CarPosition shall be updated according to
+    3.7&nbsp; CarPosition shall be updated according to
     integration of Car speed as determined by Drive() commands and an
     acceleration profile.<br>
   </li>
   <li>
-    3.7&nbsp; Cable slip may cause CarPosition to change while the
+    3.8&nbsp; Cable slip may cause CarPosition to change while the
     Drive is commanded to Stop,<br>
   </li>
 </ul>
@@ -1085,7 +1085,7 @@ open. </li>
     contact with the passenger.<br>
   </li>
   <li>
-    4.6&nbsp; D_position shall be kept updated by a physical
+    4.8&nbsp; D_position shall be kept updated by a physical
     model to indicate current positions of simulated doors.<br>
   </li>
 </ul>
