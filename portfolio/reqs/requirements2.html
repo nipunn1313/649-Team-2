@@ -1587,14 +1587,75 @@ None
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>CurrentFloor, is a shorthand notation for the value f of
-whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
-invalid it has a mnemonic value of None. </li>
+  <li>
+    CurrentFloor, is a shorthand notation for the value f of whichever
+    mAtFloor[f,b] is True, if any. If CurrentFloor is invalid it has a
+    mnemonic value of None.
+  </li>
+  <li>
+    DesiredFloorState is a shorthand notation for the value mDesiredFloor.f.
+  </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 None
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-<br>
+<ul>
+  <!-- State variable caching -->
+  <li>
+    9.1&nbsp; If mAtFloor[f,b] is received as True, then CurrentFloor shall be
+    set to f.
+  </li>
+  <li>
+    9.3&nbsp; If mDesiredFloor is received as (f,b,d), then DesiredFloorState
+    shall be set to f.
+  </li>
+  <!-- End State Variable caching -->
+  <!-- Turning light off conditions -->
+  <li>
+    9.4&nbsp; If mAtFloor[f,b] is received as True and DesiredFloorState equals
+    f, then
+  </li>
+  <ul>
+    <li>
+      9.4.1&nbsp; CarLight[f,b] shall be commanded to Off.
+    </li>
+    <li>
+      9.4.2&nbsp; mCarLight[f,b] shall be set to False.
+    </li>
+  </ul>
+  <li>
+    9.5&nbsp; If mDesiredFloor is received as (f,b,d) and CurrentFloor equals
+    f, then
+  </li>
+  <ul>
+    <li>
+      9.5.1&nbsp; CarLight[f,b] shall be commanded to Off.
+    </li>
+    <li>
+      9.5.2&nbsp; mCarLight[f,b] shall be set to False.
+    </li>
+  </ul>
+  <!-- End Turning light off conditions -->
+  <!-- Message repeating conditions -->
+  <li>
+    9.6&nbsp; If CarCall[f,b] is received as v, then mCarCall[f,b] shall be
+    set to v.
+  </li>
+  <!-- End Message repeating conditions -->
+  <!-- Turning light on conditions -->
+  <li>
+    9.7&nbsp; If CarCall[f,b] is received as True, then
+  </li>
+  <ul>
+    <li>
+      9.7.1&nbsp; CarLight[f,b] shall be commanded to On.
+    </li>
+    <li>
+      9.7.2&nbsp; mCarLight[f,b] shall be set to True.
+    </li>
+  </ul>
+  <!-- End turning light on conditions -->
+</ul>
 <h2><a name="carpositioncontrol"></a> 10. CarPositionControl </h2>
 <h3> Replication: </h3>
 <ul>
