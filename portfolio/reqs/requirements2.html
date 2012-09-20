@@ -1475,7 +1475,41 @@ floor. </li>
   </li>
 </ul>
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-<br>
+<br />
+<ul>
+  <li>
+    6.6&nbsp; If mDesiredFloor is received as V, then DesiredFloor
+    shall be set to V.
+  </li>
+  <li>
+    6.7&nbsp; If mDesiredDirection is received as D, then DesiredDirection
+    shall be set to D.<br />
+  </li>
+  <li>
+    6.8&nbsp; If mAtFloor[f,b] is True and f is DesiredFloor then Drive
+    shall be set to Level speed in direction d.<br />
+  </li>
+  <li>
+    6.9&nbsp; If DriveSpeed is Level speed and
+    mLevel[Top] is True, then Level[Top] shall be set to True.<br />
+  </li>
+  <li>
+    6.10&nbsp; If DriveSpeed is Level speed and
+    mLevel[Bottom] is True, then Level[Bottom] shall be set to True.<br />
+  </li>
+  <li>  
+    6.11&nbsp; If mLevel[Top] is True, and
+    Level[Bottom] is True, then Drive shall be set to Stop, Stop. <br />
+  </li>
+  <li>
+    6.12&nbsp; If mLevel[Bottom] is True, and
+    Level[Top] is True, then Drive shall be set to Stop, Stop. <br />
+  </li>
+  <li>
+    6.13&nbsp; If DriveSpeed is Stop and mDoorClosed is True, then Drive
+    shall be set to Slow, DesiredDirection.<br />
+  </li>
+</ul>
 <h2><a name="lanterncontrol"></a> 7. LanternControl[d] </h2>
 <h3> Replication: </h3>
 <ul>

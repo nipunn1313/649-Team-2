@@ -305,19 +305,21 @@ passenger's desired hallway. </h3>
 and hallway <b>b</b>. </li>
   <li>Car is traveling in direction <b>d</b>. </li>
   <li>All doors are closed. </li>
+	<li>DesiredFloorState is floor <b>f</b>. </li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
-		<li>Elevator stops at floor <b>f</b>. </li>
-		<li>Door[<b>b</b>,*] open. </li>
-		<li>Passenger exits car. </li>
-		<li>Door[<b>b</b>,*] close. </li>
+		<li>Elevator approaches floor <b>f</b>. <br />
+		&nbsp; &nbsp;The order that the level sensors are triggered do not matter. </li>
+		<li>Carlight[<b>d</b>] turns off.</li>
+		<li>Elevator stops to levelling speed. </li>
+		<li>Elevator stops at floor <b>f</b>, hallway <b>b</b>. </li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul type="disc">
-		<li>Elevator is at passenger's floor. </li>
-		<li>Passenger is outside of elevator. </li>
-		<li>Door is closed. </li>
+		<li>Elevator is stopped at floor <b>f</b>.</li>
+		<li>All doors[<b>b</b>,<b>r</b>] are closed.</li>
+		<li>Passenger is inside elevator.</li>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd4a.png"><img src="sd4a.png" alt="4A"></a> </p>
@@ -332,11 +334,9 @@ attempts to enter the car as the doors begin to close. </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Passenger is outside the car. </li>
-  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.
-
-
-  </li>
+  <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>.  </li>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
+	<li><b>DoorCounter</b> is <b>0</b></li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
@@ -365,6 +365,7 @@ attempts to exit the car as the doors begin to close. </h3>
   <li>Passenger is inside the car. </li>
   <li>Car is stopped at passenger's floor <b>f</b> and hallway <b>b</b>. </li>
   <li>At least one door[<b>b</b>,<b>r</b>] is open. </li>
+	<li><b>DoorCounter</b> is <b>0</b></li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
