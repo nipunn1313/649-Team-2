@@ -214,21 +214,25 @@ Counter<br>
     <tr>
       <td style="vertical-align: top;"> <u><b>Behavioral
 Requirements/Constraints</b></u></td>
-      <td style="vertical-align: top;">6.1 Any door not shut -&gt; Stop<br>
+      <td style="vertical-align: top;">
+        6.1 Any door not shut -&gt; Stop<br>
       </td>
-      <td style="vertical-align: top;">6.2 Any door motor open -&gt;
-Stop<br>
+      <td style="vertical-align: top;">
+        6.2 Any door motor open -&gt; Stop<br>
       </td>
-      <td style="vertical-align: top;">6.3, 6.3.1&nbsp; Adjacent value<br>
+      <td style="vertical-align: top;">
+        6.3, 6.3.1&nbsp; Adjacent value<br>
       </td>
-      <td style="vertical-align: top;">6.4 EmergencyBrake -&gt; Stop<br>
+      <td style="vertical-align: top;">
+        6.4 EmergencyBrake -&gt; Stop<br>
       </td>
-      <td style="vertical-align: top;">6.5 Overweight -&gt; Stop<br>
+      <td style="vertical-align: top;">
+        6.5 Overweight -&gt; Stop<br>
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;"><span style="font-weight: bold;">DriveControl</span><span
- style="font-weight: bold;"> - Completed by (Nipunn Koorapati, nkoorapa)</span> </td>
+ style="font-weight: bold;"> - Completed by (Nick Mazurek, nmazurek)</span> </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -241,45 +245,163 @@ Stop<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">6.6 (add requirement summary)<br>
+      <td style="vertical-align: top;">
+        6.6 Set DesiredFloor<br />
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br />
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br />
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br />
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br />
       </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">...<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">      
+        ~<br />
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">6.7 Set DesiredDirection<br><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.8 At DesiredFloor --&gt; set DriveSpeed to Level<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.9 DriveSpeed is Level and mLevel[Top] --&gt; set Level[Top]<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.10 DriveSpeed is Level and mLevel[Bottom] --&gt; set Level[Bottom]<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.11 Level[Bottom] and mLevel[Top] --&gt; Stop Drive<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.12 Level[Top] and mLevel[Bottom] --&gt; Stop Drive<br />      
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.13 DriveSpeed is Stop and mDoorClosed is True --&gt; Move in 
+        DesiredDirection<br />
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        X<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
+      </td>
+      <td style="vertical-align: top;">
+        ~<br>
       </td>
     </tr>
     <tr>
