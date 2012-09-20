@@ -213,7 +213,11 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     destination.
   </li>
   <li>
-    Both Door[<b>b</b>,<b>*</b>] open.
+    Passenger observes that CarLight[<b>f</b>,<b>b</b>] lights up for a moment,
+    then turns off.
+  </li>
+  <li>
+    Both Door[<b>b</b>,<b>*</b>] begin to open.
   </li>
 </ol>
 <h3> Post-Conditions: </h3>
@@ -226,7 +230,7 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     exited the car.
   </li>
   <li>
-    Both DoorOpened[<b>b</b>,<b>*</b>] are True.
+    At least one DoorClosed[<b>b</b>,<b>*</b>] is False.
   </li>
 </ul>
 <h3> Sequence Diagram: </h3>
@@ -261,13 +265,14 @@ passenger is waiting. </li>
     Passenger observes that HallLight[<b>f</b>,<b>b</b>,<b>d</b>] turns off.
   </li>
   <li>
-    Both Door[<b>b</b>,<b>*</b>] open.
+    Passenger observes that DoorPosition[<b>b</b>,<b>r</b>] is greater than the
+    required opening width.
   </li>
   <li>
-    Passenger observes that CarLantern[<b>d</b>] lights up.
+    Passenger observes that CarLantern[<b>d</b>] is lit.
   </li>
   <li>
-    The passenger enters the car.
+    Passenger enters the car.
   </li>
 </ol>
 <h3> Post-Conditions: </h3>
@@ -276,10 +281,10 @@ passenger is waiting. </li>
     HallLight[<b>f</b>,<b>b</b>,<b>d</b>] is Off.
   </li>
   <li>
-    CarLantern[<b>d</b>] is On.
+    Car is at hallway [<b>f</b>,<b>b</b>].
   </li>
   <li>
-    Passenger is inside the car.
+    Passenger is outside car, waiting for the doors to open.
   </li>
 </ul>
 <h3> Sequence Diagram: </h3>
