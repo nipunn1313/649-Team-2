@@ -1592,26 +1592,24 @@ None.</li>
 <h3> CONSTRAINTS: </h3>
 None
 <h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-8.1&nbsp;&nbsp;&nbsp; If HallCall[f,b,d] is received as Pressed, then<br>
 <ul>
-  <li>8.1.a&nbsp;&nbsp; HallLight[f,b,d] shall be set to On</li>
-  <li>8.1.b&nbsp;&nbsp; mHallCall[f,b,d] shall be set to True</li>
-  <li>8.1.c&nbsp;&nbsp; mHallLight[f,b,d] shall be set to True.</li>
-</ul><br>
-8.2&nbsp;&nbsp;&nbsp; If mAtFloor[f,b,d] is received as True, then
-CurrentFloor shall be set to f.<br>
-8.3&nbsp;&nbsp;&nbsp; If mDesiredFloor.f is received as V, then DesiredFloor
-shall be set to V.<br>
-8.4&nbsp;&nbsp;&nbsp; If mAtFloor[f,b] is received as True and mDesiredFloor
-is set to CurrentFloor, then:<br>
-<ul>
-  <li>8.4.a&nbsp;&nbsp; HallLight[f,b,d] shall be set to Off</li>
-  <li>8.4.b&nbsp;&nbsp; mHallLight[f,b,d] shall be set to False.</li>
-</ul><br>
-
-
-
-<br>
+  <li>8.1&nbsp; If HallCall[f,b,d] is received as Pressed, 
+    then:</li>
+    <ul>
+      <li>8.1.1&nbsp; HallLight[f,b,d] shall be set to On.</li>
+      <li>8.1.2&nbsp; mHallLight[f,b,d] shall be set to True.</li>
+    </ul>
+  <li>8.2&nbsp; If mAtFloor[f,b] is received as True, then
+    CurrentFloor shall be set to f.</li>
+  <li>8.3&nbsp; If mDesiredFloor.f is received as V, then DesiredFloor
+    shall be set to V.</li>
+  <li>8.4&nbsp; If mAtFloor[f,b] is received as True and DesiredFloor
+    is equal to CurrentFloor, then:</li>
+    <ul>
+      <li>8.4.1&nbsp; HallLight[f,b,d] shall be set to Off.</li>
+      <li>8.4.2&nbsp; mHallLight[f,b,d] shall be set to False.</li>
+    </ul>
+</ul>
 <h2><a name="carbuttoncontrol"></a> 9. CarButtonControl[f, b] </h2>
 <h3> Replication: </h3>
 <ul>
