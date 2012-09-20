@@ -424,9 +424,7 @@ opens doors when Dispatcher's intended direction is Up or Down. </h3>
 <h3> Pre-Conditions: </h3>
 <ul type="disc">
   <li>Elevator is stopped at floor <b>f</b>, and AtFloor[<b>f</b>,<b>b</b>]
-was
-last
-received as True. </li>
+was last received as True. </li>
   <li>Dispatcher intends direction <b>d</b> and is enabling pickup in
 hallway <b>b</b>. </li>
   <li>All doors are closed. </li>
@@ -434,8 +432,9 @@ hallway <b>b</b>. </li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
+  <li>Both Door[<b>b</b>,<b>*</b>] begin to open. </li>
   <li>CarLantern[<b>d</b>] turns on. </li>
-  <li>Both Door[<b>b</b>,<b>*</b>] open. </li>
+  <li>Both Door[<b>b</b>,<b>*</b>] are completely open. </li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul>
