@@ -3,162 +3,195 @@
 
 Elevator project for 18-649.
 
-Project 3 Requirements
-
 <html>
+<h2> Assignment </h2>
+<p> You will transform your requirements specification from an
+event-triggered
+system to a time-triggered one, and complete a detailed design
+document. No
+longer are there discrete events that cause information processing and
+state
+changes in your controllers. In your time-triggered system, once during
+each
+cycle (we use cycle here as some unit of time determined by processing
+and
+control needs) a time triggered machine looks at the information it has
+available to it, possibly calculates some internal variables, and
+decides
+whether it should transition to a new state. For each non-environmental
+object,
+you will complete a detailed design using UML state charts as described
+in the
+required reading. </p>
+<p> <strong>PLEASE KNOW THAT CODE AND DESIGN ARE DIFFERENT THINGS.</strong>
+Code should be well designed, but there should be no actual code in
+your
+design. If there is code, it is not a design, and so it will be graded
+as code
+and not a design---which means you will earn no points for that
+submission
+item. Pseudo code is acceptable for expressing guard conditions, state
+outputs,
+and so on, but you should use it as little as possible. This applies to
+requirements as well as statechart actions and trigger conditions.<br>
+</p>
+<p> The procedure for this assignment is: </p>
 <ol>
-  <li>Use the Scenarios and Sequence Diagrams from project 2 to generate your
-    behavioral requirements for each control system object. We've provided some
-    examples, but again, these are sub-optimal so you may want to write your
-    own. Follow the format of the "formula for behavioral requirements" for an
-    <b><i>event-based system</i></b> you'll see in multiple lectures. A
-    particularly important concern is that <i>only one</i> message can be used
-    as the trigger for an action. If you need two messages to trigger an
-    action, you will generally need to use multiple behavioral requirements and
-    intermediate variables to do this.
-  </li>
+  <li>Rewrite your event-triggered behavioral requirements to be
+time-triggered.
+This means that instead of acting on events (like receiving a message),
+the
+controller modifies its outputs based on the current value of state
+variables.
+When you found yourselves doing tricky state variable manipulation to
+get a
+correct event-triggered behavior, you will find that time-triggered
+requirements make your design much simpler.&nbsp;</li>
 </ol>
 <ul>
-  <ul>
-    <li>Each requirement should be less than 50 words, and all but the most
-      complex should be less than 25 words. (If you have a requirement greater
-      than 25 words long, then consider breaking it up into simpler
-      requirements, perhaps using nested levels of numbering). <br/>
-    </li>
-    <li>Each requirement <b>shall</b> be less than 100 words and <b>shall</b>
-      be a legitimate English sentence. Only the first 100 words of any
-      numbered requirement will be graded. Hyphens and equal signs both count
-      as spaces when determining word count.&nbsp;
-    </li>
-    <li>Each requirement <b>shall</b>contain exactly one verb.&nbsp; This will
-      likely lead to multipart requirements when the same IF part results in
-      multiple THEN parts.&nbsp; In the example that follows, R1.1a and R1.1b
-      are considered to be separate (but related) requirements that each
-      include the common text stated in the R1.1 line.&nbsp; So the word count
-      for R1.1a is 7+8=15 words and R1.1b is 7+6=13 words. <br/>
-    </li>
-    <ul>
-      <li>R1.1&nbsp; If mMessageX[f,b] is received as true, then&nbsp;&nbsp; (7
-        words)<br/>
-      </li>
-      <ul>
-        <li>R1.1a&nbsp; State variable A shall be set to
-          True.&nbsp;&nbsp;&nbsp; (8 words)<br/>
-        </li>
-        <li>R1.1b&nbsp; OutputY shall be set to False.&nbsp;&nbsp;&nbsp; (6
-          words)<br/>
-        </li>
-      </ul>
-    </ul>
-  </ul>
+  <li>You can assume that each controller maintains a copy of the
+system state
+that consists of the most recent message values for all messages the
+controller
+receives.&nbsp; For simplicity, you should continue to use the
+mMessage[]
+notation (e.g. mHallCall[f,b,d]) to refer to these state variables.<br>
+  </li>
+  <li>Make sure that you have a complete set of time-triggered
+requirements.&nbsp; It is up to you whether you leave your
+event-triggered
+requirements in place or remove them and replace them with
+time-triggered
+requirements.&nbsp; If you choose not to remove the event triggered
+requirements, make sure that you us a different numbering scheme for
+the two
+sets so that there is no ambiguity..<br>
+  </li>
+  <li>You will need to update your requirements-to-sequence-diagrams
+and
+requirements-to-constraints traceability to reflect the new
+requirements you
+have written.&nbsp; Since only the time-triggered requirements will be
+used as
+you go forward, it is acceptable to trace only the time-triggered
+requirements
+(i.e. in the traceability, you can let the TT requirements replace the
+ET
+ones).&nbsp;</li>
+  <li><span style="font-weight: bold;">NOTE:&nbsp; The format for
+time-triggered
+requirements is slightly different from those presented in the lecture,
+and
+this assignment supercedes what was presented in the lectures.&nbsp; </span>Read
+the
+discussion
+below on <a href="#timetriggered">Time-Triggered
+Design</a> for more guidelines.&nbsp; <br>
+    <br>
+  </li>
 </ul>
-<ol start="2">
-  <li>Ensure traceability by completing the Sequence Diagrams to Requirements
-    Traceability table.&nbsp; Expand the Excel template in the portfolio to
-    include a row for each requirement and a column for each sequence diagram
-    arc.&nbsp; Be sure to follow the instructions given in the notes page of
-    the Excel template.&nbsp; <br/>
+<ul>
+  <li>Keep track of changes to your design using the issue log.&nbsp;
+If you make
+any substantive changes to your behavioral requirements (such that an
+outside
+observer would notice a different behavior), you must document those
+changes in
+the issue log which is included with the <a
+ href="../portfolio/portfolio_layout.html">project portfolio
+template</a>.&nbsp; If, in the course of writing requirements or
+statecharts,
+you find that you must add or modify your scenarios and sequence
+diagrams, you
+must document these changes in the issue log as well.</li>
+</ul>
+<ul>
+  <li>In the course of rewriting your event-triggered requirements as
+time-triggered, you only need to log changes if you change the behavior
+of the
+system.&nbsp; If the new requirements have the same function as the old
+requirements, no log entry is necessary.<br>
+    <br>
   </li>
-  <ol>
-    <li>Each behavior should match up with one or more Sequence Diagram
-      messages (complete backward traceability).
-    </li>
-    <li>Each Sequence Diagram message should apply to at least one text
-      behavior requirement (complete forward traceability).&nbsp;&nbsp;
-    </li>
-    <li>When tracing to multipart requirements (as in the example in #1 above),
-      you should trace to each subrequirement (with the understanding that it
-      includes the common text).&nbsp; So in example, you would trace to R1.1a
-      and R1.1b, but NOT R1.1 by itself.
-    </li>
-    <li>There can be as many overlaps as necessary as long as every Sequence
-      Diagram message and requirement is covered.&nbsp; <br/>
-    </li>
-    <li>If a requirement only sets a state variable and does not set any
-      output, then the requirement will not trace to any sequence diagram
-      arc.&nbsp; In this case, it is acceptable to trace it to the "Setting
-      State Variable" column in the traceability table.
-    </li>
-    <li>Some arcs in the sequence diagram will originate from system modules
-      (like the smart sensors).&nbsp; Since you do not have requirements for
-      these objects, just put a single entry for each system object in the
-      System Modules section and indicate the arcs that trace to that object.
-    </li>
-    <li>If a requirement is related to a message that is not consumed by any
-      controller, you may trace it to the "Future Expansion" column.&nbsp; In
-      the elevator, the only messages that have no consumers are the mHallLight
-      and mCarLight messages.&nbsp; You may NOT trace a requirement to "Future
-      Expansion" UNLESS it is related to the mHallLight of mCarLight
-      messages.<br/>
-    </li>
-    <li>Your traceability table must include all 7 of the controllers.&nbsp;
-      For the controllers that you did not write requirements for (DoorControl,
-      CarPositionControl and Dispatcher), you should trace to the requirements
-      that have been provided.
-    </li>
-    <li>You must have a team member DIFFERENT from the author of the behavioral
-      requirements perform the traceability check on each Sequence Diagram. The
-      team member who performs the check for each object should record his/her
-      name on the traceability check.&nbsp;
-      <b><i>
-          Complete and consistent traceability between your diagrams and
-          documentation will be a major factor in your grade.
-      </i></b>
-      <br/>
-      <br/>
-      <br/>
-    </li>
-  </ol>
-  <li> You must also ensure traceability between the Requirements and
-    Constraints for each object you develop requirements for (
-    <span style="color: rgb(0, 153, 0);">
-      traceability/req_const_traceability.html
-    </span>
-    ). For a single object, only trace to the Constraints of that object, not
-    the Constraints for all objects. This is easily done using a table with the
-    Constraints listed across the top and your Requirements listed along the
-    side. You don't have to provide a detailed explanation - just use an 'X' if
-    the Requirement directly supports the Constraint, and a '~' if the
-    Requirement doesn't contradict the Constraint but doesn't directly support
-    it. Turn in a Constraint to Requirement traceability check for each object
-    you are responsible for writing requirements for. You will probably have at
-    least one 'X' per column and at least one 'X' per row.&nbsp; The team
-    member who performs the check for each object should record his/her name on
-    the traceability check.<br/>
-    <br/>
-    You should perform this traceability exercise for all 7 of the
-    controllers.&nbsp; For the controllers that you did not write requirements
-    for (DoorControl, CarPositionControl and Dispatcher), you should trace to
-    the requirements that have been provided.<br/>
-    <br/>
-    <br/>
+</ul>
+<ul>
+  <li>Design a state chart for each non-environmental control object:
+    <ul>
+      <li>CarButtonControl </li>
+      <li>CarPositionControl </li>
+      <li>Dispatcher </li>
+      <li>DoorControl </li>
+      <li>DriveControl </li>
+      <li>HallButtonControl </li>
+      <li>LanternControl </li>
+    </ul>
+The state charts shall be <b>time-triggered</b> with guard conditions,
+    <b>not</b> event-triggered. Although you may not agree with this
+design choice,
+you are required to design a pure time-triggered system.&nbsp; Time
+triggered
+design is a often a good choice for reliable, distributed systems, and
+our goal
+is to teach you this technique.&nbsp; For detailed information about
+time-triggered design, see the following section of this writeup on <a
+ href="index.html#timetriggered">Time-Triggered Design</a> and
+the course
+lecture notes.<br>
+    <br>
+  <b><u>NOTE: The statecharts should fully describe your working elevator. You should have a complete Sabbath elevator design by the end of this week. This may require you to create more use cases or scenarios than what we originally gave you. </u></b><br>
+  <br> 
   </li>
-  <li>Issue Log - As you are working on requirements, you will likely find
-    errors or omissions in your sequence diagrams.&nbsp; If that happens, you
-    must update your sequence diagrams so that they are consistent, and track
-    each modification in your issue log.&nbsp; Finding bugs is not a bad
-    thing!&nbsp; In fact, if a team is not finding bugs, it is much more likely
-    that they are not looking hard enough than that there are no bugs to be
-    found.&nbsp; It is possible (but not likely) that you will not have any
-    errors in your sequence diagrams, so there are no points assigned for this
-    part.&nbsp; But keep in mind that we can go back and compare your current
-    sequence diagrams to previous weeks, and we will expect modifications to be
-    logged, and you might have points deducted if it is clear you are not
-    making a good faith effort to track bugs in your project.<br/>
-    <br/>
-    <br/>
+  <li>Ensure backward and forward traceability by documenting the
+relationships
+between each behavior requirement and each state chart transition arc
+or state.
+Only trace the time-triggered requirements.<br>
+    <ul>
+      <li>Forward traceability means directly relating each requirement
+in the
+specification to one or more states and/or transitions. </li>
+      <li>Backward traceability means directly relating each state or
+transition to
+one or more requirements. </li>
+    </ul>
+In order to do forward and backward traceability in one table,
+construct a
+table with the requirement numbers across the first row and the states
+and
+transitions down the first column.&nbsp; Put an X in the appropriate
+cells to
+indicate that a state/transition supports a requirement. See <a
+ href="../proj1/testlight.html">the example</a>. A correct design
+will have
+at least one state or transition for each requirement and at least one
+requirement for each state or transition. So, every row and every
+column should
+have at least one X in it. <br>    
+    <br>
+  <b><u>NOTE: For this project, nothing should trace to future expansion except network messages that are transmitted but never received.</u></b><br>
+  <br>
   </li>
-  <li>Peer Review Log - You must complete a peer review checklist for each set
-    of requirements ie. one peer review per object. Record the results in a
-    <a href="http://www.ece.cmu.edu/%7Eece649/project/misc/peer_review.xls">
-      peer review sheet
-    </a>
-    and also complete a log entry into peer review log.
-    Recording defects on the peer review sheet does NOT result in point
-    deductions. Be honest. We just want to know if you found something or not
-    in the review. If you find something, you should fix it before handing in
-    the assignment or else note it in the issue log as an open issue.<br/>
-    <br/>
-  </li>
-</ol>
+  <li>Perform a peer review of your statecharts. <span
+ class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;">You
+
+must
+complete
+a
+peer review checklist for each statechart ie. one peer
+review
+per object. Record the results in a<span class="Apple-converted-space">&nbsp;
+
+
+    </span><a href="http://www.ece.cmu.edu/%7Eece649/project/misc/peer_review.xls">peer
+review
+sheet</a><span class="Apple-converted-space">&nbsp;</span>and also
+complete a log entry into peer review log. Recording defects on the
+peer review
+sheet does NOT result in point deductions. Be honest.</span></li>
+</ul>
+<ul>
+  <li>Turn in your complete team design package. </li>
+</ul>
+
 </html>
