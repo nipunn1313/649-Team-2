@@ -1705,10 +1705,6 @@ pair of bulbs as a single actuator.</li>
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>DesiredDirection = {Up, Down, Stop} computed desired direction
-based on comparing CurrentFloor with Floor desired by Dispatcher.&nbsp;
-This is implicitly computed and used as a macro in the behavior
-descriptions. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 <ul>
@@ -1717,40 +1713,98 @@ descriptions. </li>
     time.
   </li>
 </ul>
-<h3> EVENT-TRIGGERED BEHAVIORS: </h3>
+<h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <li>
-    7.2 &nbsp; If mDesiredFloor.d is received as <b>d</b>, then
-    DesiredDirection shall be set to <b>d</b>
-  </li>
-  <li>
-    7.3 &nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is received as True, then
-    all CarLantern[<b>d</b>] shall be set to Off
-  </li>
-  <li>
-    7.4 &nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is received as False and
-    DesiredDirection is Up then:
+    7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True, then:
   </li>
   <ul>
     <li>
-      7.4.1 &nbsp; CarLantern[Up] shall be set to On
+      7.2.1&nbsp; CarLantern[Up] shall be set to Off.
     </li>
     <li>
-      7.4.2 &nbsp; CarLantern[Down] shall be set to Off
+      7.2.2&nbsp; CarLantern[Down] shall be set to Off.
     </li>
   </ul>
-  <li>7.5 &nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is received as False and
-  DesiredDirection is Down then: </li>
+  <li>
+    7.3&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
+    is Up then:
+  </li>
   <ul>
     <li>
-      7.5.1 &nbsp; CarLantern[Up] shall be set to Off
+      7.3.1&nbsp; CarLantern[Up] shall be set to On.
     </li>
     <li>
-      7.5.2 &nbsp; CarLantern[Down] shall be set to On
+      7.3.2&nbsp; CarLantern[Down] shall be set to Off.
+    </li>
+  </ul>
+  <li>
+    7.4&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
+    is Down then:
+  </li>
+  <ul>
+    <li>
+      7.4.1&nbsp; CarLantern[Up] shall be set to Off.
+    </li>
+    <li>
+      7.4.2&nbsp; CarLantern[Down] shall be set to On.
+    </li>
+  </ul>
+  <li>
+    7.5&nbsp; If mDesiredFloor.d is Stop, then:
+  </li>
+  <ul>
+    <li>
+      7.5.1&nbsp; CarLantern[Up] shall be set to Off.
+    </li>
+    <li>
+      7.5.2&nbsp; CarLantern[Down] shall be set to Off.
     </li>
   </ul>
 </ul>
 <br>
+<h3>State Chart</h3>
+<div style="text-align: center;">
+  <a href="lanternControl_state_diagram.png">
+    <img alt="lanternControl_state_diagram.png"
+    src="lanternControl_state_diagram.png" style="border: 0px solid;"/>
+  </a>
+</div>
+<br />
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td>Trigger #</td>
+      <td>Trigger Conditions</td>
+      <td>Actions</td>
+    </tr>
+    <tr>
+      <td>LT 1</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True</td>
+      <td>Both car lanterns shall be set to Off</td>
+    </tr>
+    <tr>
+      <td>LT 2</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
+      Up</td>
+      <td>Up car lantern shall be set to On and the down car lantern shall be
+      set to Off.</td>
+    </tr>
+    <tr>
+      <td>LT 3</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
+      Down</td>
+      <td>Down car lantern shall be set to On and the up car lantern shall be
+      set to Off.</td>
+    </tr>
+    <tr>
+      <td>LT 4</td>
+      <td>mDesiredFloor.d == Stop</td>
+      <td>Both Down car lantern and up car lantern shall be set to Off. </td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="hallbuttoncontrol"></a> 8. HallButtonControl[f, b, d] </h2>
 <h3> Replication: </h3>
 <ul>
