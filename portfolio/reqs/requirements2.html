@@ -1777,31 +1777,118 @@ cellspacing="2">
     <tr>
       <td>Trigger #</td>
       <td>Trigger Conditions</td>
-      <td>Actions</td>
     </tr>
     <tr>
       <td>LT 1</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True</td>
-      <td>Both car lanterns shall be set to Off</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d == Stop</td>
     </tr>
     <tr>
       <td>LT 2</td>
       <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
       Up</td>
-      <td>Up car lantern shall be set to On and the down car lantern shall be
-      set to Off.</td>
     </tr>
     <tr>
       <td>LT 3</td>
       <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
       Down</td>
-      <td>Down car lantern shall be set to On and the up car lantern shall be
-      set to Off.</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Requirements to Statechart Traceability</h3>
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td colspan="8">Requirements</td>
     </tr>
     <tr>
-      <td>LT 4</td>
-      <td>mDesiredFloor.d == Stop</td>
-      <td>Both Down car lantern and up car lantern shall be set to Off. </td>
+      <td><b>State</b></td>
+      <td>7.2.1</td>
+      <td>7.2.2</td>
+      <td>7.3.1</td>
+      <td>7.3.2</td>
+      <td>7.4.1</td>
+      <td>7.4.2</td>
+      <td>7.5.1</td>
+      <td>7.5.2</td>
+    </tr>
+    <tr>
+      <td>state 1: lights off</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 2: Up on</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 3: Down on</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td><b>Transitions</b></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>LT 1</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>LT 2</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>LT 3</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
     </tr>
   </tbody>
 </table>
