@@ -2108,7 +2108,7 @@ None
     mnemonic value of None.
   </li>
   <li>
-    DesiredFloorState is a shorthand notation for the value mDesiredFloor.f.
+    Active (True if light should remain on)
   </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
@@ -2128,6 +2128,9 @@ None
     <li>
       9.1.2&nbsp; mCarLight[f,b] shall be set to False.
     </li>
+    <li>
+      9.1.3&nbsp; Active shall be set to False.
+    </li>
   </ul>
   <!-- Message repeating conditions -->
   <li>
@@ -2146,11 +2149,160 @@ None
     <li>
       9.3.2&nbsp; mCarLight[f,b] shall be set to True for at least 500ms.
     </li>
+    <li>
+      9.3.3&nbsp; Active shall be set to True.
+    </li>
+  </ul>
+  <li>
+    9.4&nbsp; If Active is True, then
+  </li>
+  <ul>
+    <li>
+      9.4.1&nbsp; CarLight[f,b] shall be commanded to On.
+    </li>
+    <li>
+      9.4.2&nbsp; mCarLight[f,b] shall be set to True.
+    </li>
   </ul>
   <!-- End turning light on conditions -->
 </ul>
 <h3> State Diagram: </h3>
-
+<div style="text-align: center;">
+  <a href="carButtonControl_state_diagram.png">
+    <img alt="carButtonControl_state_diagram.png"
+         src="carButtonControl_state_diagram.png"
+         style="border: 0px solid;">
+	</a><br />
+</div>
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td>Trigger #</td>
+      <td>Trigger Conditions</td>
+    </tr>
+    <tr>
+      <td>CBT 1</td>
+      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
+    </tr>
+    <tr>
+      <td>CBT 2</td>
+      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
+          mDesiredFloor.f == CurrentFloor</td>
+    </tr>
+    <tr>
+      <td>CBT 3</td>
+      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
+          mDesiredFloor.f != Current Floor</td>
+    </tr>
+  </tbody>
+</table>
+<p><h3>Requirements to Statechart Traceability</h3></p>
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td colspan="9">Requirements</td>
+    </tr>
+    <tr>
+      <td><b>State</b></td>
+      <td>9.1.1</td>
+      <td>9.1.2</td>
+      <td>9.1.3</td>
+      <td>9.2</td>
+      <td>9.3.1</td>
+      <td>9.3.2</td>
+      <td>9.3.3</td>
+      <td>9.4.1</td>
+      <td>9.4.2</td>
+    </tr>
+    <tr>
+      <td>state 1: Light Off</td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 2: Button Pressed</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 3: Unpressed On</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td><b>Transitions</b></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>CBT 1</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>CBT 2</td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>CBT 3</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="carpositioncontrol"></a> 10. CarPositionControl </h2>
 <h3> Replication: </h3>
 <ul>
