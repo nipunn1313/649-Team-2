@@ -1535,7 +1535,9 @@ floor. </li>
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
-<a href="driveControl_state_diagram.png"><img src="driveControl_state_diagram.png"/></a>
+<div style="text-align: center;">
+  <a href="driveControl_state_diagram.png"><img src="driveControl_state_diagram.png"/></a>
+</div>
 &nbsp;<br/>
 <table style="text-align: left; width: 800px;" border="1"
  cellpadding="2" cellspacing="2">
@@ -2239,5 +2241,204 @@ Lobby = 1. </li>
     appropriate value for door open dwell.
   </li>
 </ul>
+<h3>STATE DIAGRAM</h3>
+<div style="text-align: center;">
+  <a href="dispatcher_state_diagram.png"><img src="dispatcher_state_diagram.png"/></a>
+</div>
+&nbsp;<br/>
+<table style="text-align: left; width: 800px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>Trigger #</b></td>
+      <td style="vertical-align: top;"><b>Trigger Conditions</b></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 1</td>
+      <td style="vertical-align: top;">
+        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
+        (mAtFloor[*,*] == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 2</td>
+      <td style="vertical-align: top;">
+        mDoorClosed[*,*] == True
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 3</td>
+      <td style="vertical-align: top;">
+        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
+        (mAtFloor[b,r] == True)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 4</td>
+      <td style="vertical-align: top;">
+        mDoorClosed[*,*] == True
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 5</td>
+      <td style="vertical-align: top;">
+        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
+        (mAtFloor[*,*] == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 6</td>
+      <td style="vertical-align: top;">
+        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
+        (mAtFloor[b,r] == True)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3>Requirements to Statechart Traceability</h3>
+completed by Jacob Olson (jholson)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td
+        style="vertical-align: top;"><br>
+      </td>
+      <td colspan="8" rowspan="1"
+        style="vertical-align: top;">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        <span style="font-weight: bold;">States</span>
+      </td>
+      <td style="vertical-align: top;">11.4</td>
+      <td style="vertical-align: top;">11.5</td>
+      <td style="vertical-align: top;">11.6.1</td>
+      <td style="vertical-align: top;">11.6.2</td>
+      <td style="vertical-align: top;">11.7.1</td>
+      <td style="vertical-align: top;">11.7.2</td>
+      <td style="vertical-align: top;">11.8</td>
+      <td style="vertical-align: top;">11.9</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 1:&nbsp; Doors Closed
+      </td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 2:&nbsp; Doors Open At Floor
+      </td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 3:&nbsp; Doors Open Between Floors
+      </td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        <span style="font-weight: bold;">Transitions</span>
+      </td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 1</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 2</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 3</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 4</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 5</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 6</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+  </tbody>
+</table>
 </body>
 </html>
