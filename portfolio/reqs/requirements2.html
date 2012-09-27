@@ -1474,8 +1474,8 @@ floor. </li>
     overloaded.
   </li>
 </ul>
-<h3> EVENT-TRIGGERED BEHAVIORS: </h3>
-<br />
+<h3> TIME-TRIGGERED BEHAVIORS: </h3>
+<!--
 <ul>
   <li>
     6.6&nbsp; If mDesiredFloor is received as V, then DesiredFloor
@@ -1510,6 +1510,172 @@ floor. </li>
     shall be set to Slow, DesiredDirection.<br />
   </li>
 </ul>
+-->
+<ul>
+  <li>
+    6.6&nbsp; If mEmergencyBrake equals On or mCarWeight is greater than or
+    equal to MaxCarCapacity, then Drive shall be set to (Stop, Stop). (This
+    requirement takes precedence over every following requirement).
+  </li>
+  <li>
+    6.7&nbsp; If DriveSpeed equals (s,d), mDriveSpeed shall be set to (s,d).
+  </li>
+  <li>
+    6.8&nbsp; If mDesiredFloor.f equals CurrentFloor, and any mLevel[d] is
+    False, then Drive shall be set to (Level, DesiredDirection).
+  </li>
+  <li>
+    6.9&nbsp; If mDesiredFloor.f equals CurrentFloor, and all mLevel[d] are
+    True, then Drive shall be set to (Stop, Stop).
+  </li>
+  <li>
+    6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, and all
+    mDoorClosed[b,r] are True, then Drive shall be set to (Slow,
+    DesiredDirection).
+  </li>
+</ul>
+<h3>STATE DIAGRAM</h3>
+<a href="driveControl_state_diagram.png"><img src="driveControl_state_diagram.png"/></a>
+&nbsp;<br/>
+<table style="text-align: left; width: 800px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>Trigger #</b></td>
+      <td style="vertical-align: top;"><b>Trigger Conditions</b></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT1</td>
+      <td style="vertical-align: top;">
+        (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
+        (mDoorClosed[*,*] == True) &amp;&amp;<br/>
+        (mEmergencyBrake == Off) &amp;&amp;<br/>
+        (mCarWeight &lt; MaxCarCapacity)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT2</td>
+      <td style="vertical-align: top;">
+        (mEmergencyBrake == On) ||<br/>
+        (mCarWeight &ge; MaxCarCapacity)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT3
+      </td>
+      <td style="vertical-align: top;">
+        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (mEmergencyBrake == Off) &amp;&amp;<br/>
+        (mCarWeight &lt; MaxCarCapacity)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT4
+      </td>
+      <td style="vertical-align: top;">
+        (mLevel[*] == True) ||<br/>
+        (mEmergencyBrake == On) ||<br/>
+        (mCarWeight &ge; MaxCarCapacity)
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3>Requirements to Statechart Traceability</h3>
+completed by Jacob Olson (jholson)<br>
+<table style="text-align: left; width: 409px; height: 312px;" border="1">
+  <tbody>
+    <tr style="font-weight: bold;">
+      <td
+        style="vertical-align: top;"><br>
+      </td>
+      <td colspan="5" rowspan="1"
+        style="vertical-align: top;">Requirements<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        <span style="font-weight: bold;">States</span>
+      </td>
+      <td style="vertical-align: top;">6.6</td>
+      <td style="vertical-align: top;">6.7</td>
+      <td style="vertical-align: top;">6.8</td>
+      <td style="vertical-align: top;">6.9</td>
+      <td style="vertical-align: top;">6.10</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 1:&nbsp; Stopped
+      </td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 2:&nbsp; Leveling At Desired Floor
+      </td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 3:&nbsp; Not At Desired Floor
+      </td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        <span style="font-weight: bold;">Transitions</span>
+      </td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 1</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 2</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 3</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 4</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="lanterncontrol"></a> 7. LanternControl[d] </h2>
 <h3> Replication: </h3>
 <ul>
