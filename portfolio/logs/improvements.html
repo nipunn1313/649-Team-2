@@ -80,6 +80,11 @@ Project 4<br />
   variable for Dwell which always matches up with mDesiredDwell. For
   time-triggered, that's not really necessary. Is there a reason it's
   there?</li>
+  <li>Be clear about where CarWeight is compared to MaxCarCapacity. DoorControl
+  makes the comparison for us, however it is not clear if CarWeightAlarm
+  is also making the comparison. mCarWeight is the message sent to DoorControl
+  and CarWeightAlarm but it seems like it should send mOverweight or something 
+  similar.</li>
 </ul>
 
 &lt;add the rest of the project entries here&gt;<br>
