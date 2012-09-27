@@ -294,6 +294,33 @@ passenger is waiting. </li>
 <div align="center">
 <hr size="2" width="100%" align="center"> </div>
 <p> &nbsp; </p>
+<h3> Scenario 3B: Passenger enters elevator and it is overweight. Passenger 
+exits elevator </h3>
+<h3> Author name: Ben Clark </h3>
+<h3> Pre-Conditions: </h3>
+<ul type="disc">
+  <li>Car is at hallway <b>[f,b]</b> at which passenger is waiting</li>
+  <li>All DoorOpen[b,r] are True</li>
+  <li>Passenger is outside the car</li>
+</ul>
+<h3> Scenario: </h3>
+<ol start="1" type="1">
+  <li>Passenger enters the car.</li>
+  <li>CarWeight is greater than MaxCarCapacity.</li>
+  <li>Passenger observes CarWeightAlarm and exits the car.</li>
+  <li>Doors close.</li>
+</ol>
+<h3> Post-Conditions: </h3>
+<ul type="disc">
+  <li>Elevator is stopped at floor <b>f</b>.</li>
+  <li>All doors[<b>b,r</b>] are closed.</li>
+  <li>Passenger is outside the elevator.</li>
+</ul>
+<h3>Sequence Diagram: </h3>
+<p><a href="sd3b.png"><img src="sd3b.png" alt="3B"></a> </p>
+<div align="center">
+<hr size="2" width="100%" align="center"></div>
+<p>&nbsp;</p>
 <h2> <a name="usecase4" id="usecase4"></a>Use Case 4: Passenger Exits
 Elevator </h2>
 <h3> Scenario 4A: Passenger is in the elevator as it arrives at the
