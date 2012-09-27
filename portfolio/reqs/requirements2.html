@@ -2116,62 +2116,40 @@ None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <!-- State variable caching -->
-  <li>
-    9.1&nbsp; If mAtFloor[f,b] is True, then CurrentFloor shall be
-    set to f.
-  </li>
-  <li>
-    9.2&nbsp; If mDesiredFloor is (f,b,d), then DesiredFloorState
-    shall be set to f.
-  </li>
-  <!-- End State Variable caching -->
   <!-- Turning light off conditions -->
   <li>
-    9.3&nbsp; If mAtFloor[f,b] is True and DesiredFloorState equals
-    f, then
+    9.1&nbsp; If mAtFloor[f,b] is True and mDesiredFloor.f equals
+    CurrentFloor, then
   </li>
   <ul>
     <li>
-      9.3.1&nbsp; CarLight[f,b] shall be commanded to Off.
+      9.1.1&nbsp; CarLight[f,b] shall be commanded to Off.
     </li>
     <li>
-      9.3.2&nbsp; mCarLight[f,b] shall be set to False.
+      9.1.2&nbsp; mCarLight[f,b] shall be set to False.
     </li>
   </ul>
-  <li>
-    9.4&nbsp; If mDesiredFloor is (f,b,d) and CurrentFloor equals
-    f, then
-  </li>
-  <ul>
-    <li>
-      9.4.1&nbsp; CarLight[f,b] shall be commanded to Off.
-    </li>
-    <li>
-      9.4.2&nbsp; mCarLight[f,b] shall be set to False.
-    </li>
-  </ul>
-  <!-- End Turning light off conditions -->
   <!-- Message repeating conditions -->
   <li>
-    9.5&nbsp; If CarCall[f,b] is v, then mCarCall[f,b] shall be
+    9.2&nbsp; If CarCall[f,b] is v, then mCarCall[f,b] shall be
     set to v.
   </li>
   <!-- End Message repeating conditions -->
   <!-- Turning light on conditions -->
   <li>
-    9.6&nbsp; If CarCall[f,b] is True, then
+    9.3&nbsp; If CarCall[f,b] is True, then
   </li>
   <ul>
     <li>
-      9.6.1&nbsp; CarLight[f,b] shall be commanded to On for at least 500ms.
+      9.3.1&nbsp; CarLight[f,b] shall be commanded to On for at least 500ms.
     </li>
     <li>
-      9.6.2&nbsp; mCarLight[f,b] shall be set to True for at least 500ms.
+      9.3.2&nbsp; mCarLight[f,b] shall be set to True for at least 500ms.
     </li>
   </ul>
   <!-- End turning light on conditions -->
 </ul>
-<h3> State Diagrams: </h3>
+<h3> State Diagram: </h3>
 
 <h2><a name="carpositioncontrol"></a> 10. CarPositionControl </h2>
 <h3> Replication: </h3>
