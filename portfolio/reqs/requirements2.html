@@ -1947,6 +1947,8 @@ None
   <li>8.3&nbsp; If HallCall[f,b,d] is Pressed, Active shall be set to True</li>
   <li>8.4&nbsp; If HallCall[f,b,d] is Idle and CurrentFloor is equal to
       mDesiredFloor.f, Active shall be set to False</li>
+  <li>8.5&nbsp; If HallCall[f,b,d] is <b>v</b>
+      mHallCall[f,b,d] shall be set to <b>v</b></li>
 </ul>
 
 <h3> State Chart: </h3>
@@ -1966,18 +1968,108 @@ cellspacing="2">
       <td>Trigger Conditions</td>
     </tr>
     <tr>
-      <td>LT 1</td>
+      <td>HBT 1</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
     </tr>
     <tr>
-      <td>LT 2</td>
+      <td>HBT 2</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f == CurrentFloor</td>
     </tr>
     <tr>
-      <td>LT 3</td>
+      <td>HBT 3</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f != Current Floor</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Requirements to Statechart Traceability</h3>
+<table style="text-align: left; width: 600px;" border="1"
+       cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td colspan="8">Requirements</td>
+    </tr>
+    <tr>
+      <td><b>State</b></td>
+      <td>8.1.1</td>
+      <td>8.1.2</td>
+      <td>8.2.1</td>
+      <td>8.2.2</td>
+      <td>8.3</td>
+      <td>8.4</td>
+      <td>8.5</td>
+    </tr>
+    <tr>
+      <td>state 1: Light off</td>
+      <td><br/></td>
+      <td><br/></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 2: Pressed</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br/></td>
+      <td><br/></td>
+      <td>X</td>
+      <td><br/></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 3: Unpressed On</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br/></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td><b>Transitions</b></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>LT 1</td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>LT 2</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>LT 3</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
     </tr>
   </tbody>
 </table>
