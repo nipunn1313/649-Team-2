@@ -1421,7 +1421,7 @@ with a floor. </li>
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>DesiredDirection = {Up, Down, Stop} computed desired direction
+  <li>CurrentDirection = {Up, Down, Stop} computed desired direction
 based on comparing current floor position with Floor desired by
 Dispatcher.&nbsp; This is implicitly computed and used as a macro in
 the behavior descriptions. </li>
@@ -1696,7 +1696,7 @@ floor. </li>
   </li>
   <li>
     6.8&nbsp; If mDesiredFloor.f equals CurrentFloor, and any mLevel[d] is
-    False, then Drive shall be set to (Level, DesiredDirection).
+    False, then Drive shall be set to (Level, CurrentDirection).
   </li>
   <li>
     6.9&nbsp; If mDesiredFloor.f equals CurrentFloor, and all mLevel[d] are
@@ -1705,7 +1705,7 @@ floor. </li>
   <li>
     6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, and all
     mDoorClosed[b,r] are True, then Drive shall be set to (Slow,
-    DesiredDirection).
+    CurrentDirection).
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
