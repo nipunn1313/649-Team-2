@@ -1923,7 +1923,10 @@ None
 </ul>
 <h3> State: </h3>
 <ul>
-<li>Active (True if light should remain on)</li>
+  <li>Active (True if light should remain on)</li>
+  <li>CurrentFloor, is a shorthand notation for the value of whichever
+  mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is invalid it has
+  a mnemonic value of None. </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 None
@@ -1940,7 +1943,7 @@ None
     <li>8.2.2&nbsp; mHallLight[f,b,d] shall be set to False.</li>
   </ul>
   <li>8.3&nbsp; If HallCall[f,b,d] is Pressed, Active shall be set to True</li>
-  <li>8.4&nbsp; If HallCall[f,b,d] is Idle and mAtFloor[f,b] is equal to
+  <li>8.4&nbsp; If HallCall[f,b,d] is Idle and CurrentFloor is equal to
       mDesiredFloor.f, Active shall be set to False</li>
 </ul>
 
@@ -1967,12 +1970,12 @@ cellspacing="2">
     <tr>
       <td>LT 2</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == mAtFloor[<b>f</b>,<b>b</b>]</td>
+          mDesiredFloor.f == CurrentFloor</td>
     </tr>
     <tr>
       <td>LT 3</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f != mAtFloor[<b>f</b>,<b>b</b>]</td>
+          mDesiredFloor.f != Current Floor</td>
     </tr>
   </tbody>
 </table>
