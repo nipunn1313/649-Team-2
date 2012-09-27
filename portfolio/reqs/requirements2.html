@@ -1206,6 +1206,180 @@ simulation by scheduling a future task execution at time of expiration)
     5.12&nbsp; mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
   </li>
 </ul>
+<h3>State Chart</h3>
+<div style="text-align: center;">
+  <a href="doorControl_state_diagram.png">
+    <img alt="doorControl_state_diagram.png"
+    src="doorControl_state_diagram.png" style="border: 0px solid;"/>
+  </a>
+</div>
+<br />
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td>Trigger #</td>
+      <td>Trigger Conditions</td>
+    </tr>
+    <tr>
+      <td>DoT 1</td>
+      <td>
+        (mAtFloor[f,b] == True &amp;&amp; mDesiredFloor.f == f &amp;&amp;
+        <br />
+        (mDriveSpeed == (0,d) || mDriveSpeed == (s, Stop))) || <br />
+        (mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; mDoorOpened[b,r] == False)
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 2</td>
+      <td>
+        mDoorOpened[b,r] == True
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 3</td>
+      <td>
+        CountDown &lt;= 0
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 4</td>
+      <td>
+        mDoorClosed[b,r] == True
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3>Requirements to Statechart Traceability</h3>
+<table style="text-align: left; width: 800px;" border="1" cellpadding="2"
+cellspacing="2">
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td colspan="9">Requirements</td>
+    </tr>
+    <tr>
+      <td><b>State</b></td>
+      <td>5.6.1</td>
+      <td>5.6.2</td>
+      <td>5.7.1</td>
+      <td>5.7.2</td>
+      <td>5.8</td>
+      <td>5.9</td>
+      <td>5.10</td>
+      <td>5.11</td>
+      <td>5.12</td>
+    </tr>
+    <tr>
+      <td>state 1: Doors closed</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 2: Doors opening</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 3: Doors opened</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>state 4: Doors nudge</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td><b>Transitions</b></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>DoT 1</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>DoT 2</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>DoT 3</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>DoT 4</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="drivecontrol"></a> 6. DriveControl </h2>
 <h3> Replication: </h3>
 <ul>
