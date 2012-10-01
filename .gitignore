@@ -10,3 +10,8 @@
 
 # Thumbs.db
 Thumbs.db
+
+# Eclipse metadata
+.classpath
+.project
+bin/*
