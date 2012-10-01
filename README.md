@@ -4,194 +4,294 @@
 Elevator project for 18-649.
 
 <html>
-<h2> Assignment </h2>
-<p> You will transform your requirements specification from an
-event-triggered
-system to a time-triggered one, and complete a detailed design
-document. No
-longer are there discrete events that cause information processing and
-state
-changes in your controllers. In your time-triggered system, once during
-each
-cycle (we use cycle here as some unit of time determined by processing
-and
-control needs) a time triggered machine looks at the information it has
-available to it, possibly calculates some internal variables, and
-decides
-whether it should transition to a new state. For each non-environmental
-object,
-you will complete a detailed design using UML state charts as described
-in the
-required reading. </p>
-<p> <strong>PLEASE KNOW THAT CODE AND DESIGN ARE DIFFERENT THINGS.</strong>
-Code should be well designed, but there should be no actual code in
-your
-design. If there is code, it is not a design, and so it will be graded
-as code
-and not a design---which means you will earn no points for that
-submission
-item. Pseudo code is acceptable for expressing guard conditions, state
-outputs,
-and so on, but you should use it as little as possible. This applies to
-requirements as well as statechart actions and trigger conditions.<br>
-</p>
-<p> The procedure for this assignment is: </p>
+<h2>2.&nbsp; Controller Implementation</h2>
+Implement (in Java) the DoorControl, DriveControl, HallButtonControl,
+and CarButtonControl objects. These correspond to some of objects you
+have previously designed in state charts.<br>
+<span style="font-weight: bold;"><br>
+</span>Each controller object you write interfaces with the simulated
+physical system and the simulated network.&nbsp; Here are some
+requirements for the controllers:<br>
 <ol>
-  <li>Rewrite your event-triggered behavioral requirements to be
-time-triggered.
-This means that instead of acting on events (like receiving a message),
-the
-controller modifies its outputs based on the current value of state
-variables.
-When you found yourselves doing tricky state variable manipulation to
-get a
-correct event-triggered behavior, you will find that time-triggered
-requirements make your design much simpler.&nbsp;</li>
+  <li>Each controller shall extend the <span style="font-weight: bold;">simulator.framework.Controller</span>
+class. </li>
+  <li>Each controller shall be placed in the <span
+ style="font-weight: bold;">simulator.elevatorcontrol</span> package.<br>
+  </li>
+  <li>Each controller shall use the network and physical interface
+objects provided in the Controller super class and no other network
+connection objects. </li>
+  <li>Each controller shall receive, at most, one physical input and
+generate, at most, one physical output.&nbsp; This means that each
+physical message payload shall be sent by, at most, one object and
+received by, at most, one object.&nbsp; For example, if your
+DriveController listens to the DriveSpeed framework message, your
+Dispatcher may NOT listen to DriveSpeed framework message as
+well.&nbsp; If your DriveController sends Drive framework messages,
+your Dispatcher may NOT send Drive Framework messages as well. </li>
+  <li>Each controller shall receive and send network and framework
+messages according to the interfaces defined in the Elevator Behavioral
+Requirements document. </li>
+  <li>You may not create additional communication channels of any kind
+between the controllers.&nbsp; This includes creating shared references
+to static/global variables and any method where a controller may
+directly modify the state of another controller.&nbsp; If you are in
+doubt as to whether something you are doing violates this requirement,
+consult a TA in office hours.</li>
+  <li>Each controller shall execute <span style="font-weight: bold;">at
+most</span> one transition per execution of the control loop, and the
+control loop must execute periodically.&nbsp; To schedule controller
+code in real systems, there must be
+a worst-case bound on the execution time.&nbsp; If the controller is
+allowed to make multiple transitions, then there is (theoretically) no
+upper bound on how long it takes to execute the controller.&nbsp; The
+one-transition-per-loop
+rule also approximates the limited processing power of the small
+microcontrollers you would likely see in a highly distributed
+application.</li>
 </ol>
+<p> In addition to the above:<br>
+</p>
 <ul>
-  <li>You can assume that each controller maintains a copy of the
-system state
-that consists of the most recent message values for all messages the
-controller
-receives.&nbsp; For simplicity, you should continue to use the
-mMessage[]
-notation (e.g. mHallCall[f,b,d]) to refer to these state variables.<br>
+  <li>All Java files you write must be placed in the <span
+ style="font-weight: bold;">simulator.elevatorcontrol</span>
+package.&nbsp;<br>
   </li>
-  <li>Make sure that you have a complete set of time-triggered
-requirements.&nbsp; It is up to you whether you leave your
-event-triggered
-requirements in place or remove them and replace them with
-time-triggered
-requirements.&nbsp; If you choose not to remove the event triggered
-requirements, make sure that you us a different numbering scheme for
-the two
-sets so that there is no ambiguity..<br>
+  <li>You may implement additional utility classes in
+the <span style="font-weight: bold;">simulator.elevatorcontrol</span>
+package, provided that these do not create
+an additional communication channel between the controllers.&nbsp; The
+Utility class provided (in Utility.java) has some examples of how to
+build arrays to receive and process all the copies of replicated
+network messages.<br>
   </li>
-  <li>You will need to update your requirements-to-sequence-diagrams
-and
-requirements-to-constraints traceability to reflect the new
-requirements you
-have written.&nbsp; Since only the time-triggered requirements will be
-used as
-you go forward, it is acceptable to trace only the time-triggered
-requirements
-(i.e. in the traceability, you can let the TT requirements replace the
-ET
-ones).&nbsp;</li>
-  <li><span style="font-weight: bold;">NOTE:&nbsp; The format for
-time-triggered
-requirements is slightly different from those presented in the lecture,
-and
-this assignment supercedes what was presented in the lectures.&nbsp; </span>Read
-the
-discussion
-below on <a href="#timetriggered">Time-Triggered
-Design</a> for more guidelines.&nbsp; <br>
-    <br>
+  <li>Your portfolio has a place to include your elevator code.&nbsp;
+You must submit ONLY the contents of the <span
+ style="font-weight: bold;">simulator.elevatorcontrol</span>
+package, and the files must be
+placed in the <span style="font-weight: bold;">elevatorcontrol/</span>
+folder of your portfolio.&nbsp; See this note in the<a
+ style="color: rgb(204, 0, 0);" href="../portfolio/index.html#code">
+portfolio layout page</a> for
+details.<br>
+  </li>
+  <li>Your code must be compatible with the latest required code
+release.&nbsp; (Note the details of this in the <a
+ href="../project-faq.html#bug">bug handling policy</a>).<br>
   </li>
 </ul>
+A couple of notes regarding the CAN network implementation:<br>
 <ul>
-  <li>Keep track of changes to your design using the issue log.&nbsp;
-If you make
-any substantive changes to your behavioral requirements (such that an
-outside
-observer would notice a different behavior), you must document those
-changes in
-the issue log which is included with the <a
- href="../portfolio/portfolio_layout.html">project portfolio
-template</a>.&nbsp; If, in the course of writing requirements or
-statecharts,
-you find that you must add or modify your scenarios and sequence
-diagrams, you
-must document these changes in the issue log as well.</li>
-</ul>
-<ul>
-  <li>In the course of rewriting your event-triggered requirements as
-time-triggered, you only need to log changes if you change the behavior
-of the
-system.&nbsp; If the new requirements have the same function as the old
-requirements, no log entry is necessary.<br>
-    <br>
-  </li>
-</ul>
-<ul>
-  <li>Design a state chart for each non-environmental control object:
+  <li>Although you are going to be able to define your own bit-level
+message payloads, you are still required to adhere to the message
+dictionary and interface requirements we have provided.&nbsp; This
+means that you <span style="font-weight: bold;">may not</span> do any
+of the following: </li>
+  <li
+ style="list-style-type: none; list-style-image: none; list-style-position: outside; display: inline;">
     <ul>
-      <li>CarButtonControl </li>
-      <li>CarPositionControl </li>
-      <li>Dispatcher </li>
-      <li>DoorControl </li>
-      <li>DriveControl </li>
-      <li>HallButtonControl </li>
-      <li>LanternControl </li>
+      <li>Add more information (e.g. another variable value) to a
+message that has already been defined </li>
+      <li>Define a new message. </li>
+      <li>Use a message for a purpose other than its stated purpose. </li>
     </ul>
-The state charts shall be <b>time-triggered</b> with guard conditions,
-    <b>not</b> event-triggered. Although you may not agree with this
-design choice,
-you are required to design a pure time-triggered system.&nbsp; Time
-triggered
-design is a often a good choice for reliable, distributed systems, and
-our goal
-is to teach you this technique.&nbsp; For detailed information about
-time-triggered design, see the following section of this writeup on <a
- href="index.html#timetriggered">Time-Triggered Design</a> and
-the course
-lecture notes.<br>
-    <br>
-  <b><u>NOTE: The statecharts should fully describe your working elevator. You should have a complete Sabbath elevator design by the end of this week. This may require you to create more use cases or scenarios than what we originally gave you. </u></b><br>
-  <br> 
   </li>
-  <li>Ensure backward and forward traceability by documenting the
-relationships
-between each behavior requirement and each state chart transition arc
-or state.
-Only trace the time-triggered requirements.<br>
-    <ul>
-      <li>Forward traceability means directly relating each requirement
-in the
-specification to one or more states and/or transitions. </li>
-      <li>Backward traceability means directly relating each state or
-transition to
-one or more requirements. </li>
-    </ul>
-In order to do forward and backward traceability in one table,
-construct a
-table with the requirement numbers across the first row and the states
-and
-transitions down the first column.&nbsp; Put an X in the appropriate
-cells to
-indicate that a state/transition supports a requirement. See <a
- href="../proj1/testlight.html">the example</a>. A correct design
-will have
-at least one state or transition for each requirement and at least one
-requirement for each state or transition. So, every row and every
-column should
-have at least one X in it. <br>    
-    <br>
-  <b><u>NOTE: For this project, nothing should trace to future expansion except network messages that are transmitted but never received.</u></b><br>
-  <br>
+  <li>If you violate these constraints, it will result in a significant
+point deduction.<br>
   </li>
-  <li>Perform a peer review of your statecharts. <span
- class="Apple-style-span"
- style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;">You
-
-must
-complete
-a
-peer review checklist for each statechart ie. one peer
-review
-per object. Record the results in a<span class="Apple-converted-space">&nbsp;
-
-
-    </span><a href="http://www.ece.cmu.edu/%7Eece649/project/misc/peer_review.xls">peer
-review
-sheet</a><span class="Apple-converted-space">&nbsp;</span>and also
-complete a log entry into peer review log. Recording defects on the
-peer review
-sheet does NOT result in point deductions. Be honest.</span></li>
+  <li>Regarding CAN payload translators and message IDs, the acceptance
+tests for this project will be run on a simulated CAN bus with
+'infinite' bandwidth, so performance and message prioritization will
+not be an issue.&nbsp; There will be a project later in the semester
+where you
+will deal with optimizing the network performance.&nbsp;&nbsp; For this
+project and the next project,
+it is
+acceptable to use the CAN Translators and CAN message ID's that we have
+provided, even though they do not make efficient use of network
+bandwidth.&nbsp; If you need to write additional translators for
+messages sent by your controllers, you may do so.</li>
+  <li>All this is spelled out in
+more detail in the <a href="../codebase/development-overview.html">simulator
+development
+overview</a>.&nbsp; <br>
+  </li>
 </ul>
+As you continue to develop your project, you should also continue to
+log defects and changes in the logs that you started during project 4.<br>
+<br>
+<h2>3.&nbsp; Traceability - Statecharts to Code</h2>
+You are REQUIRED to mark the line of code that causes each and every
+state transition (i.e. forward traceability) you have designed on your
+state charts. This marking will be accomplished with comments. So that
+these lines are easily distinguished from other comments, you shall
+begin the line with '//' (to start the comment), followed by the
+character '#', followed by the word 'transition', followed by a space,
+followed by the transition name as described on your state machine
+backward traceability matrix in single quotes.
+<p> For example, on the line of code that corresponds to the DC.1
+transition on your Drive Controller statechart traceability matrix, you
+would add the comment: </p>
+<pre>//#transition 'DC.1'<br>
+
+</pre>
+just above the line in your code that actually CAUSES this
+transition.&nbsp;
+The appropriate line may depend on your implementation, but in general,
+it
+would be appropriate to place the traceability comment just above the
+if
+statement that tests the guard conditions for the transition.<br>
+<p> The purpose of the traceability is so that it is possible to easily
+check to ensure all of the arcs in your state transition diagram are
+implemented as you have described them.<br>
+</p>
+<p> In order to ensure that you have traced all your arcs, you will add
+an entry to the Statecharts to Code Traceability file (<span
+ style="color: rgb(0, 153, 0);">traceability/sc_code.html</span> in the
+portfolio template)<br>
+</p>
+<p> Controller Name (e.g. DoorControl)<br>
+Module Author:&nbsp; Module author's name<br>
+Traceability performed by:&nbsp; Team member's name<br>
+Line Number&nbsp;&nbsp;&nbsp; Transition #<br>
+Line Number&nbsp;&nbsp;&nbsp; Transition #<br>
+.... </p>
+<p> You may use a table or other basic formatting to organize this
+information. The line number refers to the line that the <span
+ style="font-weight: bold;">comment</span> appears on.&nbsp; Line
+numbering shall include empty lines.<span style="font-weight: bold;"><br>
+Hint:&nbsp;</span> the following linux commands may help you generate
+some of the required output:&nbsp;&nbsp;<br>
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; nl -b a Dispatcher.Java | grep "#transition"<br>
+</span>where Dispatcher.Java is the name of the controller Java file.<span
+ style="font-family: monospace;"><br>
+</span> </p>
+<p> Someone other than the person who authored the module must generate
+this check and verify that every transition traces to the code.<br>
+<br>
+</p>
+<h2><span style="font-weight: bold;">4.&nbsp; Unit Testing</span></h2>
+<p> You will write and execute a unit test for each controller you have
+implemented (DoorControl, DriveControl, HallButtonControl, and
+CarButtonControl objects).&nbsp; The list below summarizes the steps
+you must follow.&nbsp; These steps are explained in more detail in the <a
+ href="testing-requirements.html#unittest">Unit Test section of the
+Testing Requirements</a>.&nbsp; <span style="font-weight: bold;"><br>
+</span> </p>
 <ul>
-  <li>Turn in your complete team design package. </li>
+  <li>Create unit tests that tests (a configuration / .cf file and one
+or more message injector / .mf files) that exercise all transitions of
+the statechart.&nbsp;<br>
+  </li>
+  <ul>
+    <li>If you have transitions with guard conditions combined by OR
+operator, you must separately test each OR term. </li>
+    <li>Each state you test must use assertions to test <span
+ style="font-weight: bold;">all </span>controller outputs (both
+network and framework messages).&nbsp; You may optionally use state
+assertions to verify the state of the controller as well.<br>
+    </li>
+  </ul>
+  <li>Traceability - injections to exercise transitions and assertions
+to test state outputs must be preceded by comments of the format
+described in the Testing Requirements document.<br>
+  </li>
+  <li>Execute the test and record the test results in the <span
+ style="color: rgb(0, 153, 0);">Unit Test Log</span> in your
+portfolio.&nbsp;<br>
+  </li>
+  <ul>
+    <li>For this project, you are not required to pass all tests.</li>
+    <li>All the tests you turn in (for this and all future projects)
+must by syntactically valid.&nbsp; That is, they must not cause a
+runtime exception.<br>
+    </li>
+    <li><span style="font-weight: bold;">You will eventually be
+required to pass these tests.&nbsp; Don't blow them off now, you'll
+just make more work for yourself later.</span> </li>
+  </ul>
+  <li
+ style="list-style-type: none; list-style-image: none; list-style-position: outside; display: inline;">
+    <br>
+  </li>
+  <li>Add your unit tests to the <span style="color: rgb(0, 153, 0);">Unit
+Test
+Summary
+File</span><br>
+  </li>
+  <li>If the unit test identifies bugs in your design, add the bug to
+the <span style="color: rgb(0, 153, 0);">Issue Log</span>, and add a
+note in the <span style="color: rgb(0, 153, 0);">Unit Test Log</span>
+stating "This test identified issue #X in the Issue Log." </li>
 </ul>
+<span style="font-style: italic; text-decoration: underline;"><span
+ style="font-weight: bold;">Note:</span></span> <span
+ style="text-decoration: underline;">This list is just a summary.&nbsp;
+You are required to follow all the steps and procedures in the Testing
+Requirements document!</span><br>
+<br>
+<h2><span style="font-weight: bold;">5.&nbsp; Integration Testing</span></h2>
+Choose TWO sequence diagrams to write integration tests.&nbsp; The
+sequence diagrams you choose for this test must contain at least one of
+the four control objects created in this project (DoorControl,
+DriveControl, HallButtonControl, and CarButtonControl) and must not
+contain any of the other three control objects (Dispatcher,
+LanternControl, CarPositionControl).&nbsp; <br>
+<br>
+A summary of the steps you must follow is given below.&nbsp; Read the <a
+ href="testing-requirements.html#integrationtest">Integration Test
+section of the Testing Requirements</a> for more details.<br>
+<ul>
+  <li>Create a sequence diagram test (one configuration /.cf file and
+one message injector/.mf&nbsp; file) to test each sequence diagram.</li>
+  <li>Traceability - each message injection or assertion must be
+preceded by a comment of the format described in the Testing
+Requirements.</li>
+  <li>Execute the test and record the test results in the <span
+ style="color: rgb(0, 153, 0);">Integration Test Log</span> in your
+portfolio.&nbsp;<br>
+  </li>
+  <ul>
+    <li>You are <span style="font-weight: bold;">not</span> required
+to pass the tests for this project. </li>
+    <li>All the tests you turn in (for this and all future projects)
+must by syntactically valid.&nbsp; That is, they must not cause a
+runtime exception. </li>
+    <li><span style="font-weight: bold;">You will eventually be
+required to pass these tests.&nbsp; Don't blow them off now, you'll
+just make more work for yourself later.</span></li>
+  </ul>
+  <li>Add your integration tests to the <span
+ style="color: rgb(0, 153, 0);">Integration Test Summary File</span><br>
+  </li>
+  <li>If the unit test identifies bugs in your design, add the bug to
+the <span style="color: rgb(0, 153, 0);">Issue Log</span>, and add a
+note in the <span style="color: rgb(0, 153, 0);">Integration Test Log</span>
+stating "This test identified issue #X in the Issue Log." </li>
+</ul>
+<span style="font-style: italic; text-decoration: underline;"><span
+ style="font-weight: bold;">Note:</span></span> <span
+ style="text-decoration: underline;">This list is just a summary.&nbsp;
+You are required to follow all the steps and procedures in the Testing
+Requirements document!</span><br>
+<h2><span style="font-weight: bold;">6. Peer Review</span></h2>
+You must perform peer reviews of the 4 controller implementations and 4
+unit tests that you have created. Another member of the group that was
+not the author of the implementation or unit test should conduct the peer
+review.<br>
+<br>
+For this week's peer review you must complete the following:<br>
+<ul>
+  <li>As a group, peer review 4 controller implementations.</li>
+  <li>As a group, peer review 4 unit tests.</li>
+  <li>All peer reviews must be added to the <span
+ style="color: rgb(0, 153, 0);">Peer Review Log</span>.</li>
+  <li>If a defect is found in a peer review but not fixed this week, it
+must be logged in the <span style="color: rgb(0, 153, 0);">Issue Log</span>.<br>
+  </li>
+</ul>
+<br>
 
 </html>
