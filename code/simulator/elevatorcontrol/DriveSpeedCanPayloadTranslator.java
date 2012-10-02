@@ -11,20 +11,21 @@ import simulator.payloads.translators.CanPayloadTranslator;
 /**
  * Can payload translator for the drive speed sensor, which includes a speed value and a direction.
  * 
- * See the documentation for DesiredFloorCanPayloadTranslator for more discussion
- * on CanPayloadTranslators in general.
+ * DriveSpeed Can Payload Translator is the same as DriveCommand Can
+ * Payload Translator. DriveSpeed is the sensor whereas DriveCommand is the
+ * actuator.
  * 
  * @author Ben Clark
  */
-public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator{
+public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
 
-	public DriveSpeedCanPayloadTranslator(WriteableCanMailbox p) {
-		super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
-	}
+    public DriveSpeedCanPayloadTranslator(WriteableCanMailbox p) {
+      super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
+    }
 	
-	public DriveSpeedCanPayloadTranslator(ReadableCanMailbox p) {
-		super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
-	}
+    public DriveSpeedCanPayloadTranslator(ReadableCanMailbox p) {
+      super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
+    }
 	
     /**
      * This method is required for setting values by reflection in the
