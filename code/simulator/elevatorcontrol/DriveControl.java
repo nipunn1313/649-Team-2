@@ -8,6 +8,8 @@
  */
 package simulator.elevatorcontrol;
 
+import javax.management.RuntimeErrorException;
+
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
@@ -221,7 +223,7 @@ public class DriveControl extends Controller {
         
         switch(state) {
             case STATE_STOPPED:
-                log("State 1");
+                log("DC: State 1 (Stopped)");
                 // State actions for STATE_STOPPED
                 drive.set(Speed.STOP, Direction.STOP);
                 mDrive.set(Speed.STOP, Direction.STOP);
@@ -239,7 +241,7 @@ public class DriveControl extends Controller {
                 }
                 break;
             case STATE_LEVELING_AT_DESIRED_FLOOR:
-                log("State2");
+                log("DC: State2 (Leveling)");
                 // State actions for Leveling
                 drive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDrive.set(Speed.LEVEL, mDesiredFloor.getDirection());
@@ -254,6 +256,7 @@ public class DriveControl extends Controller {
                 }
                 break;
             case STATE_NOT_AT_DESIRED_FLOOR:
+                log("DC: State3 (Not at desiredFloor)");
                 // State actions for not at desired floor
                 drive.set(Speed.SLOW, mDesiredFloor.getDirection());
                 mDrive.set(Speed.SLOW, mDesiredFloor.getDirection());
@@ -274,6 +277,8 @@ public class DriveControl extends Controller {
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
+            default:
+                throw new RuntimeException("State: " + state + " was not recognized");
         }
         
         if (state == newState) {
