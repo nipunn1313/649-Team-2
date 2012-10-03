@@ -4,6 +4,7 @@
  * Jacob Olson (jholson)
  * Benet Clark (brclark)
  * Nick Mazurek (nmazurek)
+ * @file DesiredDwellCanPayloadTranslator.java
  */
 package simulator.elevatorcontrol;
 
@@ -14,14 +15,14 @@ import simulator.payloads.translators.IntegerCanPayloadTranslator;
 
 public class DesiredDwellCanPayloadTranslator extends IntegerCanPayloadTranslator {
 
-	/**
-	 * CAN payload translator for Desired dwell message
-	 * @param p  CAN payload object whos message is interpreted by this translator
-	 */
-	public DesiredDwellCanPayloadTranslator(WriteableCanMailbox p) {
-		super(p);
-	}
-	
+    /**
+     * CAN payload translator for Desired dwell message
+     * @param p  CAN payload object whos message is interpreted by this translator
+     */
+    public DesiredDwellCanPayloadTranslator(WriteableCanMailbox p) {
+        super(p);
+    }
+
     /**
      * CAN payload translator for Desired dwell message
      * @param p  CAN payload object whose message is interpreted by this translator
@@ -29,13 +30,13 @@ public class DesiredDwellCanPayloadTranslator extends IntegerCanPayloadTranslato
     public DesiredDwellCanPayloadTranslator(ReadableCanMailbox p) {
         super(p);
     }
-    
+
     // TODO: THIS IS WRONG. SHOULD RETURN A SIMTIME
     public int getDwell() {
-    	return getValue();
+        return getValue();
     }
-    
+
     public void setDwell(int dwell) {
-    	setValue(dwell);
+        setValue(dwell);
     }
 }
