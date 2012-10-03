@@ -229,6 +229,24 @@ public class DoorControl extends Controller {
             default:
                 throw new RuntimeException("State " + state + " was not recognized.");
         }
+        
+        //log the results of this iteration
+        if (state == newState) {
+            log("remains in state: ",state);
+        } else {
+            log("Transition:",state,"->",newState);
+        }
+        
+        //update the state variable
+        state = newState;
+
+        //report the current state
+        setState(STATE_KEY,newState.toString());
+
+        //schedule the next iteration of the controller
+        //you must do this at the end of the timer callback in order to restart
+        //the timer
+        timer.start(period);
 
     }
 
