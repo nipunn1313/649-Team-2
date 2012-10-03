@@ -8,35 +8,27 @@
  */
 package simulator.elevatorcontrol;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
-
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.elevatormodules.CarWeightCanPayloadTranslator;
+import simulator.elevatormodules.HoistwayLimitSensorCanPayloadTranslator;
 import simulator.elevatormodules.LevelingCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
+import simulator.framework.ReplicationComputer;
 import simulator.framework.Speed;
-import simulator.payloads.AtFloorPayload.ReadableAtFloorPayload;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.CarPositionPayload.ReadableCarPositionPayload;
-import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
 import simulator.payloads.DrivePayload;
 import simulator.payloads.DrivePayload.WriteableDrivePayload;
 import simulator.payloads.DriveSpeedPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
-import simulator.payloads.EmergencyBrakePayload.ReadableEmergencyBrakePayload;
-import simulator.payloads.HoistwayLimitPayload.ReadableHoistwayLimitPayload;
-import simulator.payloads.LevelingPayload;
-import simulator.payloads.LevelingPayload.ReadableLevelingPayload;
 import simulator.payloads.translators.BooleanCanPayloadTranslator;
-import simulator.payloads.translators.IntegerCanPayloadTranslator;
 
 
 /**
@@ -50,10 +42,10 @@ public class DriveControl extends Controller {
      */
     // Drive
     private WriteableDrivePayload drive;
-    private WriteableCanMailbox driveBox;
+    private WriteableCanMailbox networkDriveBox;
     // mDrive
     private DriveCommandCanPayloadTranslator mDrive;
-    private WriteableCanMailbox driveSpeedBox;
+    private WriteableCanMailbox networkDriveSpeed;
     //mDriveSpeed
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     
@@ -71,15 +63,15 @@ public class DriveControl extends Controller {
      * mLevel 
      */
     // Level message for top
-    private ReadableCanMailbox levelUp;
+    private ReadableCanMailbox networkLevelUp;
     private LevelingCanPayloadTranslator mLevelUp;
 
     // Level message for bottom
-    private ReadableCanMailbox levelDown;
+    private ReadableCanMailbox networkLevelDown;
     private LevelingCanPayloadTranslator mLevelDown;
 
     // mCarLevelPosition
-    private ReadableCanMailbox carLevelPosition;
+    private ReadableCanMailbox networkCarLevelPosition;
     private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
     
     /* mDoorClosed */
@@ -90,26 +82,26 @@ public class DriveControl extends Controller {
     private DoorClosedArray mDoorClosedBack; 
     
     // mEmergencyBrake
-    private ReadableCanMailbox emergencyBrake;
+    private ReadableCanMailbox networkEmergencyBrake;
     private BooleanCanPayloadTranslator mEmergencyBrake;
     
     // mDesiredFloor
-    private ReadableCanMailbox desiredFloor;
+    private ReadableCanMailbox networkDesiredFloor;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
     
     /* 
      * mHoistwayLimit 
      */
     // Hoistway Limit up
-    private ReadableCanMailbox hoistwayLimitUp;
-    private BooleanCanPayloadTranslator mHoistwayLimitUp;
+    private ReadableCanMailbox networkHoistwayLimitUp;
+    private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitUp;
     
     // Hoistway Limit down
-    private ReadableCanMailbox hoistwayLimitDown;
-    private BooleanCanPayloadTranslator mHoistwayLimitDown;
+    private ReadableCanMailbox networkHoistwayLimitDown;
+    private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitDown;
     
     // mCarWeight
-    private ReadableCanMailbox carWeight;
+    private ReadableCanMailbox networkCarWeight;
     private CarWeightCanPayloadTranslator mCarWeight;
     
     /**
@@ -137,24 +129,25 @@ public class DriveControl extends Controller {
      * @param verbose
      */
     public DriveControl(String name, boolean verbose) {
-        super(name, verbose);
+        super("DriveControl", verbose);
 
         // Store arguments
         this.name = name;
+        log("DriveControl set as:", name);
         
         // Initialize outputs
         drive = DrivePayload.getWriteablePayload();
         physicalInterface.sendTimeTriggered(drive, period);
         
-        driveBox = CanMailbox.getWriteableCanMailbox(
+        networkDriveBox = CanMailbox.getWriteableCanMailbox(
                 MessageDictionary.DRIVE_COMMAND_CAN_ID);
-        mDrive = new DriveCommandCanPayloadTranslator(driveBox);
-        canInterface.sendTimeTriggered(driveBox, period);
+        mDrive = new DriveCommandCanPayloadTranslator(networkDriveBox);
+        canInterface.sendTimeTriggered(networkDriveBox, period);
         
-        driveSpeedBox = CanMailbox.getWriteableCanMailbox(
+        networkDriveSpeed = CanMailbox.getWriteableCanMailbox(
                 MessageDictionary.DRIVE_SPEED_CAN_ID);
-        mDriveSpeed = new DriveSpeedCanPayloadTranslator(driveSpeedBox);
-        canInterface.sendTimeTriggered(driveSpeedBox, period);
+        mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeed);
+        canInterface.sendTimeTriggered(networkDriveSpeed, period);
         
         // Initialize inputs
         driveSpeed = DriveSpeedPayload.getReadablePayload();
@@ -162,41 +155,55 @@ public class DriveControl extends Controller {
         
         mAtFloor = new AtFloorArray(canInterface);
         
-        levelUp = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.LEVELING_BASE_CAN_ID);
-        mLevelUp = new LevelingCanPayloadTranslator(levelUp, Direction.UP);
-        canInterface.registerTimeTriggered(levelUp);
+        networkLevelUp = CanMailbox.getReadableCanMailbox(
+                MessageDictionary.LEVELING_BASE_CAN_ID + 
+                ReplicationComputer.computeReplicationId(Direction.UP));
+        mLevelUp = new LevelingCanPayloadTranslator(networkLevelUp, Direction.UP);
+        canInterface.registerTimeTriggered(networkLevelUp);
         
-        levelDown = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.LEVELING_BASE_CAN_ID);
-        mLevelDown = new LevelingCanPayloadTranslator(levelDown, Direction.DOWN);
-        canInterface.registerTimeTriggered(levelDown);
+        networkLevelDown = CanMailbox.getReadableCanMailbox(
+                MessageDictionary.LEVELING_BASE_CAN_ID +
+                ReplicationComputer.computeReplicationId(Direction.DOWN));
+        mLevelDown = new LevelingCanPayloadTranslator(networkLevelDown, Direction.DOWN);
+        canInterface.registerTimeTriggered(networkLevelDown);
         
-        carLevelPosition = CanMailbox.getReadableCanMailbox(
+        networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_POSITION_CAN_ID);
         mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
-                carLevelPosition);
-        canInterface.registerTimeTriggered(carLevelPosition);
+                networkCarLevelPosition);
+        canInterface.registerTimeTriggered(networkCarLevelPosition);
         
         mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
         mDoorClosedBack = new DoorClosedArray(Hallway.BACK, canInterface);
         
-        emergencyBrake = CanMailbox.getReadableCanMailbox(
+        networkEmergencyBrake = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.EMERGENCY_BRAKE_CAN_ID);
-        mEmergencyBrake = new BooleanCanPayloadTranslator(emergencyBrake);
+        mEmergencyBrake = new BooleanCanPayloadTranslator(networkEmergencyBrake);
+        canInterface.registerTimeTriggered(networkEmergencyBrake);
         
-        desiredFloor = CanMailbox.getReadableCanMailbox(
+        networkDesiredFloor = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.DESIRED_FLOOR_CAN_ID);
-        mDesiredFloor = new DesiredFloorCanPayloadTranslator(desiredFloor);
+        mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
+        canInterface.registerTimeTriggered(networkDesiredFloor);
         
-        hoistwayLimitUp = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID);
-        hoistwayLimitDown = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID);
+        networkHoistwayLimitUp = CanMailbox.getReadableCanMailbox(
+                MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + 
+                ReplicationComputer.computeReplicationId(Direction.UP));
+        mHoistwayLimitUp = new HoistwayLimitSensorCanPayloadTranslator(
+                networkHoistwayLimitUp, Direction.UP);
+        canInterface.registerTimeTriggered(networkHoistwayLimitUp);
         
-        carWeight = CanMailbox.getReadableCanMailbox(
+        networkHoistwayLimitDown = CanMailbox.getReadableCanMailbox(
+                MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + 
+                ReplicationComputer.computeReplicationId(Direction.DOWN));
+        mHoistwayLimitDown = new HoistwayLimitSensorCanPayloadTranslator(
+                networkHoistwayLimitDown, Direction.DOWN);
+        canInterface.registerTimeTriggered(networkHoistwayLimitDown);
+        
+        networkCarWeight = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_WEIGHT_CAN_ID);
-        mCarWeight = new CarWeightCanPayloadTranslator(carWeight);
+        mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
+        canInterface.registerTimeTriggered(networkCarWeight);
         
         // Start the timer
         timer.start(period);
@@ -204,7 +211,7 @@ public class DriveControl extends Controller {
 
     /**
      * @param callbackData
-     * Set the outputs to the appopriate state values and determine
+     * Set the outputs to the appropriate state values and determine
      * the next state that should be set
      */
     @Override
