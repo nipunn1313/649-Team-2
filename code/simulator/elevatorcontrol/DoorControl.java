@@ -24,6 +24,7 @@ import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.framework.Side;
+import simulator.framework.Speed;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
@@ -169,7 +170,7 @@ public class DoorControl extends Controller {
                 //transitions
                 //#transition 'DoT 1'
                 if ((mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
-                        ((mDriveSpeed.getSpeed()-0.0)<EPSILON || mDriveSpeed.getDirection()==Direction.STOP)) ||
+                        ((mDriveSpeed.getSpeed()==Speed.STOP) || mDriveSpeed.getDirection()==Direction.STOP)) ||
                         (mCarWeight.getValue() >= Elevator.MaxCarCapacity &&
                         mDoorOpenedFront.getBothOpened() == false &&
                         mDoorOpenedBack.getBothOpened() == false)) {
