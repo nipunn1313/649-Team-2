@@ -13,10 +13,8 @@ import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.DoorOpenedArray;
+import simulator.elevatorcontrol.Utility.DoorReversalArray;
 import simulator.elevatormodules.CarWeightCanPayloadTranslator;
-import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
-import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
-import simulator.elevatormodules.VarIntegerCanTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.DoorCommand;
@@ -38,8 +36,6 @@ import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
  */
 public class DoorControl extends Controller {
 
-    private final double EPSILON = 0.01;
-
     /***************************************************************
      * Declarations
      **************************************************************/
@@ -57,6 +53,8 @@ public class DoorControl extends Controller {
     private DoorClosedArray mDoorClosedFront, mDoorClosedBack;
     // DoorOpenedArray creates CanPayloadTranslators for DoorOpened
     private DoorOpenedArray mDoorOpenedFront, mDoorOpenedBack;
+    // DoorReversayArray creates CanPayloadTranslators for DoorReversal
+    private DoorReversalArray mDoorReversalFront, mDoorReversalBack;
     //receive CarWeight from network
     private ReadableCanMailbox networkCarWeightIn;
     // translator for CarWeight message
@@ -131,6 +129,10 @@ public class DoorControl extends Controller {
         //Register mDoorOpeneds
         mDoorOpenedFront = new DoorOpenedArray(Hallway.FRONT, canInterface);
         mDoorOpenedBack = new DoorOpenedArray(Hallway.BACK, canInterface);
+        
+        //Register mDoorReversals
+        mDoorReversalFront = new DoorReversalArray(Hallway.FRONT, canInterface);
+        mDoorReversalBack = new DoorReversalArray(Hallway.BACK, canInterface);
 
         // Register mCarWeight
         networkCarWeightIn = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
@@ -222,6 +224,11 @@ public class DoorControl extends Controller {
                 if (mDoorClosedFront.getBothClosed() &&
                         mDoorClosedBack.getBothClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
+                } 
+                //#transition 'DoT 5'
+                else if (mDoorReversalFront.getAnyReversal() ||
+                        mDoorReversalBack.getAnyReversal()) {
+                    newState = State.STATE_DOORS_OPENING;
                 } else {
                     newState = state;
                 }
