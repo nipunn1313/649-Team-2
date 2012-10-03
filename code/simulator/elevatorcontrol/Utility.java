@@ -7,6 +7,8 @@ package simulator.elevatorcontrol;
 import java.util.HashMap;
 import simulator.elevatormodules.AtFloorCanPayloadTranslator;
 import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
+import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
+import simulator.elevatormodules.DoorReversalCanPayloadTranslator;
 import simulator.payloads.CANNetwork;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
@@ -44,6 +46,50 @@ public class Utility {
 
         public boolean getBothClosed() {
             return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.LEFT)).getValue() &&
+                    translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
+        }
+    }
+    
+    public static class DoorOpenedArray {
+
+        HashMap<Integer, DoorOpenedCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorOpenedCanPayloadTranslator>();
+        public final Hallway hallway;
+
+        public DoorOpenedArray(Hallway hallway, CANNetwork.CanConnection conn) {
+            this.hallway = hallway;
+            for (Side s : Side.values()) {
+                int index = ReplicationComputer.computeReplicationId(hallway, s);
+                ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + index);
+                DoorOpenedCanPayloadTranslator t = new DoorOpenedCanPayloadTranslator(m, hallway, s);
+                conn.registerTimeTriggered(m);
+                translatorArray.put(index, t);
+            }
+        }
+
+        public boolean getBothOpened() {
+            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.LEFT)).getValue() &&
+                    translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
+        }
+    }
+    
+    public static class DoorReversalArray {
+
+        HashMap<Integer, DoorReversalCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorReversalCanPayloadTranslator>();
+        public final Hallway hallway;
+
+        public DoorReversalArray(Hallway hallway, CANNetwork.CanConnection conn) {
+            this.hallway = hallway;
+            for (Side s : Side.values()) {
+                int index = ReplicationComputer.computeReplicationId(hallway, s);
+                ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_REVERSAL_SENSOR_BASE_CAN_ID + index);
+                DoorReversalCanPayloadTranslator t = new DoorReversalCanPayloadTranslator(m, hallway, s);
+                conn.registerTimeTriggered(m);
+                translatorArray.put(index, t);
+            }
+        }
+
+        public boolean getAnyReversal() {
+            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.LEFT)).getValue() ||
                     translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
         }
     }
