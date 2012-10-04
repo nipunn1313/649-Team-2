@@ -109,7 +109,7 @@ public class CarButtonControl extends Controller {
                 localCarLight.set(false);
                 mCarLight.set(false);
                 
-                // CBT #1
+                //#transition CBT 1
                 if (localCarButton.isPressed()) {
                     newState = State.STATE_PRESSED;
                 }
@@ -120,11 +120,11 @@ public class CarButtonControl extends Controller {
                 mCarLight.set(true);
                 
                 if (!localCarButton.isPressed()) {
-                    // CBT #2
+                    //#transition CBT 2
                     if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
                         mAtFloors.getCurrentFloor() == floor) {
                         newState = State.STATE_LIGHT_OFF;
-                    // CBT #4
+                    //#transition CBT 4
                     } else {
                         newState = State.STATE_UNPRESSED_ON;
                     }
@@ -135,10 +135,10 @@ public class CarButtonControl extends Controller {
                 localCarLight.set(true);
                 mCarLight.set(true);
                 
-                // CBT #5
+                //#transition CBT 5
                 if (localCarButton.isPressed()) {
                     newState = State.STATE_PRESSED;
-                // CBT #3
+                //#transition CBT 3
                 } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
                            mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
