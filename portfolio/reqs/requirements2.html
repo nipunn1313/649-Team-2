@@ -1977,6 +1977,10 @@ cellspacing="2">
     </tr>
     <tr>
       <td>LT 3</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d == Stop</td>
+    </tr>
+    <tr>
+      <td>LT 4</td>
       <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
       Down</td>
     </tr>
@@ -2069,6 +2073,17 @@ cellspacing="2">
     </tr>
     <tr>    
       <td>LT 3</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+    </tr>
+    <tr>    
+      <td>LT 4</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -2165,7 +2180,16 @@ cellspacing="2">
     <tr>
       <td>HBT 3</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
+          mDesiredFloor.f == CurrentFloor</td>
+    </tr>
+    <tr>
+      <td>HBT 4</td>
+      <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f != Current Floor</td>
+    </tr>
+    <tr>
+      <td>HBT 5</td>
+      <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
     </tr>
   </tbody>
 </table>
@@ -2228,7 +2252,7 @@ cellspacing="2">
       <td><br /></td>
     </tr>
     <tr>    
-      <td>LT 1</td>
+      <td>HBT 1</td>
       <td><br/></td>
       <td><br/></td>
       <td><br /></td>
@@ -2238,7 +2262,7 @@ cellspacing="2">
       <td><br /></td>
     </tr>
     <tr>    
-      <td>LT 2</td>
+      <td>HBT 2</td>
       <td><br /></td>
       <td><br /></td>
       <td><br/></td>
@@ -2248,13 +2272,33 @@ cellspacing="2">
       <td><br /></td>
     </tr>
     <tr>    
-      <td>LT 3</td>
+      <td>HBT 3</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>HBT 4</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
       <td>X</td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>HBT 5</td>
+      <td><br/></td>
+      <td><br/></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
       <td><br /></td>
     </tr>
   </tbody>
@@ -2358,7 +2402,7 @@ None
     <img alt="carButtonControl_state_diagram.png"
          src="carButtonControl_state_diagram.png"
          style="border: 0px solid;">
-	</a><br />
+  </a><br />
 </div>
 <table style="text-align: left; width: 800px;" border="1" cellpadding="2"
 cellspacing="2">
@@ -2379,7 +2423,16 @@ cellspacing="2">
     <tr>
       <td>CBT 3</td>
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
+          mDesiredFloor.f == CurrentFloor</td>
+    </tr>
+    <tr>
+      <td>CBT 4</td>
+      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f != Current Floor</td>
+    </tr>
+    <tr>
+      <td>CBT 5</td>
+      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
     </tr>
   </tbody>
 </table>
@@ -2476,6 +2529,18 @@ cellspacing="2">
     </tr>
     <tr>    
       <td>CBT 3</td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>CBT 4</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -2485,6 +2550,18 @@ cellspacing="2">
       <td><br /></td>
       <td>X</td>
       <td>X</td>
+    </tr>
+    <tr>    
+      <td>CBT 5</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
     </tr>
   </tbody>
 </table>
@@ -2556,6 +2633,23 @@ None
          style="border: 0px solid;">
   </a><br>
 </div>
+<p><h3>Requirements to Statechart Traceability</h3></p>
+<table style="text-align: left; width: 600px;" border="1">
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td colspan="1">Requirements</td>
+    </tr>
+    <tr>
+      <td><b>State</b></td>
+      <td>10.4</td>
+    </tr>
+    <tr>
+      <td>State 1: Display</td>
+      <td>X<br /></td>
+    </tr>
+  </tbody>
+</table>
 <h2><a name="dispatcher"></a> 11. Dispatcher </h2>
 <h3> Replication: </h3>
 <ul>
