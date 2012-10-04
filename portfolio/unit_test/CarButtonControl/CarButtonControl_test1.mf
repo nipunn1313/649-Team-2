@@ -4,7 +4,7 @@
 ; Jacob Olson (jholson)
 ; Nick Mazurek (nmazurek)
 ; Benet Clark (brclark)
-; carbuttoncontrol_test1.mf
+; CarButtonControl_test1.mf
 
 #INCLUDE defines.mf
 
