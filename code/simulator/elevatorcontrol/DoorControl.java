@@ -150,7 +150,7 @@ public class DoorControl extends Controller {
         //        networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway));
         //        mDesiredDwell = new DesiredDwellCanPayloadTranslator(networkDesiredDwellIn);
         //        canInterface.registerTimeTriggered(networkDesiredDwellIn);
-        dwell = new SimTime("5s");
+        dwell = new SimTime("100ms");
 
         // Register mDoorMotor
         networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(this.hallway, this.side));
@@ -195,8 +195,8 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 2'
-                if (mDoorOpenedFront.getBothOpened() &&
-                        mDoorOpenedBack.getBothOpened()) {
+                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
+                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
                     newState = State.STATE_DOORS_OPENED;
                 } else {
                     newState = state;
