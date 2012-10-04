@@ -172,7 +172,7 @@ public class DoorControl extends Controller {
                 //transitions
                 //#transition 'DoT 1'
                 if ((mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
-                        ((mDriveSpeed.getSpeed()==Speed.STOP) || mDriveSpeed.getDirection()==Direction.STOP)) ||
+                        ((mDriveSpeed.getScaledSpeed()==0) || mDriveSpeed.getDirection()==Direction.STOP)) ||
                         (mCarWeight.getValue() >= Elevator.MaxCarCapacity &&
                         mDoorOpenedFront.getBothOpened() == false &&
                         mDoorOpenedBack.getBothOpened() == false)) {
