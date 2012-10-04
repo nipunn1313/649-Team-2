@@ -540,13 +540,58 @@ to resolve the issue.&nbsp; This should be a specific list, such as
       </td>
       <td style="vertical-align: top;">
         All lights turn off when we get to any floor. Expected: only the light
-        on the floor we're on should turn off.<br>
+        on the floor we're on should turn off. Unit tests should cover this too
+        <br>
       </td>
       <td style="vertical-align: top;">Fixed<br>
       </td>
       <td style="vertical-align: top;">Requirements, State Chart, State
       Chart Requirement traceability, code: for 8 and 9 which are
       CarButtonControl and HallButtonControl<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">26<br>
+      </td>
+      <td style="vertical-align: top;">10/3/2012<br>
+      </td>
+      <td style="vertical-align: top;">10/4/2012<br>
+      </td>
+      <td style="vertical-align: top;">jholson<br>
+      </td>
+      <td style="vertical-align: top;">Implementations for 8 and 9<br>
+      </td>
+      <td style="vertical-align: top;">
+        Transition numbers referenced in CarButtonControl and HallButtonControl
+        are bad
+        <br>
+      </td>
+      <td style="vertical-align: top;">Fixed<br>
+      </td>
+      <td style="vertical-align: top;">Implementation 
+        for 8 and 9 which are CarButtonControl and HallButtonControl<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">27<br>
+      </td>
+      <td style="vertical-align: top;">10/3/2012<br>
+      </td>
+      <td style="vertical-align: top;">10/4/2012<br>
+      </td>
+      <td style="vertical-align: top;">brclark<br>
+      </td>
+      <td style="vertical-align: top;">DoorControl statechart<br>
+      </td>
+      <td style="vertical-align: top;">There is no transition from nudge to
+      door opening when a door reversal or overweight car is triggered. We need
+      to add those transitions.
+        <br>
+      </td>
+      <td style="vertical-align: top;">Fixed<br>
+      </td>
+      <td style="vertical-align: top;">Statechart, traceability, implementation
+        for DoorControl<br>
       </td>
     </tr>
     <tr>
