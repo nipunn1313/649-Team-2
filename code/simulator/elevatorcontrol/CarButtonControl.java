@@ -32,6 +32,8 @@ public class CarButtonControl extends Controller {
     }
     private State state = State.STATE_LIGHT_OFF;
     
+    private final int floor;
+    private final Hallway hallway;
     private final SimTime period;
 
     /* Input Interface */
@@ -51,12 +53,14 @@ public class CarButtonControl extends Controller {
     
     public CarButtonControl(int floor, Hallway hallway, 
             SimTime period, boolean verbose) {
-        super("CarButtonControl" + ReplicationComputer.makeReplicationString(hallway),
+        super("CarButtonControl" + ReplicationComputer.makeReplicationString(floor, hallway),
               verbose);
         
         log("Creating CarButtonControl(", floor, ",", hallway, ")");
 
-        /* Save period */
+        /* Save floor/hallway/period */
+        this.floor = floor;
+        this.hallway = hallway;
         this.period = period;
         
         /* Setup mailboxes */
@@ -94,6 +98,10 @@ public class CarButtonControl extends Controller {
     
     @Override
     public void timerExpired(Object callbackData) {
+        log("Timer expired state=", state,
+            " isPressed=", localCarButton.isPressed(),
+            " currentFloor=", mAtFloors.getCurrentFloor(),
+            " mDesiredFloor=", mDesiredFloor.getFloor());
         State newState = state;
         switch (state) {
             case STATE_LIGHT_OFF:
@@ -101,7 +109,7 @@ public class CarButtonControl extends Controller {
                 localCarLight.set(false);
                 mCarLight.set(false);
                 
-                // CBT #1
+                //#transition CBT 1
                 if (localCarButton.isPressed()) {
                     newState = State.STATE_PRESSED;
                 }
@@ -112,10 +120,11 @@ public class CarButtonControl extends Controller {
                 mCarLight.set(true);
                 
                 if (!localCarButton.isPressed()) {
-                    // CBT #2
-                    if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor()) {
+                    //#transition CBT 2
+                    if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
+                        mAtFloors.getCurrentFloor() == floor) {
                         newState = State.STATE_LIGHT_OFF;
-                    // CBT #3
+                    //#transition CBT 4
                     } else {
                         newState = State.STATE_UNPRESSED_ON;
                     }
@@ -126,11 +135,12 @@ public class CarButtonControl extends Controller {
                 localCarLight.set(true);
                 mCarLight.set(true);
                 
-                // CBT #1
+                //#transition CBT 5
                 if (localCarButton.isPressed()) {
                     newState = State.STATE_PRESSED;
-                // CBT #2
-                } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor()) {
+                //#transition CBT 3
+                } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
+                           mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
                 }
                 break;
@@ -139,7 +149,7 @@ public class CarButtonControl extends Controller {
         }
         
         if (state != newState) {
-            log("Transitioning from state ", state.ordinal(), " to ", newState.ordinal());
+            log("Transitioning from state ", state, " to ", newState);
         }
         
         state = newState;

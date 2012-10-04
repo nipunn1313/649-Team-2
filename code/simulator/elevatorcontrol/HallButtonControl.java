@@ -31,7 +31,7 @@ public class HallButtonControl extends Controller {
     
     // Network interface
     // Receive at floor messages
-    private AtFloorArray mAtFloor;
+    private AtFloorArray mAtFloors;
     
     // Receive desired floor messages
     private ReadableCanMailbox networkDesiredFloor;
@@ -86,7 +86,7 @@ public class HallButtonControl extends Controller {
         
         // Initialize network interfaces
         // Create mAtFloor interface
-        mAtFloor = new AtFloorArray(canInterface);
+        mAtFloors = new AtFloorArray(canInterface);
         // Create mDesired interface and register it
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
@@ -133,10 +133,14 @@ public class HallButtonControl extends Controller {
                 
                 // Transitions
                 // #transition 'HBT2'
-                if (localHallCall.pressed() == false && mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) {
+                if (localHallCall.pressed() == false &&
+                        mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
+                        mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
                 // #transition 'HBT4'
-                } else if (localHallCall.pressed() == false && mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor()) {
+                } else if (localHallCall.pressed() == false && 
+                           !(mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
+                             mAtFloors.getCurrentFloor() == floor)) {
                     newState = State.STATE_UNPRESSED_ON;
                 } else {
                     newState = state;
@@ -153,7 +157,9 @@ public class HallButtonControl extends Controller {
                 if (localHallCall.pressed() == true) {
                     newState = State.STATE_PRESSED;
                 // #transition 'HBT3'
-                } else if (localHallCall.pressed() == false && mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) {
+                } else if (localHallCall.pressed() == false &&
+                           mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
+                           mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
                 } else {
                     newState = state;
