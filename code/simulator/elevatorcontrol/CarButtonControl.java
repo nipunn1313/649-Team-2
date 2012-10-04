@@ -121,7 +121,8 @@ public class CarButtonControl extends Controller {
                 
                 if (!localCarButton.isPressed()) {
                     // CBT #2
-                    if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor()) {
+                    if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
+                        mAtFloors.getCurrentFloor() == floor) {
                         newState = State.STATE_LIGHT_OFF;
                     // CBT #4
                     } else {
@@ -138,7 +139,8 @@ public class CarButtonControl extends Controller {
                 if (localCarButton.isPressed()) {
                     newState = State.STATE_PRESSED;
                 // CBT #3
-                } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor()) {
+                } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
+                           mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
                 }
                 break;
