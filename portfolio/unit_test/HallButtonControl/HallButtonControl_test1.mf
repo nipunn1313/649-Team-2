@@ -62,11 +62,16 @@
 1410ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID Boolean : getValue == false
 
 ; Setup conditions for before HBT3 (gotta do two state transitions)
+; Setup HBT1
 1420ms I 0s F HallCall 2 BACK DOWN = true
+; Setup HBT4 (2nd variation to exercise on-right-floor-but-not-stopping
+;      condition)
 1710ms I 0s F HallCall 2 BACK DOWN = false
-1720ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
-1770ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+1720ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 BACK UP
+1730ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+1780ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
 
+; HBT4 conditions (for State UNPRESSED_ON)
 2010ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_UNPRESSED_ON
 2010ms A F HallLight 2 BACK DOWN : lighted == true
 2010ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID Boolean : getValue == true
@@ -74,8 +79,9 @@
 
 ; Setup conditions for HBT3
 2020ms I 0s F HallCall 2 BACK DOWN = false
-2030ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
-2080ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+2030ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+2040ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+2090ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
 
 ; HBT3
 2310ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
