@@ -109,7 +109,6 @@ public class DriveControl extends Controller {
     /**
      * Instance Tracking and period
      */
-    private final String name;
     private final SimTime period;
     
     /**
@@ -130,13 +129,12 @@ public class DriveControl extends Controller {
      * @param name
      * @param verbose
      */
-    public DriveControl(String name, SimTime period, boolean verbose) {
-        super("DriveControl: " + name, verbose);
+    public DriveControl(SimTime period, boolean verbose) {
+        super("DriveControl", verbose);
         
         // Store arguments
-        this.name = name;
         this.period = period;
-        log("DriveControl set as:", name, " with period: ", period);
+        log("DriveControl set with period: ", period);
         
         // Initialize outputs
         drive = DrivePayload.getWriteablePayload();
