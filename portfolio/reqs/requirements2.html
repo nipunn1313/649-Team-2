@@ -2147,7 +2147,8 @@ None
   </ul>
   <li>8.3&nbsp; If HallCall[f,b,d] is Pressed, Active shall be set to True</li>
   <li>8.4&nbsp; If HallCall[f,b,d] is Idle and CurrentFloor is equal to
-      mDesiredFloor.f, Active shall be set to False</li>
+      mDesiredFloor.f and CurrentFloor is equal to <b>f</b>,
+      Active shall be set to False</li>
   <li>8.5&nbsp; If HallCall[f,b,d] is <b>v</b>
       mHallCall[f,b,d] shall be set to <b>v</b></li>
 </ul>
@@ -2175,17 +2176,20 @@ cellspacing="2">
     <tr>
       <td>HBT 2</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor</td>
+          mDesiredFloor.f == CurrentFloor &amp;&amp;
+          CurrentFloor == <b>f</b></td>
     </tr>
     <tr>
       <td>HBT 3</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor</td>
+          mDesiredFloor.f == CurrentFloor &amp;&amp;
+          CurrentFloor == <b>f</b></td>
     </tr>
     <tr>
       <td>HBT 4</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f != Current Floor</td>
+          !(mDesiredFloor.f == CurrentFloor &amp;&amp;
+            CurrentFloor == <b>f</b>)</td>
     </tr>
     <tr>
       <td>HBT 5</td>
@@ -2349,7 +2353,7 @@ None
   <!-- Turning light off conditions -->
   <li>
     9.1&nbsp; If mAtFloor[f,b] is True and mDesiredFloor.f equals
-    CurrentFloor, then
+    CurrentFloor and CurrentFloor equals <b>f</b>, then
   </li>
   <ul>
     <li>
@@ -2418,17 +2422,20 @@ cellspacing="2">
     <tr>
       <td>CBT 2</td>
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor</td>
+          mDesiredFloor.f == CurrentFloor &amp;&amp;
+          CurrentFloor == <b>f</b></td>
     </tr>
     <tr>
       <td>CBT 3</td>
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor</td>
+          mDesiredFloor.f == CurrentFloor &amp;&amp;
+          CurrentFloor == <b>f</b></td>
     </tr>
     <tr>
       <td>CBT 4</td>
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f != Current Floor</td>
+          !(mDesiredFloor.f == CurrentFloor &amp;&amp;
+            CurrentFloor == <b>f</b>)</td>
     </tr>
     <tr>
       <td>CBT 5</td>

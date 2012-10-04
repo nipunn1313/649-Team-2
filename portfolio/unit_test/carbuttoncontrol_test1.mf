@@ -1,0 +1,85 @@
+; 18649-Fall-2012
+; group #2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Nick Mazurek (nmazurek)
+; Benet Clark (brclark)
+; carbuttoncontrol_test1.mf
+
+#INCLUDE defines.mf
+
+
+; Initialize
+0s I 0s F CarCall 2 BACK = false
+
+; Verify that button is not pressed
+210ms A F CarCall 2 BACK : pressed == false
+
+; Verify that the lights are off and that we start in the right state
+210ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
+210ms A F CarLight 2 BACK : lighted == false
+210ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
+210ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+
+; Setup conditions for CBT1
+220ms I 0s F CarCall 2 BACK = true
+
+; CBT1
+510ms A S CarButtonControl[2][BACK] : STATE == STATE_PRESSED
+510ms A F CarLight 2 BACK : lighted == true
+510ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+510ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+
+; Setup conditions for CBT4
+520ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+530ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+540ms I 0s F CarCall 2 BACK = false
+
+; CBT4
+810ms A S CarButtonControl[2][BACK] : STATE == STATE_UNPRESSED_ON
+810ms A F CarLight 2 BACK : lighted == true
+810ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+810ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+
+; Setup conditions for CBT5
+820ms I 0s F CarCall 2 BACK = true
+
+; CBT5
+1110ms A S CarButtonControl[2][BACK] : STATE == STATE_PRESSED
+1110ms A F CarLight 2 BACK : lighted == true
+1110ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+1110ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+
+; Setup conditions for CBT2
+1120ms I 0s F CarCall 2 BACK = false
+1130ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+1180ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+; CBT2
+1410ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
+1410ms A F CarLight 2 BACK : lighted == false
+1410ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
+1410ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+
+; Setup conditions for before CBT3 (gotta do two state transitions)
+1420ms I 0s F CarCall 2 BACK = true
+1710ms I 0s F CarCall 2 BACK = false
+1720ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
+1770ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
+
+2010ms A S CarButtonControl[2][BACK] : STATE == STATE_UNPRESSED_ON
+2010ms A F CarLight 2 BACK : lighted == true
+2010ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
+2010ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+
+; Setup conditions for CBT3
+2020ms I 0s F CarCall 2 BACK = false
+2030ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
+2080ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+; CBT3
+2310ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
+2310ms A F CarLight 2 BACK : lighted == false
+2310ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
+2310ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+
