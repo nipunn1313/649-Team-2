@@ -68,7 +68,7 @@ public class HallButtonControl extends Controller {
     
     public HallButtonControl(int floor, Hallway hallway, Direction direction, SimTime period, boolean verbose) {
         // Make a call to the Controller superclass
-        super("HallButton" + ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
+        super("HallButtonControl" + ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
         
         // Store the arguments in internal state
         this.period = period;
@@ -120,7 +120,7 @@ public class HallButtonControl extends Controller {
                 // Transitions
                 // #transition 'HBT1'
                 if (localHallCall.pressed() == true) {
-                    newState = State.STATE_LIGHT_OFF;
+                    newState = State.STATE_PRESSED;
                 } else {
                     newState = state;
                 }
@@ -135,7 +135,7 @@ public class HallButtonControl extends Controller {
                 // #transition 'HBT2'
                 if (localHallCall.pressed() == false && mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) {
                     newState = State.STATE_LIGHT_OFF;
-                // #transition 'HBT3'
+                // #transition 'HBT4'
                 } else if (localHallCall.pressed() == false && mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor()) {
                     newState = State.STATE_UNPRESSED_ON;
                 } else {
@@ -149,10 +149,10 @@ public class HallButtonControl extends Controller {
                 mHallCall.set(false);
                 
                 // Transitions
-                // #transition 'HBT1'
+                // #transition 'HBT5'
                 if (localHallCall.pressed() == true) {
                     newState = State.STATE_PRESSED;
-                // #transition 'HBT2'
+                // #transition 'HBT3'
                 } else if (localHallCall.pressed() == false && mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) {
                     newState = State.STATE_LIGHT_OFF;
                 } else {
