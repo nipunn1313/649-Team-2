@@ -1,0 +1,14 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd1a.cf 
+
+; Arc 1a. and 1b. Passenger presses hall call button
+0s I 0s F HallCall 2 BACK DOWN = true
+
+; Verify Arc 2a. and 2b. Passenger should be able to observer
+; that the corresponding HallLight is lit.
+310ms A F HallLight 2 BACK DOWN : lighted == true
