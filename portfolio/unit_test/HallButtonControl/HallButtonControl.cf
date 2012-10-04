@@ -4,6 +4,6 @@
 ; Jacob Olson (jholson)
 ; Nick Mazurek (nmazurek)
 ; Benet Clark (brclark)
-; carbuttoncontrol.cf
+; HallButtonControl.cf
 
-CarButtonControl 2 BACK 100ms true
+HallButtonControl 2 BACK DOWN 100ms true
