@@ -6,7 +6,7 @@
 ;; Nipunn Koorapati (nkoorapa)
 ;; @file DriveControl_test1.mf 
 
-#INCLUDE test/defines.mf
+#INCLUDE defines.mf
 #DEFINE MESSAGE_PERIOD 10ms
 
 ; Initialize
