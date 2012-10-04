@@ -36,6 +36,8 @@ import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
  */
 public class DoorControl extends Controller {
 
+    private final double EPSILON = 0.01;
+    
     /***************************************************************
      * Declarations
      **************************************************************/
@@ -158,8 +160,10 @@ public class DoorControl extends Controller {
         timer.start(period);
     }
 
+    @Override
     public void timerExpired(Object callbackData) {
         State newState = state;
+        int currentFloor;
         // We do not need mDesiredDwell yet since there is no Dispatcher.
         // Just use a dwell constant of 5 seconds for now
         //dwell = mDesiredDwell.getDwell(); -- TODO: FIX FOR DISPATCHER
@@ -171,11 +175,11 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 1'
-                if ((mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
-                        ((mDriveSpeed.getScaledSpeed()==0) || mDriveSpeed.getDirection()==Direction.STOP)) ||
-                        (mCarWeight.getValue() >= Elevator.MaxCarCapacity &&
-                        mDoorOpenedFront.getBothOpened() == false &&
-                        mDoorOpenedBack.getBothOpened() == false)) {
+                currentFloor = mAtFloors.getCurrentFloor();
+                if ((currentFloor == mDesiredFloor.getFloor() &&
+                        mAtFloors.isAtFloor(currentFloor, hallway) &&
+                        ((mDriveSpeed.getSpeed()-0.0) <= EPSILON || 
+                                mDriveSpeed.getDirection()==Direction.STOP))) {
                     newState = State.STATE_DOORS_OPENING;
                 } else {
                     newState = state;
@@ -208,7 +212,8 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 3'
-                if (countdown.isLessThanOrEqual(SimTime.ZERO)) {
+                if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
+                        mCarWeight.getValue() < Elevator.MaxCarCapacity) {
                     newState = State.STATE_DOORS_NUDGE;
                 } else {
                     newState = state;
@@ -219,15 +224,24 @@ public class DoorControl extends Controller {
                 localDoorMotor.set(DoorCommand.NUDGE);
                 mDoorMotor.setDoorCommand(DoorCommand.NUDGE);
 
+                currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
                 //#transition 'DoT 4'
                 if (mDoorClosedFront.getBothClosed() &&
                         mDoorClosedBack.getBothClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
-                } 
+                }
                 //#transition 'DoT 5'
-                else if (mDoorReversalFront.getAnyReversal() ||
-                        mDoorReversalBack.getAnyReversal()) {
+                else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
+                        mAtFloors.isAtFloor(currentFloor, hallway)) {
+                    newState = State.STATE_DOORS_OPENING;
+                }
+                //#transition 'DoT 5'
+                else if (mDoorReversalFront.getAnyReversal()) {
+                    newState = State.STATE_DOORS_OPENING;
+                }
+                //#transition 'DoT 5'
+                else if (mDoorReversalBack.getAnyReversal()) {
                     newState = State.STATE_DOORS_OPENING;
                 } else {
                     newState = state;

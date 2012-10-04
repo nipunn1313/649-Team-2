@@ -1205,6 +1205,10 @@ simulation by scheduling a future task execution at time of expiration)
   <li>
     5.12&nbsp; mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
   </li>
+  <li>
+    5.13&nbsp; If mDoorReversal[b,r] is True, then all DoorMotor[b,r] shall
+    be commanded to Open.
+  </li>
 </ul>
 <h3>State Chart</h3>
 <div style="text-align: center;">
@@ -1224,10 +1228,9 @@ cellspacing="2">
     <tr>
       <td>DoT 1</td>
       <td>
-        (mAtFloor[f,b] == True &amp;&amp; mDesiredFloor.f == f &amp;&amp;
+        (mAtFloor[f,<b>b</b>] == True &amp;&amp; mDesiredFloor.f == f &amp;&amp;
         <br />
-        (mDriveSpeed == (0,d) || mDriveSpeed == (s, Stop))) || <br />
-        (mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; mDoorOpened[b,r] == False)
+        (mDriveSpeed == (0,d) || mDriveSpeed == (s, Stop)))
       </td>
     </tr>
     <tr>
@@ -1239,13 +1242,22 @@ cellspacing="2">
     <tr>
       <td>DoT 3</td>
       <td>
-        CountDown &lt;= 0
+        (CountDown &lt;= 0) &amp;&amp; <br />
+        (mCarWeight(g) &lt; MaxCarCapacity)
       </td>
     </tr>
     <tr>
       <td>DoT 4</td>
       <td>
         mDoorClosed[b,r] == True
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 5</td>
+      <td>
+        (mDoorReversal[b,*] == True) ||<br />
+        (mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; 
+        mAtFloor[f,<b>b</b>]==True)
       </td>
     </tr>
   </tbody>
