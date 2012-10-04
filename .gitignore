@@ -16,3 +16,6 @@ Thumbs.db
 .project
 .settings/
 bin/*
+
+# Javadoc shit
+doc/
