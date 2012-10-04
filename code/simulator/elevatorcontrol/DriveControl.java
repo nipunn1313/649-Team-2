@@ -131,7 +131,7 @@ public class DriveControl extends Controller {
      * @param verbose
      */
     public DriveControl(String name, SimTime period, boolean verbose) {
-        super("DriveControl", verbose);
+        super("DriveControl: " + name, verbose);
         
         // Store arguments
         this.name = name;
@@ -222,9 +222,12 @@ public class DriveControl extends Controller {
         int currentFloor;
         State newState = state;
         
+        log ("State: ", state, " DesiredFloor: ", mDesiredFloor, 
+                " Doors Closed", mDoorClosedFront.getBothClosed(), " ", 
+                mDoorClosedBack.getBothClosed(), " CarWeight: ", mCarWeight, 
+                " EmergencyBrake: " , mEmergencyBrake);
         switch(state) {
             case STATE_STOPPED:               
-                log("DC: State 1 (Stopped)");
                 // State actions for STATE_STOPPED
                 drive.set(Speed.STOP, Direction.STOP);
                 mDrive.set(Speed.STOP, Direction.STOP);
@@ -237,12 +240,10 @@ public class DriveControl extends Controller {
                         mDoorClosedBack.getBothClosed() &&
                         !mEmergencyBrake.getValue() && 
                         mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    log("DRT1");
                     newState = State.STATE_NOT_AT_DESIRED_FLOOR;
                 }
                 break;
             case STATE_LEVELING_AT_DESIRED_FLOOR:
-                log("DC: State2 (Leveling)");
                 // State actions for Leveling
                 drive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDrive.set(Speed.LEVEL, mDesiredFloor.getDirection());
@@ -251,7 +252,6 @@ public class DriveControl extends Controller {
                 if (mLevelUp.getValue() && mLevelDown.getValue() ||
                         mEmergencyBrake.getValue() ||
                         mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
-                    log("DRT4");
                     newState = State.STATE_STOPPED;
                 }
                 break;
@@ -265,14 +265,12 @@ public class DriveControl extends Controller {
                 // #transition DRT2
                 if (mEmergencyBrake.getValue() ||
                         mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
-                    log("DRT2");
                     newState = State.STATE_STOPPED;
                 }
                 // #transition DRT3
                 else if (mDesiredFloor.getFloor() == currentFloor &&
                         !mEmergencyBrake.getValue() &&
                         mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    log("DRT3");
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
@@ -281,8 +279,7 @@ public class DriveControl extends Controller {
         }
         
         if (state == newState) {
-//            log("Remains in state", state);
-            ;
+            log("Remains in state", state);
         }
         else {
             log("Transition",state,"->",newState);

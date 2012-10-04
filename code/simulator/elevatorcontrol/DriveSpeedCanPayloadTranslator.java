@@ -18,8 +18,10 @@ import simulator.payloads.translators.CanPayloadTranslator;
  */
 public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
 
-    // Save speed precision to the nearest hundredth of a m/s
-    // Design decision by Nick
+    // CAN can only send Integers, but it's possible that the speed of 
+    // the elevator should be slow enough that truncation could be a problem, so before
+    // sending the message over the wire, multiply the double by 100 to preserve the value 
+    // to the nearest hundredth of a m/s.  Then divide upon receiving to get the double back.
     private static final int SCALE_VAL = 100;
     
     public DriveSpeedCanPayloadTranslator(WriteableCanMailbox p) {

@@ -1,7 +1,11 @@
-;
-; DriveControl.cf
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file DriveControl.cf 
 
 
-; Initialize DriveControl to name and true verbosity
-
+; Initialize DriveControl to name and false verbosity
 DriveControl test 10.0ms false

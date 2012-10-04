@@ -1,3 +1,10 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file DriveControl.mf 
 
 #INCLUDE test/defines.mf
 #DEFINE MESSAGE_PERIOD 10ms
@@ -11,8 +18,7 @@
 21ms A F Drive : direction == STOP
 21ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
 21ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 0
-21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed < 0.001
+21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 0
 21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == STOP
 
 ; set for transition DRT1
@@ -32,8 +38,7 @@
 71ms A F Drive : direction == UP
 71ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
 71ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed < 2.001
-71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 2
+71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200
 71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ; set for transition DRT3
@@ -47,8 +52,7 @@
 111ms A F Drive : direction == UP
 111ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
 111ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed < 1.001
-111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 1
+111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
 111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ; set for transition DRT4(a) mLevel[*] = True
@@ -86,8 +90,7 @@
 201ms A F Drive : direction == STOP
 201ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
 201ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed < 2.001  
-201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed >= 2  
+201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200  
 201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
 
 ; Go back to state 3
