@@ -1,0 +1,39 @@
+
+#INCLUDE test/defines.mf
+#DEFINE MESSAGE_PERIOD 10ms
+
+; Initialize
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
+
+; Check that mDrive is set to Stop and driveSpeed is set to stop
+100ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
+100ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
+100ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 0
+100ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == STOP
+
+; set for transition DRT1
+200ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+200ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
+200ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
+200ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
+200ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
+200ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
+200ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
+; set DriveSpeed to a standard value
+200ms I MESSAGE_PERIOD F DriveSpeed = UP 1
+
+; Check state 3
+300ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
+300ms A F Drive : speed == SLOW
+300ms A F Drive : direction == UP
+300ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
+300ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
+300ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getSpeed == 1 
+300ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+
+; set for transition DRT3
+400ms I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
+400ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
+
+; Check State 2
+

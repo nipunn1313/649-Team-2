@@ -1,0 +1,7 @@
+;
+; DriveControl.cf
+
+
+; Initialize DriveControl to name and true verbosity
+
+DriveControl test 10.0ms false
