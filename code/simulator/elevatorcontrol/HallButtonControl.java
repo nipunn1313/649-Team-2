@@ -24,7 +24,7 @@ import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.HallCallPayload.ReadableHallCallPayload;
 import simulator.payloads.HallLightPayload.WriteableHallLightPayload;
 
-public class HallButton extends Controller {
+public class HallButtonControl extends Controller {
     // Local physical state
     private ReadableHallCallPayload localHallCall;
     private WriteableHallLightPayload localHallLight;
@@ -66,7 +66,7 @@ public class HallButton extends Controller {
     // State variable initialized to the initial state STATE_LIGHT_OFF
     private State state = State.STATE_LIGHT_OFF;
     
-    public HallButton(int floor, Hallway hallway, Direction direction, SimTime period, boolean verbose) {
+    public HallButtonControl(int floor, Hallway hallway, Direction direction, SimTime period, boolean verbose) {
         // Make a call to the Controller superclass
         super("HallButton" + ReplicationComputer.makeReplicationString(floor, hallway, direction), verbose);
         
