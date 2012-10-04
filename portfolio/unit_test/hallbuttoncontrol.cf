@@ -1,0 +1,9 @@
+; 18649-Fall-2012
+; group #2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Nick Mazurek (nmazurek)
+; Benet Clark (brclark)
+; hallbuttoncontrol.cf
+
+HallButtonControl 2 BACK DOWN 100ms true
