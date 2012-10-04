@@ -2,7 +2,6 @@ package simulator.elevatorcontrol;
 
 import java.util.BitSet;
 import simulator.framework.Direction;
-import simulator.framework.Speed;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
 import simulator.payloads.translators.CanPayloadTranslator;
@@ -15,10 +14,14 @@ import simulator.payloads.translators.CanPayloadTranslator;
  * Payload Translator. DriveSpeed is the sensor whereas DriveCommand is the
  * actuator.
  * 
- * @author Ben Clark
+ * @author Ben Clark, Modified by Nick Mazurek
  */
 public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
 
+    // Save speed precision to the nearest hundredth of a m/s
+    // Design decision by Nick
+    private static final int SCALE_VAL = 100;
+    
     public DriveSpeedCanPayloadTranslator(WriteableCanMailbox p) {
       super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
     }
@@ -44,20 +47,19 @@ public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setSpeed(double speed) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, (int)Math.ceil(speed), 0, 32);
+        addIntToBitset(b, (int)(speed*SCALE_VAL), 0, 32);
         setMessagePayload(b, getByteSize());
     }
 
-    public Speed getSpeed() {
+    public double getSpeed() {
         int val = getIntFromBitset(getMessagePayload(), 0, 32);
-        for (Speed s : Speed.values()) {
-            if (s.ordinal() == val) {
-                return s;
-            }
-        }
-        throw new RuntimeException("Unrecognized Speed Value " + val);
+        return ((double)val)/SCALE_VAL;
     }
 
+    public int getScaledSpeed() {
+        return getIntFromBitset(getMessagePayload(), 0, 32);
+    }
+    
     public void setDirection(Direction dir) {
         BitSet b = getMessagePayload();
         addIntToBitset(b, dir.ordinal(), 32, 32);

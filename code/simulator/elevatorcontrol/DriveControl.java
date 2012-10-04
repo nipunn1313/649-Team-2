@@ -110,7 +110,7 @@ public class DriveControl extends Controller {
      * Instance Tracking and period
      */
     private final String name;
-    private final SimTime period = MessageDictionary.DRIVE_CONTROL_PERIOD;
+    private final SimTime period;
     
     /**
      *  States
@@ -130,12 +130,13 @@ public class DriveControl extends Controller {
      * @param name
      * @param verbose
      */
-    public DriveControl(String name, boolean verbose) {
+    public DriveControl(String name, SimTime period, boolean verbose) {
         super("DriveControl", verbose);
-
+        
         // Store arguments
         this.name = name;
-        log("DriveControl set as:", name);
+        this.period = period;
+        log("DriveControl set as:", name, " with period: ", period);
         
         // Initialize outputs
         drive = DrivePayload.getWriteablePayload();
@@ -170,7 +171,7 @@ public class DriveControl extends Controller {
         canInterface.registerTimeTriggered(networkLevelDown);
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.CAR_POSITION_CAN_ID);
+                MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
         mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
@@ -222,7 +223,7 @@ public class DriveControl extends Controller {
         State newState = state;
         
         switch(state) {
-            case STATE_STOPPED:
+            case STATE_STOPPED:               
                 log("DC: State 1 (Stopped)");
                 // State actions for STATE_STOPPED
                 drive.set(Speed.STOP, Direction.STOP);
@@ -246,7 +247,6 @@ public class DriveControl extends Controller {
                 drive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDrive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
-                
                 // #transition DRT4
                 if (mLevelUp.getValue() && mLevelDown.getValue() ||
                         mEmergencyBrake.getValue() ||
@@ -262,7 +262,6 @@ public class DriveControl extends Controller {
                 mDrive.set(Speed.SLOW, mDesiredFloor.getDirection());
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 currentFloor = mAtFloor.getCurrentFloor();
-                
                 // #transition DRT2
                 if (mEmergencyBrake.getValue() ||
                         mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
@@ -282,12 +281,14 @@ public class DriveControl extends Controller {
         }
         
         if (state == newState) {
-            log("Remains in state", state);
+//            log("Remains in state", state);
+            ;
         }
         else {
             log("Transition",state,"->",newState);
         }
         
+        state = newState;
         // Move to the new state
         setState(STATE_KEY, newState.toString());
         
