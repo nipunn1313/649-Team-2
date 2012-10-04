@@ -178,7 +178,7 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 if ((currentFloor == mDesiredFloor.getFloor() &&
                         mAtFloors.isAtFloor(currentFloor, hallway) &&
-                        ((mDriveSpeed.getSpeed()-0.0) <= EPSILON || 
+                        ((mDriveSpeed.getScaledSpeed()==0) || 
                                 mDriveSpeed.getDirection()==Direction.STOP))) {
                     newState = State.STATE_DOORS_OPENING;
                 } else {
