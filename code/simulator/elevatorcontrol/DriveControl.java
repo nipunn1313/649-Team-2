@@ -8,6 +8,8 @@
  */
 package simulator.elevatorcontrol;
 
+import javax.management.RuntimeErrorException;
+
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
@@ -108,7 +110,7 @@ public class DriveControl extends Controller {
      * Instance Tracking and period
      */
     private final String name;
-    private final SimTime period = MessageDictionary.DRIVE_CONTROL_PERIOD;
+    private final SimTime period;
     
     /**
      *  States
@@ -128,12 +130,13 @@ public class DriveControl extends Controller {
      * @param name
      * @param verbose
      */
-    public DriveControl(String name, boolean verbose) {
-        super("DriveControl", verbose);
-
+    public DriveControl(String name, SimTime period, boolean verbose) {
+        super("DriveControl: " + name, verbose);
+        
         // Store arguments
         this.name = name;
-        log("DriveControl set as:", name);
+        this.period = period;
+        log("DriveControl set as:", name, " with period: ", period);
         
         // Initialize outputs
         drive = DrivePayload.getWriteablePayload();
@@ -168,7 +171,7 @@ public class DriveControl extends Controller {
         canInterface.registerTimeTriggered(networkLevelDown);
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
-                MessageDictionary.CAR_POSITION_CAN_ID);
+                MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
         mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
@@ -219,9 +222,12 @@ public class DriveControl extends Controller {
         int currentFloor;
         State newState = state;
         
+        log ("State: ", state, " DesiredFloor: ", mDesiredFloor, 
+                " Doors Closed", mDoorClosedFront.getBothClosed(), " ", 
+                mDoorClosedBack.getBothClosed(), " CarWeight: ", mCarWeight, 
+                " EmergencyBrake: " , mEmergencyBrake);
         switch(state) {
-            case STATE_STOPPED:
-                log("State 1");
+            case STATE_STOPPED:               
                 // State actions for STATE_STOPPED
                 drive.set(Speed.STOP, Direction.STOP);
                 mDrive.set(Speed.STOP, Direction.STOP);
@@ -234,46 +240,42 @@ public class DriveControl extends Controller {
                         mDoorClosedBack.getBothClosed() &&
                         !mEmergencyBrake.getValue() && 
                         mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    log("DRT1");
                     newState = State.STATE_NOT_AT_DESIRED_FLOOR;
                 }
                 break;
             case STATE_LEVELING_AT_DESIRED_FLOOR:
-                log("State2");
                 // State actions for Leveling
                 drive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDrive.set(Speed.LEVEL, mDesiredFloor.getDirection());
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
-                
                 // #transition DRT4
                 if (mLevelUp.getValue() && mLevelDown.getValue() ||
                         mEmergencyBrake.getValue() ||
                         mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
-                    log("DRT4");
                     newState = State.STATE_STOPPED;
                 }
                 break;
             case STATE_NOT_AT_DESIRED_FLOOR:
+                log("DC: State3 (Not at desiredFloor)");
                 // State actions for not at desired floor
                 drive.set(Speed.SLOW, mDesiredFloor.getDirection());
                 mDrive.set(Speed.SLOW, mDesiredFloor.getDirection());
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 currentFloor = mAtFloor.getCurrentFloor();
-                
                 // #transition DRT2
                 if (mEmergencyBrake.getValue() ||
                         mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
-                    log("DRT2");
                     newState = State.STATE_STOPPED;
                 }
                 // #transition DRT3
                 else if (mDesiredFloor.getFloor() == currentFloor &&
                         !mEmergencyBrake.getValue() &&
                         mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    log("DRT3");
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
+            default:
+                throw new RuntimeException("State: " + state + " was not recognized");
         }
         
         if (state == newState) {
@@ -283,6 +285,7 @@ public class DriveControl extends Controller {
             log("Transition",state,"->",newState);
         }
         
+        state = newState;
         // Move to the new state
         setState(STATE_KEY, newState.toString());
         
