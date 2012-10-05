@@ -4,7 +4,7 @@
 ;; Jacob Olson (jholson)
 ;; Ben Clark (brclark)
 ;; Nipunn Koorapati (nkoorapa)
-;; @file sd3b1.mf
+;; @file sd3b_test1.mf
 
 ; Integration test for SD#3B
 
