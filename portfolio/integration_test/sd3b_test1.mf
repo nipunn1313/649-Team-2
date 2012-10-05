@@ -1,0 +1,81 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd3b1.mf
+
+; Integration test for SD#3B
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 10ms
+
+; Set the back doors to closed
+;0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True 
+;0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
+
+;; Pre-Condition for DoorControl is at State 3: so get to state3
+; mAtFloor == True && mAtFloor.f == mDesiredFloor.f
+0s I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT STOP
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
+; mDriveSpeed == Stop Stop
+0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+
+
+; Pre-Conditions <doors are open and car is at hallway f,b>
++50ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
+
+; Make sure that the state is DOORS_OPENED
++100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPENED
++0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_OPENED
+; Arc1: Passenger enters;
+; Arc2a: mCarWeight  is greater than MaxCarCapacity
++10ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
+
+; Observe that doors are still opened
++10ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == STOP
++0ms A F DoorMotor FRONT LEFT : command == STOP 
++0ms A F DoorMotor FRONT RIGHT : command == STOP 
+
+; Arc2b CarWeightAlarm = True (doesn't affect any modules so we don't need to set it)
++0ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = True
+; Arc3a CarWeightAlarm = True to passenger
+; Arc3b Passenger exits
+ 
+; Arc 4a Car weight decreases
++10ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 13899
+
+; Arc 4b&c CarWeightAlarm = False
++10ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = False
+
+; Arc 4d DoorMotor Set to nudge
++110ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
++0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_NUDGE
+
+; Verify State 4 and its outputs
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == NUDGE
++0ms A F DoorMotor FRONT LEFT : command == NUDGE 
++0ms A F DoorMotor FRONT RIGHT : command == NUDGE 
+
+; Arc 4e DoorClosed is True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True 
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
++0ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
+
+; Set Desired Floor to a different position to prevent 
++0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+
+; Arc4f Assert that the State is State 1 and DoorMotors are stopped
++100ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_CLOSED
++0ms A S  DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_CLOSED
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == STOP
++0ms A F DoorMotor FRONT LEFT : command == STOP
++0ms A F DoorMotor FRONT RIGHT : command == STOP 
