@@ -4,7 +4,7 @@
 ; Jacob Olson (jholson)
 ; Benet Clark (brclark)
 ; Nick Mazurek (nmazurek)
-; doorcontrol_test1.mf
+; DoorControl.mf
 
 
 DoorControl FRONT LEFT 10ms false

@@ -4,7 +4,7 @@
 ;; Jacob Olson (jholson)
 ;; Ben Clark (brclark)
 ;; Nipunn Koorapati (nkoorapa)
-;; @file sd1a.cf 
+;; @file sd1a_test1.mf
 
 ; Arc 1a. and 1b. Passenger presses hall call button
 0s I 0s F HallCall 2 BACK DOWN = true

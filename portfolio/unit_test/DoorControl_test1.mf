@@ -4,9 +4,9 @@
 ; Jacob Olson (jholson)
 ; Benet Clark (brclark)
 ; Nick Mazurek (nmazurek)
-; doorcontrol_test1.mf
+; DoorControl_test1.mf
 
-#INCLUDE tests/defines.mf ; include CAN id and period definitions
+#INCLUDE defines.mf ; include CAN id and period definitions
 
 ; initialize
 0ms  I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
