@@ -1,3 +1,11 @@
+/**
+ * 18-648 Fall 2012
+ * Nick Mazurek (nmazurek)
+ * Jacob Olson (jholson)
+ * Ben Clark (brclark)
+ * Nipunn Koorapati (nkoorapa)
+ * @file DriveSpeedCanPayloadTranslator.java
+ */
 package simulator.elevatorcontrol;
 
 import java.util.BitSet;

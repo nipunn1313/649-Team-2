@@ -4,7 +4,7 @@
  * Jacob Olson (jholson)
  * Ben Clark (brclark)
  * Nipunn Koorapati (nkoorapa)
- * @file CarCallPayload.java
+ * @file CarLightCanPayloadTranslator.java
  */
 
 package simulator.elevatorcontrol;

@@ -4,7 +4,7 @@
 * Jacob Olson (jholson)
 * Ben Clark (brclark)
 * Nipunn Koorapati (nkoorapa)
-* @file HallButton.java
+* @file HallButtonControl.java
 */
 
 package simulator.elevatorcontrol;

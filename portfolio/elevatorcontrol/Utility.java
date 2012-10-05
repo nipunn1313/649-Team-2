@@ -1,4 +1,12 @@
-/*
+/**
+ * 18-648 Fall 2012
+ * Nick Mazurek (nmazurek)
+ * Jacob Olson (jholson)
+ * Ben Clark (brclark)
+ * Nipunn Koorapati (nkoorapa)
+ * @file Utility.java
+ */
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
