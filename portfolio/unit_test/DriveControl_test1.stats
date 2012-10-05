@@ -1,0 +1,66 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -cf DriveControl.cf -mf DriveControl_test1.mf -head head.txt
+RandomSeed = 1349399823412
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = DriveControl_test1.mf
+Controller File = DriveControl.cf
+
+Assertion Results:
+@0.021s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@fd7ad1c :: speed ?== STOP PASSED
+@0.021s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@3ebfc8e0 :: direction ?== STOP PASSED
+@0.021s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@798fd984 :: getSpeed ?== STOP PASSED
+@0.021s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@2c091cee :: getDirection ?== STOP PASSED
+@0.021s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@19e0ff2f :: getScaledSpeed ?== 0 PASSED
+@0.021s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1b52513a :: getDirection ?== STOP PASSED
+@0.071s:  PASSED DriveControl::checkState(STATE) ?== STATE_NOT_AT_DESIRED_FLOOR PASSED
+@0.071s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@5c74c3aa :: speed ?== SLOW PASSED
+@0.071s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@3a860d49 :: direction ?== UP PASSED
+@0.071s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@29edc073 :: getSpeed ?== SLOW PASSED
+@0.071s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6c121f1d :: getDirection ?== UP PASSED
+@0.071s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@38910040 :: getScaledSpeed ?== 200 PASSED
+@0.071s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@578088c0 :: getDirection ?== UP PASSED
+@0.111s:  PASSED DriveControl::checkState(STATE) ?== STATE_LEVELING_AT_DESIRED_FLOOR PASSED
+@0.111s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@b32e13d :: speed ?== LEVEL PASSED
+@0.111s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2c64f6cd :: direction ?== UP PASSED
+@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@502bb514 :: getSpeed ?== LEVEL PASSED
+@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@96fa474 :: getDirection ?== UP PASSED
+@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6791d8c1 :: getScaledSpeed ?== 100 PASSED
+@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5a5e5a50 :: getDirection ?== UP PASSED
+@0.161s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOPPED PASSED
+@0.161s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@5220be79 :: speed ?== STOP PASSED
+@0.161s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@fee4648 :: direction ?== STOP PASSED
+@0.161s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3d84ec44 :: getSpeed ?== STOP PASSED
+@0.161s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5099681b :: getDirection ?== STOP PASSED
+@0.161s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@632d3205 :: getScaledSpeed ?== 100 PASSED
+@0.161s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@481adc30 :: getDirection ?== UP PASSED
+@0.171s:  PASSED DriveControl::checkState(STATE) ?== STATE_NOT_AT_DESIRED_FLOOR PASSED
+@0.201s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOPPED PASSED
+@0.201s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@45bc887b :: speed ?== STOP PASSED
+@0.201s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2d66a22b :: direction ?== STOP PASSED
+@0.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@4447393f :: getSpeed ?== STOP PASSED
+@0.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3daa57fb :: getDirection ?== STOP PASSED
+@0.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@693a317a :: getScaledSpeed ?== 200 PASSED
+@0.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@48d19bc8 :: getDirection ?== UP PASSED
+@0.211s:  PASSED DriveControl::checkState(STATE) ?== STATE_NOT_AT_DESIRED_FLOOR PASSED
+@0.221s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOPPED PASSED
+@0.251s:  PASSED DriveControl::checkState(STATE) ?== STATE_LEVELING_AT_DESIRED_FLOOR PASSED
+@0.261s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOPPED PASSED
+@0.301s:  PASSED DriveControl::checkState(STATE) ?== STATE_LEVELING_AT_DESIRED_FLOOR PASSED
+@0.311s:  PASSED DriveControl::checkState(STATE) ?== STATE_STOPPED PASSED
+
+
+******************Summary******************
+Passed:  41
+Failed:  0
+Total :  41
+
