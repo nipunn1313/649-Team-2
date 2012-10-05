@@ -1,0 +1,13 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd3b1.cf 
+
+
+; Let [f,b] = 1, FRONT
+
+DoorControl FRONT RIGHT 10ms True
+DoorControl FRONT LEFT 10ms False
