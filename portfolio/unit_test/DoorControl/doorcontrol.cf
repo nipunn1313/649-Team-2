@@ -1,0 +1,10 @@
+; 18649 <Fall 2012>
+; group 2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Benet Clark (brclark)
+; Nick Mazurek (nmazurek)
+; doorcontrol_test1.mf
+
+
+DoorControl FRONT LEFT 10ms false
