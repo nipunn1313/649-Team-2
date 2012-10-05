@@ -1,5 +1,5 @@
 ;there is only one test in the sample file.  Your file shall contain all tests.
-CarButtonControl CarButtonControl/CarButtonControl.cf CarButtonControl/CarButtonControl_test1.mf
-DoorControl DoorControl/DoorControl.cf DoorControl/DoorControl_test1.mf
-DriveControl DriveControl/DriveControl.cf DriveControl/DriveControl_test1.mf
-HallButtonControl HallButtonControl/HallButtonControl.cf HallButtonControl/HallButtonControl_test1.mf
+CarButtonControl CarButtonControl.cf CarButtonControl_test1.mf
+DoorControl DoorControl.cf DoorControl_test1.mf
+DriveControl DriveControl.cf DriveControl_test1.mf
+HallButtonControl HallButtonControl.cf HallButtonControl_test1.mf

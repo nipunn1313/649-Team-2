@@ -1,1 +1,2 @@
 SD1A sd1a.cf sd1a_test1.mf
+SD3B sd3b.cf sd3b_test1.mf
