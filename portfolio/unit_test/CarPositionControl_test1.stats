@@ -1,0 +1,29 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -cf CarPositionControl.cf -mf defines.mf -mf CarPositionControl_test1.mf -head head.txt
+RandomSeed = 1349827429637
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = CarPositionControl_test1.mf
+Controller File = CarPositionControl.cf
+
+Assertion Results:
+@0.051s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@f81843 :: floor ?== 1 PASSED
+@0.051s:  PASSED CarPositionControl::checkState(STATE) ?== STATE_DISPLAY PASSED
+@0.201s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@4b4333 :: floor ?== 2 PASSED
+@0.301s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@1100d7a :: floor ?== -1 PASSED
+
+
+******************Summary******************
+Passed:  4
+Failed:  0
+Total :  4
+
