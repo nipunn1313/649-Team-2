@@ -10,6 +10,7 @@ import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
 import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
 import simulator.elevatormodules.DoorReversalCanPayloadTranslator;
 import simulator.payloads.CANNetwork;
+import simulator.framework.Direction;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.Harness;
@@ -49,7 +50,7 @@ public class Utility {
                     translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
         }
     }
-    
+
     public static class DoorOpenedArray {
 
         HashMap<Integer, DoorOpenedCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorOpenedCanPayloadTranslator>();
@@ -71,7 +72,7 @@ public class Utility {
                     translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
         }
     }
-    
+
     public static class DoorReversalArray {
 
         HashMap<Integer, DoorReversalCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorReversalCanPayloadTranslator>();
@@ -111,7 +112,7 @@ public class Utility {
                 }
             }
         }
-        
+
         public boolean isAtFloor(int floor, Hallway hallway) {
             return networkAtFloorsTranslators.get(ReplicationComputer.computeReplicationId(floor, hallway)).getValue();
         }
@@ -135,6 +136,57 @@ public class Utility {
                 }
             }
             return retval;
+        }
+    }
+
+    public static class HallCallArray {
+        public HashMap<Integer, HallCallCanPayloadTranslator> networkHallCallsTranslators = new HashMap<Integer, HallCallCanPayloadTranslator>();
+        public final int numFloors = Elevator.numFloors;
+
+        public HallCallArray(CANNetwork.CanConnection conn) {
+            for (int f = 1; f <= numFloors; f++) {
+                for (Hallway b : Hallway.replicationValues) {
+                    for (Direction d : Direction.replicationValues) {
+                        int index = ReplicationComputer.computeReplicationId(f, b, d);
+                        ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.HALL_CALL_BASE_CAN_ID + index);
+                        HallCallCanPayloadTranslator t = new HallCallCanPayloadTranslator(m);
+                        conn.registerTimeTriggered(m);
+                        networkHallCallsTranslators.put(index, t);
+                    }
+                }
+            }
+        }
+    }
+
+    public static class CarCallArray {
+        public HashMap<Integer, CarCallCanPayloadTranslator> networkCarCallsTranslators = new HashMap<Integer, CarCallCanPayloadTranslator>();
+        public final int numFloors = Elevator.numFloors;
+
+        public CarCallArray(CANNetwork.CanConnection conn) {
+            for (int f = 1; f <= numFloors; f++) {
+                for (Hallway b : Hallway.replicationValues) {
+                    int index = ReplicationComputer.computeReplicationId(f, b);
+                    ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_CALL_BASE_CAN_ID + index);
+                    CarCallCanPayloadTranslator t = new CarCallCanPayloadTranslator(m);
+                    conn.registerTimeTriggered(m);
+                    networkCarCallsTranslators.put(index, t);
+                }
+            }
+        }
+    }
+
+    public static Hallway getLandings(int f) {
+        boolean frontHallway = Elevator.hasLanding(f, Hallway.FRONT);
+        boolean backHallway = Elevator.hasLanding(f, Hallway.BACK);
+
+        if (frontHallway && backHallway) {
+            return Hallway.BOTH;
+        } else if (frontHallway) {
+            return Hallway.FRONT;
+        } else if (backHallway) {
+            return Hallway.BACK;
+        } else {
+            return Hallway.NONE;
         }
     }
 }
