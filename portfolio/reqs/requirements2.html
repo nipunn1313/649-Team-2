@@ -1939,51 +1939,17 @@ pair of bulbs as a single actuator.</li>
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <li>
-    7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True, then:
+    7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True, then CarLantern[d]
+    shall be set to Off.
   </li>
-  <ul>
-    <li>
-      7.2.1&nbsp; CarLantern[Up] shall be set to Off.
-    </li>
-    <li>
-      7.2.2&nbsp; CarLantern[Down] shall be set to Off.
-    </li>
-  </ul>
   <li>
     7.3&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
-    is Up then:
+    == CarLantern.d, then CarLantern[d] shall be set to On.
   </li>
-  <ul>
-    <li>
-      7.3.1&nbsp; CarLantern[Up] shall be set to On.
-    </li>
-    <li>
-      7.3.2&nbsp; CarLantern[Down] shall be set to Off.
-    </li>
-  </ul>
   <li>
-    7.4&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
-    is Down then:
+    7.4&nbsp; If mDesiredFloor.d is Stop, then CarLantern[d] shall be set to
+    Off.
   </li>
-  <ul>
-    <li>
-      7.4.1&nbsp; CarLantern[Up] shall be set to Off.
-    </li>
-    <li>
-      7.4.2&nbsp; CarLantern[Down] shall be set to On.
-    </li>
-  </ul>
-  <li>
-    7.5&nbsp; If mDesiredFloor.d is Stop, then:
-  </li>
-  <ul>
-    <li>
-      7.5.1&nbsp; CarLantern[Up] shall be set to Off.
-    </li>
-    <li>
-      7.5.2&nbsp; CarLantern[Down] shall be set to Off.
-    </li>
-  </ul>
 </ul>
 <br>
 <h3>State Chart</h3>

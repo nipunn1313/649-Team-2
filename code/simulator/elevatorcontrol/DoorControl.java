@@ -85,9 +85,6 @@ public class DoorControl extends Controller {
     //store the period for the controller
     private SimTime period;
 
-    // additional internal state variables
-    private SimTime counter = SimTime.ZERO;
-
     //enumerate states
     private enum State {
         STATE_DOORS_CLOSED,
@@ -96,7 +93,7 @@ public class DoorControl extends Controller {
         STATE_DOORS_NUDGE,
     }
     //state variable initialized to the initial state DOORS_CLOSED
-    private State state = State.STATE_DOORS_CLOSED;		
+    private State state = State.STATE_DOORS_CLOSED;
 
     public DoorControl(Hallway hallway, Side side, SimTime period, boolean verbose) {
         // call to the Controller superclass constructor is required
