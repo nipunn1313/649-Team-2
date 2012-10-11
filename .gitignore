@@ -21,4 +21,4 @@ bin/*
 doc/
 
 # portfolio/elevatorcontrol shit
-portfolio/elevatorcontrol/*.java
+portfolio/elevatorcontrol/*
