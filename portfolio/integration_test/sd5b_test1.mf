@@ -1,0 +1,65 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd5b_test1.mf
+
+; Integration test for Sequence Diagram 5b
+
+#INCLUDE defines.mf
+
+; Precondition: Set atFloor with back doors open. front doors closed
+0s I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
++10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 BACK UP
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++10ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
++10ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
++10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
++10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
++10ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++10ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
+; Now that everything's in the right state, set desired floor somewhere else
+; so elevator is trying to leave this floor once it drops off the passenger
++100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+
+;#arc '5B/1' Set DoorMotor to Nudge after countdown expires
++200ms A F DoorMotor BACK LEFT : command == NUDGE
++0ms A F DoorMotor BACK RIGHT : command == NUDGE
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
++10ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
+
+;#arc '5B/2a' Passenger triggers door reversal
+;#arc '5B/2b' mDoorReversal is broadcast
++30ms I 0s N DOOR_REVERSAL_SENSOR_[BACK][LEFT]_CAN_ID DoorReversal BACK LEFT = true
++30ms I 0s N DOOR_REVERSAL_SENSOR_[BACK][LEFT]_CAN_ID DoorReversal BACK LEFT = false
+
+;#arc '5B/3a' Verify DoorMotor set to open
++50ms A F DoorMotor BACK LEFT : command == OPEN
++0ms  A F DoorMotor BACK RIGHT : command == OPEN
+
+;#arc '5B/3b' Door becomes fully opened
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++10ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
+
+;#arc '5B/3c' Stop the motor when door is open
++50ms A F DoorMotor BACK LEFT : command == STOP
++0ms A F DoorMotor BACK RIGHT : command == STOP
+
+;#arc '5B/4' Passenger exits car
+
+;#arc '5B/5a' After dwell, the doors should go back to nudge
++200ms A F DoorMotor BACK LEFT : command == NUDGE
++0ms  A F DoorMotor BACK RIGHT : command == NUDGE
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
++10ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
+
+;#arc '5B/5b' Door eventually closes
++50ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;#arc '5B/5c' Motor stops when door is closed
++50ms A F DoorMotor BACK LEFT : command == STOP
++0ms A F DoorMotor BACK RIGHT : command == STOP
