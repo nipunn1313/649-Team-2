@@ -1,0 +1,35 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -cf sd5b.cf -mf sd5b_test1.mf -head head.txt
+RandomSeed = 1349987359130
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd5b_test1.mf
+Controller File = sd5b.cf
+
+Assertion Results:
+@0.4s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@378f6235 :: command ?== NUDGE PASSED
+@0.4s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@39d85f79 :: command ?== NUDGE PASSED
+@0.55s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6115273a :: command ?== OPEN PASSED
+@0.55s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@270e3293 :: command ?== OPEN PASSED
+@0.64s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@77d80e6d :: command ?== STOP PASSED
+@0.64s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@348bdcd2 :: command ?== STOP PASSED
+@0.84s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@79dfc547 :: command ?== NUDGE PASSED
+@0.84s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@57bcc0bc :: command ?== NUDGE PASSED
+@0.99s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7bc9a690 :: command ?== STOP PASSED
+@0.99s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@53ad085 :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  10
+Failed:  0
+Total :  10
+

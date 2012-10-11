@@ -12,3 +12,4 @@ SD1C sd1c.cf sd1c_test1.mf
 SD2A sd2a.cf sd2a_test1.mf
 SD3B sd3b.cf sd3b_test1.mf
 SD4A sd4a.cf sd4a_test1.mf
+SD5B sd5b.cf sd5b_test1.mf
