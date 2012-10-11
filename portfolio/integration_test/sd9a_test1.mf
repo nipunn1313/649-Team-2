@@ -1,0 +1,63 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd9a_test1.mf
+
+; Integration test for Sequence Diagram 9a
+
+#INCLUDE defines.mf
+
+;Precondition: Set mDesiredDwell
+0ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++0ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++30ms I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
++30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT UP
++0ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+
+;#arc '9A/1' Door control stores dwell time
++0s I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 5000
+
+;#arc '9A/2' Verify door control shall be set to (Open)
++50ms A F DoorMotor FRONT LEFT : command == OPEN
++0ms A F DoorMotor FRONT RIGHT : command == OPEN
+
+; Arcs 3 and 4A are interchangeable. They're independent
+
+;#arc '9A/4A' Door opens
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
+
+;#arc '9A/3' Lantern Control receives mDesiredFloor
++0ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
+
+;#arc '9A/4B' Verify lantern control lights the correct
++600ms A F CarLantern UP : lighted == true
+
+;#arc '9A/5A'
++30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
++0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+
+;#arc '9A/5B'
++50ms A F DoorMotor FRONT LEFT : command == STOP
++0ms A F DoorMotor FRONT RIGHT : command == STOP
+
+;#arc '9A/6A'
++5s A F DoorMotor FRONT LEFT : command == NUDGE
++0s A F DoorMotor FRONT RIGHT : command == NUDGE
+
+;#arc '9A/6B'
++30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
++30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
++50ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++50ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+
+;#arc '9A/6C'
++50ms A F DoorMotor FRONT LEFT : command == STOP
++0s A F DoorMotor FRONT RIGHT : command == STOP
+
+;#arc '9A/7'
++600ms A F CarLantern UP : lighted == false
+
