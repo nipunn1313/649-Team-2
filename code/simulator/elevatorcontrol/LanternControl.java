@@ -37,8 +37,6 @@ public class LanternControl extends Controller {
     private ReadableCanMailbox networkDesiredFloorIn;
     // translator for DesiredFloor message
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
-    // AtFloorArray creates CanPayloadTranslators for AtFloor
-    private AtFloorArray mAtFloors;
     
     // send CarLantern to network
     private WriteableCanMailbox networkCarLanternOut;
@@ -53,17 +51,17 @@ public class LanternControl extends Controller {
     
     //enumerate states
     private enum State {
-        STATE_LIGHTS_OFF,
-        STATE_LIGHTS_ON,
+        STATE_LIGHT_OFF,
+        STATE_LIGHT_ON,
     }
     //state variable initialized to the initial state DOORS_CLOSED
-    private State state = State.STATE_LIGHTS_OFF;
+    private State state = State.STATE_LIGHT_OFF;
     
     
     public LanternControl(Direction direction, SimTime period, boolean verbose) {
         // call to the Controller superclass constructor is required
-        super("LanternControl" + ReplicationComputer.computeReplicationId(direction), verbose);
-        
+        super("LanternControl" + ReplicationComputer.makeReplicationString(direction), verbose);
+                
         this.period = period;
         this.direction = direction;
         
@@ -77,8 +75,6 @@ public class LanternControl extends Controller {
         physicalInterface.sendTimeTriggered(localCarLantern,period);    
         
         //initialize network interface
-        // Register mAtFloors
-        mAtFloors = new AtFloorArray(canInterface);
         
         //Register mDoorCloseds
         mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
@@ -89,6 +85,10 @@ public class LanternControl extends Controller {
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
         canInterface.registerTimeTriggered(networkDesiredFloorIn);
         
+        // Register mCarLantern
+        networkCarLanternOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.CAR_LANTERN_BASE_CAN_ID + ReplicationComputer.computeReplicationId(direction));
+        mCarLantern = new CarLanternCanPayloadTranslator(networkCarLanternOut);
+        canInterface.sendTimeTriggered(networkCarLanternOut, period);
         
         timer.start(period);
     }
@@ -99,7 +99,7 @@ public class LanternControl extends Controller {
         Direction currentDirection;
         
         switch(state) {
-            case STATE_LIGHTS_OFF:
+            case STATE_LIGHT_OFF:
                 // state actions for 'LIGHTS_OFF'
                 localCarLantern.set(false);
                 mCarLantern.set(false);
@@ -110,12 +110,12 @@ public class LanternControl extends Controller {
                 if (currentDirection == direction &&
                         !(mDoorClosedFront.getBothClosed() &&
                                 mDoorClosedBack.getBothClosed())) {
-                    newState = State.STATE_LIGHTS_ON;
+                    newState = State.STATE_LIGHT_ON;
                 } else {
                     newState = state;
                 }
                 break;
-            case STATE_LIGHTS_ON:
+            case STATE_LIGHT_ON:
                 // state actions for 'LIGHTS_ON'
                 localCarLantern.set(true);
                 mCarLantern.set(true);
@@ -126,7 +126,7 @@ public class LanternControl extends Controller {
                 if (currentDirection == Direction.STOP ||
                         (mDoorClosedFront.getBothClosed() &&
                                 mDoorClosedBack.getBothClosed())) {
-                    newState = State.STATE_LIGHTS_OFF;
+                    newState = State.STATE_LIGHT_OFF;
                 } else {
                     newState = state;
                 }

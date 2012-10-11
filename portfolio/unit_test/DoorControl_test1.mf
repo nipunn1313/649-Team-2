@@ -12,6 +12,8 @@
 0ms  I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
 +0ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
 +0ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
++0ms I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 5000
++0ms I 0s N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell = 5000
 
 ; check that mDoorMotor is set initially to Stop
 +11ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_CLOSED
@@ -44,7 +46,7 @@
 +0ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
 
 ; Check State 4: Doors Nudge
-+100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
++5s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
 
@@ -83,11 +85,11 @@
 
 ; Set for transition 'DoT 3'
 ; Countdown should start as soon as State 3 is reached
-; Wait 100 ms (dwell time)
+; Wait 5s (dwell time)
 
 
 ; Check State 4: Doors Nudge
-+100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
++5s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
 
@@ -109,7 +111,7 @@
 +50ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
 
 ; Check state 4: Doors Nudge
-+100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
++5100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
 
 ; Set for transition 'Dot 5.2'
 +0ms I 0s N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = True
