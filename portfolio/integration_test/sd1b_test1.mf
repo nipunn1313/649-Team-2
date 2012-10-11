@@ -1,0 +1,44 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd1b_test1.mf
+
+; Integration test for Sequence Diagram 1b
+
+#INCLUDE defines.mf
+
+; Precondition Front doors are closed. Back doors are open.
+; Elevator is at floor
+0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 BACK UP
++30ms I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
+
++30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
+
+;#arc '1B/1a' Doors start closing
++150ms A F DoorMotor BACK LEFT : command == NUDGE
++0ms A F DoorMotor BACK RIGHT : command == NUDGE
+
+;#arc '1B/2' Passenger arrives
+;#arc '1B/3a' Passenger presses hall button
+;#arc '1B/3b' Physical message sent to HallButtonControl
++30ms I 0s F HallCall 1 BACK UP = true
+
+;#arc '1B/4' Hall Light goes on
++300ms A F HallLight 1 BACK UP : lighted == true
+
+;#arc '1B/5a' Doors finish closing
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;#arc '1B/5b' Door motor stops
++100ms A F DoorMotor BACK LEFT : command == STOP
++0ms A F DoorMotor BACK RIGHT : command == STOP
