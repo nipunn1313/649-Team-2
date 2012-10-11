@@ -6,9 +6,13 @@
 ;; Nipunn Koorapati (nkoorapa)
 ;; @file sd1a_test1.mf
 
-; Arc 1a. and 1b. Passenger presses hall call button
+;Arc 1a. and 1b. Passenger presses hall call button
+;#arc '1A/1a'
+;#arc '1A/1b'
 0s I 0s F HallCall 2 BACK DOWN = true
 
 ; Verify Arc 2a. and 2b. Passenger should be able to observer
 ; that the corresponding HallLight is lit.
+;#arc '1A/2a'
+;#arc '1A/2b'
 310ms A F HallLight 2 BACK DOWN : lighted == true
