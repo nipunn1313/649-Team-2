@@ -1,0 +1,29 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file CarPositionControl_test1.mf
+
+#INCLUDE defines.mf
+#DEFINE MESSAGE_PERIOD 50ms
+
+; Initialize to lobby
+0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
+
+; Assert that the carposition is floor 1
++51ms A F CarPositionIndicator : floor == 1 
+; #State 'S1:  Display'
++0s A S CarPositionControl : STATE == STATE_DISPLAY
+
+; Move to floor 2
++0ms I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
++50ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True 
+
+; Assert position update
++100ms A F CarPositionIndicator : floor == 2
+
+; Test when the elevator is at no floors, should be -1 to show that no floor is lit
++0ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = False
++100ms A F CarPositionIndicator : floor == -1
