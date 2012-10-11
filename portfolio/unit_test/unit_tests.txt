@@ -10,3 +10,4 @@ CarButtonControl CarButtonControl.cf CarButtonControl_test1.mf
 DoorControl DoorControl.cf DoorControl_test1.mf
 DriveControl DriveControl.cf DriveControl_test1.mf
 HallButtonControl HallButtonControl.cf HallButtonControl_test1.mf
+Dispatcher Dispatcher.cf Dispatcher_test1.mf

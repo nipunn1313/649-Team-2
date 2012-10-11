@@ -2724,8 +2724,24 @@ below Lobby (1). </li>
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>Target: an integer Floor number for desired Floor, initialized to
-Lobby = 1. </li>
+  <li>
+    Target: an integer Floor number for desired Floor, initialized to Lobby =
+    1.
+  </li>
+  <li>
+    TargetHallway: a macro that takes the values {FRONT,BACK,BOTH,NONE}. It
+    always represents the landings that are available at floor Target.
+  </li>
+  <li>
+    CurrentFloor, is a shorthand notation for the value of whichever
+    mAtFloor[f, b] is True, if any. If CurrentFloor is invalid it has a
+    mnemonic value of None.
+  </li>
+  <li>
+    NextFloor is a macro that takes an integer value. It evaluates to 1 if
+    CurrentFloor == None, otherwise it evaluates to ((CurrentFloor mod
+    MaxFloors) + 1).
+  </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 <ul>
