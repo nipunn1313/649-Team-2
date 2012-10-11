@@ -1,0 +1,34 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -cf LanternControl.cf -mf LanternControl_test1.mf
+RandomSeed = 1349995594210
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = LanternControl_test1.mf
+Controller File = LanternControl.cf
+
+Assertion Results:
+@0.201s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_OFF PASSED
+@0.401s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@7ca3d4cf :: lighted ?== false PASSED
+@0.401s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@59e152c5 :: getValue ?== false PASSED
+@2.001s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_ON PASSED
+@2.201s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1b543c88 :: lighted ?== true PASSED
+@2.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6d4c1103 :: getValue ?== true PASSED
+@3.801s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_OFF PASSED
+@3.901s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@7bea5671 :: lighted ?== false PASSED
+@3.901s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@21f3aa07 :: getValue ?== false PASSED
+
+
+******************Summary******************
+Passed:  9
+Failed:  0
+Total :  9
+
