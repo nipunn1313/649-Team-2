@@ -205,6 +205,7 @@ public class DoorControl extends Controller {
 
                 // Set local state variables
                 countdown = SimTime.subtract(countdown, period);
+                log("Countdown=", countdown);
 
                 //transitions
                 //#transition 'DoT 3'
