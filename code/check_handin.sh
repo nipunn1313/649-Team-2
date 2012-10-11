@@ -38,7 +38,7 @@ tar -xzf "$simfile" -C "$tempdir"
 
 # Copy in all of the modified files and compile
 make portfolio &> /dev/null
-if [[ ! $? ]]
+if [[ $? -ne 0 ]]
 then
   echo "'make portfolio' failed"
   rm -rf "$tempdir"
@@ -48,7 +48,7 @@ cp "$portfoliopath"/elevatorcontrol/*.java "$tempdir/code/simulator/elevatorcont
 cd "$tempdir/code"
 echo "Compiling code..."
 make -j 4 &> /dev/null
-if [[ $? ]]
+if [[ $? -eq 0 ]]
 then
   echo "Compiled successfully"
 else
@@ -62,7 +62,7 @@ fi
 echo "Verifying unit tests"
 cd "$portfoliopath/unit_test"
 $codepath/test_verify.sh unit_tests.txt &> /dev/null
-if [[ ! $? ]]
+if [[ $? -ne 0 ]]
 then
   echo "test_verify.sh unit_tests.txt exited with errors"
 fi
@@ -85,7 +85,7 @@ rm -f injection*
 echo "Verifying integration tests"
 cd "$portfoliopath/integration_test"
 $codepath/test_verify.sh integration_tests.txt &> /dev/null
-if [[ ! $? ]]
+if [[ $? -ne 0 ]]
 then
   echo "test_verify.sh integration_tests.txt exited with errors"
 fi
