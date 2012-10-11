@@ -217,11 +217,10 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     destination.
   </li>
   <li>
-    Passenger observes that CarLight[<b>f</b>,<b>b</b>] lights up for a moment,
-    then turns off.
+    Passenger observes that CarLight[<b>f</b>,<b>b</b>] lights up.
   </li>
   <li>
-    Both Door[<b>b</b>,<b>*</b>] begin to open.
+    Both Door[<b>b</b>,<b>*</b>] finish closing.
   </li>
 </ol>
 <h3> Post-Conditions: </h3>
@@ -234,7 +233,7 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     exited the car.
   </li>
   <li>
-    At least one DoorClosed[<b>b</b>,<b>*</b>] is False.
+    All DoorClosed[<b>b</b>,<b>*</b>] are true.
   </li>
 </ul>
 <h3> Sequence Diagram: </h3>
