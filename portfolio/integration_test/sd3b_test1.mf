@@ -30,8 +30,8 @@
 ; Make sure that the state is DOORS_OPENED
 +100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPENED
 +0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_OPENED
-; Arc1: Passenger enters;
-; Arc2a: mCarWeight  is greater than MaxCarCapacity
+;#arc '3B/1' Passenger enters;
+;#arc '3B/2a' mCarWeight  is greater than MaxCarCapacity
 +10ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
 
 ; Observe that doors are still opened
@@ -40,18 +40,19 @@
 +0ms A F DoorMotor FRONT LEFT : command == STOP 
 +0ms A F DoorMotor FRONT RIGHT : command == STOP 
 
-; Arc2b CarWeightAlarm = True (doesn't affect any modules so we don't need to set it)
+;#arc '3B/2b' CarWeightAlarm = True (doesn't affect any modules so we don't need to set it)
 +0ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = True
-; Arc3a CarWeightAlarm = True to passenger
-; Arc3b Passenger exits
+;#arc '3B/3a' CarWeightAlarm = True to passenger
+;#arc '3B/3b' Passenger exits
  
-; Arc 4a Car weight decreases
+;#arc '3B/4a' Car weight decreases
 +10ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 13899
 
-; Arc 4b&c CarWeightAlarm = False
+;#arc '3B/4b' CarWeightAlarm = False
+;#arc '3B/4c'
 +10ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = False
 
-; Arc 4d DoorMotor Set to nudge
+;#arc '3B/4d' DoorMotor Set to nudge
 +110ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
 +0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_NUDGE
 
@@ -61,7 +62,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE 
 +0ms A F DoorMotor FRONT RIGHT : command == NUDGE 
 
-; Arc 4e DoorClosed is True
+;#arc '3B/4e' DoorClosed is True
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True 
@@ -72,7 +73,7 @@
 ; Set Desired Floor to a different position to prevent 
 +0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
 
-; Arc4f Assert that the State is State 1 and DoorMotors are stopped
+;#arc '3B/4f' Assert that the State is State 1 and DoorMotors are stopped
 +100ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_CLOSED
 +0ms A S  DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_CLOSED
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
