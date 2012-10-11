@@ -35,8 +35,6 @@ import simulator.payloads.DoorMotorPayload.WriteableDoorMotorPayload;
  *
  */
 public class DoorControl extends Controller {
-
-    private final double EPSILON = 0.01;
     
     /***************************************************************
      * Declarations
@@ -65,10 +63,10 @@ public class DoorControl extends Controller {
     private ReadableCanMailbox networkDesiredFloorIn;
     // translator for DesiredFloor message
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
-    //	// receive DesiredDwell from network -- TODO: FOR USE IN DISPATCHER LAB
-    //	private ReadableCanMailbox networkDesiredDwellIn;
-    //	// translator for DesiredDwell message
-    //	private DesiredDwellCanPayloadTranslator mDesiredDwell;
+	// receive DesiredDwell from network
+	private ReadableCanMailbox networkDesiredDwellIn;
+	// translator for DesiredDwell message
+	private DesiredDwellCanPayloadTranslator mDesiredDwell;
     // send DoorMotor to network
     private WriteableCanMailbox networkDoorMotorOut;
     // translator for DoorMotor message
@@ -76,6 +74,7 @@ public class DoorControl extends Controller {
 
     // Countdown state variable for closing door
     private SimTime countdown;
+    private int dwellPayload;
     private SimTime dwell;
 
     // keep track of which instance this is.
@@ -85,9 +84,6 @@ public class DoorControl extends Controller {
     //store the period for the controller
     private SimTime period;
 
-    // additional internal state variables
-    private SimTime counter = SimTime.ZERO;
-
     //enumerate states
     private enum State {
         STATE_DOORS_CLOSED,
@@ -96,7 +92,7 @@ public class DoorControl extends Controller {
         STATE_DOORS_NUDGE,
     }
     //state variable initialized to the initial state DOORS_CLOSED
-    private State state = State.STATE_DOORS_CLOSED;		
+    private State state = State.STATE_DOORS_CLOSED;
 
     public DoorControl(Hallway hallway, Side side, SimTime period, boolean verbose) {
         // call to the Controller superclass constructor is required
@@ -146,11 +142,10 @@ public class DoorControl extends Controller {
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloorIn);
         canInterface.registerTimeTriggered(networkDesiredFloorIn);
 
-        // Register mDesiredDwell TODO: FOR USE IN DISPATCHER LAB
-        //        networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway));
-        //        mDesiredDwell = new DesiredDwellCanPayloadTranslator(networkDesiredDwellIn);
-        //        canInterface.registerTimeTriggered(networkDesiredDwellIn);
-        dwell = new SimTime("100ms");
+        networkDesiredDwellIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway));
+        mDesiredDwell = new DesiredDwellCanPayloadTranslator(networkDesiredDwellIn);
+        canInterface.registerTimeTriggered(networkDesiredDwellIn);
+        //dwell = new SimTime("100ms");
 
         // Register mDoorMotor
         networkDoorMotorOut = CanMailbox.getWriteableCanMailbox(MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(this.hallway, this.side));
@@ -166,7 +161,8 @@ public class DoorControl extends Controller {
         int currentFloor;
         // We do not need mDesiredDwell yet since there is no Dispatcher.
         // Just use a dwell constant of 5 seconds for now
-        //dwell = mDesiredDwell.getDwell(); -- TODO: FIX FOR DISPATCHER
+        dwellPayload = mDesiredDwell.getDwell();
+        dwell = new SimTime(dwellPayload + "ms");
         switch (state) {
             case STATE_DOORS_CLOSED:
                 //state actions for 'DOORS_CLOSED'
