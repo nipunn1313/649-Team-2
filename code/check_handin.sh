@@ -1,27 +1,22 @@
 #!/bin/bash
 
-if [[ `which realpath` == "" ]]
-then
-  echo "You must install the 'realpath' utility"
-  exit 1
-fi
 if [[ `which dos2unix` == "" ]]
 then
   echo "You must install the 'dos2unix' utility"
   exit 1
 fi
 
-simfile=`realpath simulator-4.6.tar.gz`
+simfile="`pwd`/simulator-4.6.tar.gz"
 simsite="http://www.ece.cmu.edu/~ece649/project/codebase/simulator-4.6.tar.gz"
-portfoliopath=`realpath ../portfolio`
+portfoliopath="`pwd`/../portfolio"
 tempdir="temp"
-codepath=`realpath ./`
+codepath="`pwd`"
 
 # Make the temporary directory
 mkdir -p "$tempdir"
 rm -rf "$tempdir/*"
 
-tempdir=`realpath $tempdir`
+tempdir="`pwd`/$tempdir"
 
 # Download the simulator tarball if necessary
 if [[ ! -f "$simfile" ]]
