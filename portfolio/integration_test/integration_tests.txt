@@ -15,3 +15,4 @@ SD3B sd3b.cf sd3b_test1.mf
 SD4A sd4a.cf sd4a_test1.mf
 SD5B sd5b.cf sd5b_test1.mf
 SD6A sd6a.cf sd6a_test1.mf
+SD9a sd9a.cf sd9a_test1.mf
