@@ -1,0 +1,11 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd1b.cf 
+
+DoorControl BACK LEFT 10ms true
+DoorControl BACK RIGHT 10ms true
+HallButtonControl 1 BACK UP 100ms true
