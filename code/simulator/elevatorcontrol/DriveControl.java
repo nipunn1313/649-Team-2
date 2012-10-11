@@ -220,10 +220,11 @@ public class DriveControl extends Controller {
         int currentFloor;
         State newState = state;
         
-        log ("State: ", state, " DesiredFloor: ", mDesiredFloor, 
-                " Doors Closed", mDoorClosedFront.getBothClosed(), " ", 
-                mDoorClosedBack.getBothClosed(), " CarWeight: ", mCarWeight, 
-                " EmergencyBrake: " , mEmergencyBrake);
+        log ("State=", state, " DesiredFloor=", mDesiredFloor.getFloor(),
+                " CurrentFloor=", mAtFloor.getCurrentFloor(),
+                " Doors Closed=(", mDoorClosedFront.getBothClosed(), ",", 
+                mDoorClosedBack.getBothClosed(), ") CarWeight=", mCarWeight.getWeight(), 
+                " EmergencyBrake=" , mEmergencyBrake.getValue());
         switch(state) {
             case STATE_STOPPED:               
                 // State actions for STATE_STOPPED
@@ -277,7 +278,7 @@ public class DriveControl extends Controller {
         }
         
         if (state == newState) {
-            log("Remains in state", state);
+            log("Remains in state ", state);
         }
         else {
             log("Transition",state,"->",newState);
