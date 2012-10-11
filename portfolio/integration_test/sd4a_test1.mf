@@ -26,7 +26,7 @@
 ; independent
 
 ;#arc '4A/3' Verify drive shall be set to (Level, d)
-+30ms A F Drive : speed == LEVEL
++100ms A F Drive : speed == LEVEL
 +0ms  A F Drive : direction == UP
 
 ;#arc '4A/2' Verify CarLight[f,b] shall be set to Off
