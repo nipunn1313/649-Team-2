@@ -1,0 +1,30 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -cf sd6a.cf -mf sd6a_test1.mf -head head.txt
+RandomSeed = 1349989011042
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd6a_test1.mf
+Controller File = sd6a.cf
+
+Assertion Results:
+@0.151s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@ca8327 :: floor ?== 2 PASSED
+@0.201s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1bf6770 :: direction ?== UP PASSED
+@0.201s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@94948a :: speed ?== LEVEL PASSED
+@0.271s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@16f8cd0 :: direction ?== STOP PASSED
+@0.271s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@c51355 :: speed ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  5
+Failed:  0
+Total :  5
+
