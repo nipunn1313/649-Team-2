@@ -1,0 +1,12 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd9a.cf 
+
+DoorControl FRONT LEFT 10ms true
+DoorControl FRONT RIGHT 10ms true
+LanternControl UP 200ms true
+LanternControl DOWN 200ms true
