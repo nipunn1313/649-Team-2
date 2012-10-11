@@ -1,0 +1,24 @@
+; 18649-Fall-2012
+; group #2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Nick Mazurek (nmazurek)
+; Benet Clark (brclark)
+; descriptions.txt
+
+; File name                           File type   File description
+
+CarButtonControl.java                 Controller  Car Button Controller class
+Dispatcher.java                       Controller  Dispatcher controller class
+DoorControl.java                      Controller  Door Controller class
+DriveControl.java                     Controller  Drive Controller class
+HallButtonControl.java                Controller  Hall Button Controller class
+CarCallCanPayloadTranslator.java      Translator  CAN Payload translator for mCarCall
+CarLightCanPayloadTranslator.java     Translator  CAN Payload translator for mCarLight
+DesiredDwellCanPayloadTranslator.java Translator  CAN Payload translator for mDesiredDwell
+DoorMotorCanPayloadTranslator.java    Translator  CAN Payload translator for mDoorMotor
+DriveCommandCanPayloadTranslator.java Translator  CAN Payload translator for mDrive
+DriveSpeedCanPayloadTranslator.java   Translator  CAN Payload translator for mDriveSpeed
+HallCallCanPayloadTranslator.java     Translator  CAN Payload translator for mHallCall
+HallLightCanPayloadTranslator.java    Translator  CAN Payload translator for mHallLight
+Utility.java                          Utility     Used to handle multiple of the same modules
