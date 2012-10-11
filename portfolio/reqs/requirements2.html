@@ -1969,21 +1969,13 @@ cellspacing="2">
     </tr>
     <tr>
       <td>LT 1</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d == Stop</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d 
+      == d (where d is the direction the controller is replicated for)</td>
     </tr>
     <tr>
       <td>LT 2</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
-      Up</td>
-    </tr>
-    <tr>
-      <td>LT 3</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d == Stop</td>
-    </tr>
-    <tr>
-      <td>LT 4</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == False &amp;&amp; mDesiredFloor.d ==
-      Down</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d ==
+      Stop</td>
     </tr>
   </tbody>
 </table>
@@ -1997,46 +1989,20 @@ cellspacing="2">
     </tr>
     <tr>
       <td><b>State</b></td>
-      <td>7.2.1</td>
-      <td>7.2.2</td>
-      <td>7.3.1</td>
-      <td>7.3.2</td>
-      <td>7.4.1</td>
-      <td>7.4.2</td>
-      <td>7.5.1</td>
-      <td>7.5.2</td>
+      <td>7.2</td>
+      <td>7.3</td>
+      <td>7.4</td>
     </tr>
     <tr>
-      <td>state 1: lights off</td>
+      <td>State 1: Light off</td>
       <td>X</td>
-      <td>X</td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
       <td>X</td>
     </tr>
     <tr>    
-      <td>state 2: Up on</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>state 3: Down on</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
+      <td>State 2: Light On</td>
       <td><br /></td>
       <td>X</td>
-      <td>X</td>
-      <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>    
@@ -2044,55 +2010,18 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
     </tr>
     <tr>    
       <td>LT 1</td>
-      <td>X</td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
       <td><br /></td>
       <td>X</td>
-      <td>X</td>
+      <td><br /></td>
     </tr>
     <tr>    
       <td>LT 2</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
       <td>X</td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>LT 3</td>
       <td>X</td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-    </tr>
-    <tr>    
-      <td>LT 4</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
     </tr>
   </tbody>
 </table>
