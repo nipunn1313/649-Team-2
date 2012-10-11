@@ -1,0 +1,50 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd4a_test1.mf
+
+; Integration test for Sequence Diagram 4a
+
+#INCLUDE defines.mf
+
+; Precondition: Set mDesiredFloor
+0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
++30ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;#arc '4A/1' Elevator arrives at floor
++30ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = false
++30ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+; Arcs 2 and 3 are interchangeable in terms of the order they happen. They're
+; independent
+
+;#arc '4A/3' Verify drive shall be set to (Level, d)
++30ms A F Drive : speed == LEVEL
++0ms  A F Drive : direction == UP
+
+;#arc '4A/2' Verify CarLight[f,b] shall be set to Off
++300ms A F CarLight 2 BACK : lighted == false
+
+;#arc '4A/4a'
++100ms I 0s N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
+;#arc '4A/4b'
++30ms  I 0s N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = true
+
+;#arc '4A/4c' Verify elevator shall be commanded to stop
++100ms A F Drive : speed == STOP
++0ms   A F Drive : direction == STOP
+
+;#arc '4A/4d' Elevator stops
++100ms I 0s F DriveSpeed = STOP 0.0
+
+;#arc '4A/4e' Verify mDriveSpeed shall be set
++30ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 0
++0ms  A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == STOP
+
