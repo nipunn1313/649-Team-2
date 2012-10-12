@@ -46,7 +46,7 @@ do
 
   file=`echo $line | cut -d' ' -f1`;
   type=`echo $line | cut -d' ' -f2`;
-  description=`echo $line | cut -d' ' -f'1,2' --complement`;
+  description=`echo $line | cut -d' ' -f'3-'`;
 
   element="<li><a href=\"$file\">$file</a> - $description</li>";
 
