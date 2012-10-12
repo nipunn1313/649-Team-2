@@ -25,7 +25,7 @@
 +50ms I 0ms N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
 
 ;#arc '6A/1b' CarPositionIndicator is updated to floor 2
-+51ms A F CarPositionIndicator : floor == 2
++200ms A F CarPositionIndicator : floor == 2
 
 ;#arc '6A/2a' Drive is set to LEVEL speed in UP Direction
 +50ms A F Drive : direction == UP
