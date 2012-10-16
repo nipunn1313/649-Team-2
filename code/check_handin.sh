@@ -41,7 +41,7 @@ fi
 tar -xzf "$simfile" -C "$temppath"
 
 # Copy in all of the modified files and compile
-make portfolio &> /dev/null
+make portfolio
 if [[ $? -ne 0 ]]
 then
   echo "$errorstring 'make portfolio' failed"
@@ -52,7 +52,7 @@ cp "$portfoliopath"/elevatorcontrol/*.java \
   "$temppath/code/simulator/elevatorcontrol/"
 cd "$temppath/code"
 echo "Compiling code..."
-make -j 4 &> /dev/null
+make -j 4
 if [[ $? -eq 0 ]]
 then
   echo "Compiled successfully"
