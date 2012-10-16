@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# This script must be run from the code/ directory
+
 outfile=$1
 
 if [ "$outfile" == "" ]
