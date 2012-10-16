@@ -52,7 +52,7 @@ cp "$portfoliopath"/elevatorcontrol/*.java \
   "$temppath/code/simulator/elevatorcontrol/"
 cd "$temppath/code"
 echo "Compiling code..."
-make -j 4
+make
 if [[ $? -eq 0 ]]
 then
   echo "Compiled successfully"
