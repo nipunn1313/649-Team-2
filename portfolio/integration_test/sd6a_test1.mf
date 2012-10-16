@@ -1,0 +1,43 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd6a_test1.mf 
+
+#INCLUDE defines.mf
+
+; Preconditions, car is at hallway 1, floor FRONT
+; doors are closed
+; Elevator is moving UP
+0s I 0ms N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
+0s I 0ms N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
+0s I 0ms N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
+0s I 0ms N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
+0s I 0ms N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
+; Elevator is not at desired floor
+0s I 0ms N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 UP BACK
+; Start moving the elevator
++50ms I  0ms N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
+
+;#arc '6A/1a' Elevator arrives at floor 2
++50ms I 0ms N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
+
+;#arc '6A/1b' CarPositionIndicator is updated to floor 2
++200ms A F CarPositionIndicator : floor == 2
+
+;#arc '6A/2a' Drive is set to LEVEL speed in UP Direction
++50ms A F Drive : direction == UP
++0ms A F Drive : speed == LEVEL
+
+;#arc '6A/2b' mLevel[top] is true
++10ms I 0ms N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
+
+;#arc '6A/2c' mLevel[bottom] is true
++10ms I 0ms N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
+
+;#arc '6A/2d' Drive is set to STOP speed and STOP direction
++50ms A F Drive : direction == STOP
++0ms A F Drive : speed == STOP
+

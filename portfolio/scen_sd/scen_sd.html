@@ -217,11 +217,10 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     destination.
   </li>
   <li>
-    Passenger observes that CarLight[<b>f</b>,<b>b</b>] lights up for a moment,
-    then turns off.
+    Passenger observes that CarLight[<b>f</b>,<b>b</b>] lights up.
   </li>
   <li>
-    Both Door[<b>b</b>,<b>*</b>] begin to open.
+    Both Door[<b>b</b>,<b>*</b>] finish closing.
   </li>
 </ol>
 <h3> Post-Conditions: </h3>
@@ -234,7 +233,7 @@ passenger has not yet exited the car as the doors begin to close. </h3>
     exited the car.
   </li>
   <li>
-    At least one DoorClosed[<b>b</b>,<b>*</b>] is False.
+    All DoorClosed[<b>b</b>,<b>*</b>] are true.
   </li>
 </ul>
 <h3> Sequence Diagram: </h3>
@@ -471,14 +470,13 @@ hallway <b>b</b>. </li>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
   <li>Both Door[<b>b</b>,<b>*</b>] begin to open. </li>
-  <li>CarLantern[<b>d</b>] turns on. </li>
   <li>Both Door[<b>b</b>,<b>*</b>] are completely open. </li>
 </ol>
 <h3> Post-Conditions: </h3>
 <ul>
   <li>Elevator is stopped at floor <b>f</b>. </li>
   <li>All DoorOpened[<b>b</b>,<b>*</b>] are True. </li>
-  <li>CarLantern[<b>d</b>] is set to On. </li>
+  <li>Both Car Lanterns are off. </li>
 </ul>
 <h3> Sequence Diagram: </h3>
 <p> <a href="sd7a.png"><img src="sd7a.png" alt="7A"></a> </p>

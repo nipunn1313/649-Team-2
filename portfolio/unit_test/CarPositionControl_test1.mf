@@ -13,8 +13,8 @@
 0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
 
 ; Assert that the carposition is floor 1
+;#state 'S1 STATE_DISPLAY'
 +51ms A F CarPositionIndicator : floor == 1 
-; #State 'S1:  Display'
 +0s A S CarPositionControl : STATE == STATE_DISPLAY
 
 ; Move to floor 2
@@ -22,8 +22,5 @@
 +50ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True 
 
 ; Assert position update
+;#state 'S1 STATE_DISPLAY'
 +100ms A F CarPositionIndicator : floor == 2
-
-; Test when the elevator is at no floors, should be -1 to show that no floor is lit
-+0ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = False
-+100ms A F CarPositionIndicator : floor == -1

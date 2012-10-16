@@ -1,0 +1,48 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd2b_test1.mf
+
+; Integration test for Sequence Diagram 2b
+
+#INCLUDE defines.mf
+
+; Precondition Front doors are closed. Back doors are open.
+; Elevator is at floor 2 heading down.
+0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
++30ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
++30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
+
++30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
+
+;#arc '2B/1' Doors start closing
++5100ms A F DoorMotor BACK LEFT : command == NUDGE
++0ms A F DoorMotor BACK RIGHT : command == NUDGE
+
+;#arc '2B/2a' Passenger makes car call
+;#arc '2B/2b' Physical car call signal
++150ms I 0s F CarCall 2 BACK = true
+
+;#arc '2B/2c' mCarCall sent
++300ms A N CAR_CALL_[2][BACK]_CAN_ID CarCall : getValue == true
+
+;#arc '2B/3a' car light turns on
++0ms A F CarLight 2 BACK : lighted == true
+
+;#arc '2B/3b' passenger observes car light
+
+;#arc '2B/4a' Doors finish closing
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+
+;#arc '2B/4b' Door motor stops
++100ms A F DoorMotor BACK LEFT : command == STOP
++0ms A F DoorMotor BACK RIGHT : command == STOP

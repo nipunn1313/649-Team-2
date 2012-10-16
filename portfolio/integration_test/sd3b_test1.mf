@@ -21,18 +21,16 @@
 0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
 ; mDriveSpeed == Stop Stop
 0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0s I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 5000
 
 
 ; Pre-Conditions <doors are open and car is at hallway f,b>
 +50ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = True
 +0ms I MESSAGE_PERIOD N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
 
-; Make sure that the state is DOORS_OPENED
-+100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPENED
-+0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_OPENED
 ;#arc '3B/1' Passenger enters;
 ;#arc '3B/2a' mCarWeight  is greater than MaxCarCapacity
-+10ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
++100ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
 
 ; Observe that doors are still opened
 +10ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
@@ -53,11 +51,7 @@
 +10ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = False
 
 ;#arc '3B/4d' DoorMotor Set to nudge
-+110ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
-+0ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_NUDGE
-
-; Verify State 4 and its outputs
-+0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
++5100ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == NUDGE
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE 
 +0ms A F DoorMotor FRONT RIGHT : command == NUDGE 
@@ -74,9 +68,7 @@
 +0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
 
 ;#arc '3B/4f' Assert that the State is State 1 and DoorMotors are stopped
-+100ms A S DoorControl[FRONT][RIGHT] : STATE == STATE_DOORS_CLOSED
-+0ms A S  DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_CLOSED
-+0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
++100ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == STOP
 +0ms A F DoorMotor FRONT LEFT : command == STOP
 +0ms A F DoorMotor FRONT RIGHT : command == STOP 
