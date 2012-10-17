@@ -14,6 +14,8 @@ SD2B sd2b.cf sd2b_test1.mf
 SD3A sd3a.cf sd3a_test1.mf
 SD3B sd3b.cf sd3b_test1.mf
 SD4A sd4a.cf sd4a_test1.mf
+SD5A sd5a.cf sd5a_test1.mf
 SD5B sd5b.cf sd5b_test1.mf
 SD6A sd6a.cf sd6a_test1.mf
+SD8a sd8a.cf sd8a_test1.mf
 SD9a sd9a.cf sd9a_test1.mf

@@ -122,10 +122,8 @@ public class LanternControl extends Controller {
                 
                 //transitions
                 //#transition 'LT 2'
-                currentDirection = mDesiredFloor.getDirection();
-                if (currentDirection == Direction.STOP ||
-                        (mDoorClosedFront.getBothClosed() &&
-                                mDoorClosedBack.getBothClosed())) {
+                if (mDoorClosedFront.getBothClosed() &&
+                        mDoorClosedBack.getBothClosed()) {
                     newState = State.STATE_LIGHT_OFF;
                 } else {
                     newState = state;
