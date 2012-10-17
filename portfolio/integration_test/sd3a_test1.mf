@@ -1,0 +1,25 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd3a_test1.mf
+
+; Integration test for SD#3A
+
+#INCLUDE defines.mf
+
+;#arc '3A/1a'
+0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
+;#arc '3A/1b'
++30ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
+
+;#arc '3A/2a'
+;#arc '3A/2b'
++300ms A F HallLight 2 BACK UP : lighted == false
++0ms A F HallLight 2 BACK DOWN : lighted == false
+
+;#arc '3A/4'
++0ms A F CarLantern UP : lighted == false
++0ms A F CarLantern DOWN : lighted == false
