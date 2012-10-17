@@ -1,0 +1,29 @@
+
+Simulator Parameters:
+Command line = -cf sd5a.cf -mf sd5a_test1.mf
+RandomSeed = 1350453998628
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Message File = sd5a_test1.mf
+Controller File = sd5a.cf
+
+Assertion Results:
+@0.4s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6b4da8f4 :: command ?== NUDGE PASSED
+@0.4s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2678a212 :: command ?== NUDGE PASSED
+@0.55s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2c641e9a :: command ?== OPEN PASSED
+@0.55s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@33c282a1 :: command ?== OPEN PASSED
+@0.64s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@151a64ed :: command ?== STOP PASSED
+@0.64s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@99b5393 :: command ?== STOP PASSED
+@0.84s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@44bd928a :: command ?== NUDGE PASSED
+@0.84s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5210f6d3 :: command ?== NUDGE PASSED
+@0.99s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@69f78ef1 :: command ?== STOP PASSED
+@0.99s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@73d6776d :: command ?== STOP PASSED
+
+
+******************Summary******************
+Passed:  10
+Failed:  0
+Total :  10
+
