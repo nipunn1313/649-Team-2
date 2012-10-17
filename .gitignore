@@ -26,3 +26,5 @@ portfolio/elevatorcontrol/*
 # scripting shit
 code/simulator-4.6.tar.gz
 code/temp
+code/unit_results*
+code/integration_results*

@@ -6,17 +6,21 @@ then
   exit 1
 fi
 
-simfile="`pwd`/simulator-4.6.tar.gz"
+errorcolor=$(echo -e "\033[0;31m")
+nocolor=$(echo -e "\033[0m")
+errorstring=${errorcolor}ERROR:${nocolor}
+
+# Set some paths
+rootpath=`git rev-parse --show-toplevel`
+simfile="$rootpath/code/simulator-4.6.tar.gz"
 simsite="http://www.ece.cmu.edu/~ece649/project/codebase/simulator-4.6.tar.gz"
-portfoliopath="`pwd`/../portfolio"
-tempdir="temp"
+portfoliopath="$rootpath/portfolio"
+temppath="$rootpath/code/temp"
 codepath="`pwd`"
 
 # Make the temporary directory
-mkdir -p "$tempdir"
-rm -rf "$tempdir/*"
-
-tempdir="`pwd`/$tempdir"
+mkdir -p "$temppath"
+rm -rf "$temppath/*"
 
 # Download the simulator tarball if necessary
 if [[ ! -f "$simfile" ]]
@@ -28,81 +32,50 @@ fi
 
 if [[ ! -f "$simfile" ]]
 then
-  echo "Unable to download simulator tarball"
-  rm -rf "$tempdir"
+  echo "$errorstring Unable to download simulator tarball"
+  rm -rf "$temppath"
   exit 1
 fi
 
 # Extract the vanilla simulator code into the directory
-tar -xzf "$simfile" -C "$tempdir"
+tar -xzf "$simfile" -C "$temppath"
 
 # Copy in all of the modified files and compile
-make portfolio &> /dev/null
+make portfolio
 if [[ $? -ne 0 ]]
 then
-  echo "'make portfolio' failed"
-  rm -rf "$tempdir"
+  echo "$errorstring 'make portfolio' failed"
+  rm -rf "$temppath"
   exit 1
 fi
-cp "$portfoliopath"/elevatorcontrol/*.java "$tempdir/code/simulator/elevatorcontrol/"
-cd "$tempdir/code"
+cp "$portfoliopath"/elevatorcontrol/*.java \
+  "$temppath/code/simulator/elevatorcontrol/"
+cd "$temppath/code"
 echo "Compiling code..."
-make -j 4 &> /dev/null
+make
 if [[ $? -eq 0 ]]
 then
   echo "Compiled successfully"
+  echo ""
 else
-  echo "Make exited with errors"
+  echo "$errorstring 'make' failed"
   cd "$codepath"
-  rm -rf "$tempdir"
+  rm -rf "$temppath"
   exit 1
 fi
 
 # Verify unit tests
-echo "Verifying unit tests"
+echo "Verifying unit tests..."
 cd "$portfoliopath/unit_test"
-$codepath/test_verify.sh unit_tests.txt &> /dev/null
-if [[ $? -ne 0 ]]
-then
-  echo "test_verify.sh unit_tests.txt exited with errors"
-fi
-cat unit_tests.txt | grep -v -e "^;" | while read controller cf mf; do
-  if [[ "$controller" == "" ]]; then
-    continue
-  fi
-  for i in {1..10}
-  do
-    failures=`java -cp "$tempdir/code" simulator.framework.Elevator -cf "$cf" -mf "$mf" | grep -e "^Failed"`
-    if [[ ! $failures == "Failed:  0" ]]
-    then
-      echo "ERROR: $controller failed unit test $cf $mf"
-    fi
-  done
-done
-rm -f injection*
+$codepath/run_units.sh "$temppath/code" "$codepath"
+echo "Unit tests verified"
+echo ""
 
 # Verify integration tests
 echo "Verifying integration tests"
 cd "$portfoliopath/integration_test"
-$codepath/test_verify.sh integration_tests.txt &> /dev/null
-if [[ $? -ne 0 ]]
-then
-  echo "test_verify.sh integration_tests.txt exited with errors"
-fi
-cat integration_tests.txt | grep -v -e "^;" | while read controller cf mf; do
-  if [[ "$controller" == "" ]]; then
-    continue
-  fi
-  for i in {1..10}
-  do
-    failures=`java -cp "$tempdir/code" simulator.framework.Elevator -cf "$cf" -mf "$mf" | grep -e "^Failed"`
-    if [[ ! $failures == "Failed:  0" ]]
-    then
-      echo "ERROR: $controller failed integration test $cf $mf"
-    fi
-  done
-done
-rm -f injection*
+$codepath/run_integrations.sh "$temppath/code" "$codepath"
 
+# Clean up after ourselves
 cd "$codepath"
-rm -rf "$tempdir"
+rm -rf "$temppath"
