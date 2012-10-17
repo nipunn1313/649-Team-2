@@ -1,0 +1,10 @@
+;; 18-648 Fall 2012
+;; Team 2
+;; Nick Mazurek (nmazurek)
+;; Jacob Olson (jholson)
+;; Ben Clark (brclark)
+;; Nipunn Koorapati (nkoorapa)
+;; @file sd3a.cf 
+
+HallButtonControl 2 BACK DOWN 100ms true
+Dispatcher 8 50ms true
