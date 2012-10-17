@@ -20,7 +20,6 @@ CarLightCanPayloadTranslator.java     Translator  CAN Payload translator for mCa
 CarLanternCanPayloadTranslator.java   Translator  CAN Payload translator for mCarLantern
 DesiredDwellCanPayloadTranslator.java Translator  CAN Payload translator for mDesiredDwell
 DoorMotorCanPayloadTranslator.java    Translator  CAN Payload translator for mDoorMotor
-DriveCommandCanPayloadTranslator.java Translator  CAN Payload translator for mDrive
 DriveSpeedCanPayloadTranslator.java   Translator  CAN Payload translator for mDriveSpeed
 HallCallCanPayloadTranslator.java     Translator  CAN Payload translator for mHallCall
 HallLightCanPayloadTranslator.java    Translator  CAN Payload translator for mHallLight
