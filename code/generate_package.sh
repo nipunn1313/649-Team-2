@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# This script must be run from the code/ directory
+
 outfile=$1
 
 if [ "$outfile" == "" ]
@@ -37,9 +39,16 @@ read -d '' ending <<"EOF"
 </html>
 EOF
 
+errorcolor=$(echo -e "\033[0;31m")
+nocolor=$(echo -e "\033[0m")
+errorstring=${errorcolor}ERROR:${nocolor}
+
+comment='^;.*'
+emptyline='^$'
+
 while read line
 do
-  if [[ "$line" =~ "^;.*" || "$line" =~ "^$" ]]
+  if [[ $line =~ $comment || $line =~ $emptyline ]]
   then
     continue
   fi
@@ -49,6 +58,13 @@ do
   description=`echo $line | cut -d' ' -f'3-'`;
 
   element="<li><a href=\"$file\">$file</a> - $description</li>";
+
+  if [[ ! -f "../portfolio/elevatorcontrol/$file" ]]
+  then
+    echo "$errorstring `basename $file` is mentioned in descriptions.txt, but was"\
+      "never modified."
+    continue
+  fi
 
   files+=" $file";
 
@@ -87,7 +103,7 @@ for file in `ls ../portfolio/elevatorcontrol/*.java`
 do
   if hasNoDescription `basename $file`
   then
-    echo "ERROR: `basename $file` has no entry in code/descriptions.txt"
+    echo "$errorstring `basename $file` has no entry in code/descriptions.txt"
     exiting=1
   fi
 done
