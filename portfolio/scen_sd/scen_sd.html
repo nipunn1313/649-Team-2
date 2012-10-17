@@ -470,6 +470,7 @@ hallway <b>b</b>. </li>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
   <li>Both Door[<b>b</b>,<b>*</b>] begin to open. </li>
+  <li>Both CarLantern[<b>d</b>] remain off. </li>
   <li>Both Door[<b>b</b>,<b>*</b>] are completely open. </li>
 </ol>
 <h3> Post-Conditions: </h3>
@@ -496,7 +497,9 @@ direction), with enabled pickup in hallway <b>b</b>. </li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
-  <li>Both Door[<b>b</b>,<b>*</b>] open. </li>
+  <li>Both Door[<b>b</b>,<b>*</b>] begin to open. </li>
+  <li>Both CarLantern[<b>d</b>] remain off. </li>
+  <li>Both Door[<b>b</b>,<b>*</b>] are completely open. </li>
 </ol>
 <h3> Post-Conditions: </h3>
   <li>Elevator is stopped at floor <b>f</b>. </li>

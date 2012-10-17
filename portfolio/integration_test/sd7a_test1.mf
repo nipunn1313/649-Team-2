@@ -15,19 +15,25 @@
 0s I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
 0s I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
 
-; #Arc '7A/1' Doors open
-+100ms A F DoorMotor FRONT RIGHT : command == OPEN
+; #arc '7A/1' Doors open
++200ms A F DoorMotor FRONT RIGHT : command == OPEN
 +0ms A F DoorMotor FRONT LEFT : command == OPEN
-; #Arc '7A/2a' Desired floor sent to Lantern Control
+
+; #arc '7A/2a' Desired floor sent to Lantern Control
 +0ms A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
-; #Arc '7A/2b' Doors are not closed
+
+; #arc '7A/2b' Doors are not closed
 +0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
 +0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
 
-; #Arc '7A/3a' Doors are opened
+; #arc '7A/2c' Car lanterns remain off 
++100ms A F CarLantern UP : lighted == false
++0ms A F CarLantern DOWN : lighted == false
+
+; #arc '7A/3a' Doors are opened
 +0s I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
 +0s I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
 
-; #Arc '7A/3b' DoorMotor set to stop
-+50ms A F DoorMotor FRONT RIGHT : command == STOP
+; #arc '7A/3b' DoorMotor set to stop
++150ms A F DoorMotor FRONT RIGHT : command == STOP
 +0ms A F DoorMotor FRONT LEFT : command == STOP
