@@ -1946,12 +1946,7 @@ pair of bulbs as a single actuator.</li>
     7.3&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
     == CarLantern.d, then CarLantern[d] shall be set to On.
   </li>
-  <li>
-    7.4&nbsp; If mDesiredFloor.d is Stop, then CarLantern[d] shall be set to
-    Off.
-  </li>
 </ul>
-<br>
 <h3>State Chart</h3>
 <div style="text-align: center;">
   <a href="lanternControl_state_diagram.png">
@@ -1974,8 +1969,7 @@ cellspacing="2">
     </tr>
     <tr>
       <td>LT 2</td>
-      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True || mDesiredFloor.d ==
-      Stop</td>
+      <td>mDoorClosed[<b>b</b>, <b>r</b>] == True</td>
     </tr>
   </tbody>
 </table>
@@ -1991,23 +1985,19 @@ cellspacing="2">
       <td><b>State</b></td>
       <td>7.2</td>
       <td>7.3</td>
-      <td>7.4</td>
     </tr>
     <tr>
       <td>State 1: Light off</td>
       <td>X</td>
       <td><br /></td>
-      <td>X</td>
     </tr>
     <tr>    
       <td>State 2: Light On</td>
       <td><br /></td>
       <td>X</td>
-      <td><br /></td>
     </tr>
     <tr>    
       <td><b>Transitions</b></td>
-      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
     </tr>
@@ -2015,13 +2005,11 @@ cellspacing="2">
       <td>LT 1</td>
       <td><br /></td>
       <td>X</td>
-      <td><br /></td>
     </tr>
     <tr>    
       <td>LT 2</td>
       <td>X</td>
       <td><br /></td>
-      <td>X</td>
     </tr>
   </tbody>
 </table>
