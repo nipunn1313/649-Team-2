@@ -21,11 +21,12 @@
 +30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 FRONT UP
 +30ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
 
-; Check state of Lantern control while door is open
-+200ms A F CarLantern UP : lighted == true
-
 ; Set desired floor to somewhere else so elevator will enter NUDGE state
-+100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT STOP
++100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
+
+; Check state of Lantern control while door is open
++400ms A F CarLantern UP : lighted == true
+
 
 ;#arc '8A/1a' Set DoorMotor to Nudge after countdown expires
 +200ms A F DoorMotor FRONT LEFT : command == NUDGE
@@ -41,8 +42,11 @@
 +30ms A F DoorMotor FRONT LEFT : command == STOP 
 +30ms A F DoorMotor FRONT RIGHT : command == STOP 
 
+; Because dispatcher updates desired direction after doors close
++30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT STOP
+
 ;#arc '8A/2' Car Lantern turns off
-+200ms A F CarLantern UP : lighted == false
++400ms A F CarLantern UP : lighted == false
 +0ms A F CarLantern DOWN : lighted == false
 
 ;#arc '8A/3' Car enters drive speed SLOW in direction of desired floor
