@@ -9,6 +9,10 @@ then
   exit 1
 fi
 
+errorcolor=$(echo -e "\033[0;31m")
+nocolor=$(echo -e "\033[0m")
+errorstring=${errorcolor}ERROR:${nocolor}
+
 # Set some paths
 codepath="$1"
 cf="$2"
@@ -32,7 +36,7 @@ fi
 # Exit on failure
 if [[ ! $failures == "Failed:  0" ]]
 then
-  echo "ERROR: test ($cf, $mf) failed"
+  echo "$errorstring test ($cf, $mf) failed"
   exit 1
 fi
 
