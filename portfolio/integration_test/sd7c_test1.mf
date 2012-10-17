@@ -22,7 +22,10 @@
 +30ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
 
 ; Set desired floor to somewhere else so elevator will enter NUDGE state
-+100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
++100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT DOWN
+
+; Check state of Lantern control while door is open
++100ms A F CarLantern UP : lighted == true
 
 
 ;#arc '7C/1a' Set DoorMotor to Nudge after countdown expires
