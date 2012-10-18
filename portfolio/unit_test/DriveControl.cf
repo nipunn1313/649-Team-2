@@ -8,4 +8,4 @@
 
 
 ; Initialize DriveControl to name and false verbosity
-DriveControl 10ms false
+DriveControl 10ms true
