@@ -1,0 +1,39 @@
+; 18-649 Fall 2012
+; group #2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Nick Mazurek (nmazurek)
+; Benet Clark (brclark)
+; sd7a_test1.mf 
+
+#INCLUDE defines.mf
+
+0s I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
+0s I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
+0s I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
+0s I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+
+; #arc '7A/1' Doors open
++200ms A F DoorMotor FRONT RIGHT : command == OPEN
++0ms A F DoorMotor FRONT LEFT : command == OPEN
+
+; #arc '7A/2a' Desired floor sent to Lantern Control
++0ms A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
+
+; #arc '7A/2b' Doors are not closed
++0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
++0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
+
+; #arc '7A/2c' Car lanterns remain off 
++100ms A F CarLantern UP : lighted == false
++0ms A F CarLantern DOWN : lighted == false
+
+; #arc '7A/3a' Doors are opened
++0s I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
++0s I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
+
+; #arc '7A/3b' DoorMotor set to stop
++150ms A F DoorMotor FRONT RIGHT : command == STOP
++0ms A F DoorMotor FRONT LEFT : command == STOP
