@@ -102,6 +102,21 @@ Project 6<br />
   </li>
 </ul>
 
+Project 7<br />
+<ul>
+  <li>It is unclear whether CarWeight == MaxCarWeight should be safe or not.
+  In Requirements1, you make it seem like that is safe. However in the
+  constraints for DriveControl, it seems like that is unsafe. It actually makes
+  a difference in the context of the simulator where a passenger is 150 and the
+  MaxCarWeight is 1500. (15th passenger may or may not get to ride).
+  </li>
+  <li>Constraint 6.1 is pretty much completely wrong. When
+  doors are open, Drive can definitely be commanded to Level.
+  We can't trace to that constraint because the constraint is
+  WRONG.
+  </li>
+</ul>
+
 &lt;add the rest of the project entries here&gt;<br>
 
 </body>
