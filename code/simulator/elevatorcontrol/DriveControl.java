@@ -248,6 +248,8 @@ public class DriveControl extends Controller {
                     newState = State.STATE_NOT_AT_DESIRED_FLOOR;
                 // #transition DRT6
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
+                           (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() ||
+                            !(mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed())) &&
                            getSafe()) {
                     newState = State.STATE_LEVELING;
                 }
