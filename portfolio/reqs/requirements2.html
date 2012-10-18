@@ -1731,8 +1731,8 @@ with a floor. </li>
     6.7&nbsp; If DriveSpeed equals (s,d), mDriveSpeed shall be set to (s,d).
   </li>
   <li>
-    6.8&nbsp; If mDesiredFloor.f equals CurrentFloor, and exactly one mLevel[d]
-    is False, then
+    6.8&nbsp; If exactly one mLevel[d] is False, and either mDesiredFloor.f
+    equals CurrentFloor or any mDoorClosed[b,r] are False, then
   </li>
   <ul>
     <li>
@@ -1743,8 +1743,8 @@ with a floor. </li>
     </li>
   </ul>
   <li>
-    6.9&nbsp; If mDesiredFloor.f equals CurrentFloor, and all mLevel[d] are
-    True, then
+    6.9&nbsp; If all mLevel[d] are True, and either mDesiredFloor.f equals
+    CurrentFloor or any mDoorClosed[b,r] are False, then
   </li>
   <ul>
     <li>
@@ -1755,9 +1755,9 @@ with a floor. </li>
     </li>
   </ul>
   <li>
-    6.10&nbsp; If CurrentFloor does not equal None, mDesiredFloor.f does
-    not equal CurrentFloor, mDesiredFloor.f is in the range [1,MaxFloor]
-    inclusive, and all mDoorClosed[b,r] are True, then
+    6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, mDesiredFloor.f
+    is in the range [1,MaxFloor] inclusive, and all mDoorClosed[b,r] are True,
+    then
   </li>
   <ul>
     <li>
@@ -1809,7 +1809,7 @@ with a floor. </li>
       <td style="vertical-align: top;">DRT3
       </td>
       <td style="vertical-align: top;">
-        (CurrentFloor == None) &amp;&amp;<br/>
+        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
@@ -1817,36 +1817,12 @@ with a floor. </li>
       <td style="vertical-align: top;">DRT4
       </td>
       <td style="vertical-align: top;">
-        (CurrentFloor != None) &amp;&amp;<br/>
-        (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
-        (Safe == True) &amp;&amp; (Obese == False)
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">DRT5
-      </td>
-      <td style="vertical-align: top;">
-        (Safe == False) || (Obese == True)
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">DRT6
-      </td>
-      <td style="vertical-align: top;">
-        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
-        (Safe == True) &amp;&amp; (Obese == False)
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">DRT7
-      </td>
-      <td style="vertical-align: top;">
         (CurrentFloor == None) &amp;&amp;<br/>
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">DRT8
+      <td style="vertical-align: top;">DRT5
       </td>
       <td style="vertical-align: top;">
         (mLevel[*] == True) ||<br/>
@@ -1855,7 +1831,7 @@ with a floor. </li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">DRT9
+      <td style="vertical-align: top;">DRT6
       </td>
       <td style="vertical-align: top;">
         !(mLevel[*] == True) &amp;&amp;<br/>

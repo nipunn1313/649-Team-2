@@ -122,9 +122,8 @@ public class DriveControl extends Controller {
     // DriveControl has 3 possible states
     private enum State {
         STATE_STOPPED,
-        STATE_AT_UNDESIRED_FLOOR,
-        STATE_BETWEEN_FLOORS,
-        STATE_LEVELING_AT_DESIRED_FLOOR
+        STATE_NOT_AT_DESIRED_FLOOR,
+        STATE_LEVELING
     }
     
     // Set the state to the initial value (stopped)
@@ -246,14 +245,14 @@ public class DriveControl extends Controller {
                     (mDesiredFloor.getFloor() <= Elevator.numFloors) &&
                     (mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) &&
                     getSafe() && !getObese()) {
-                    newState = State.STATE_AT_UNDESIRED_FLOOR;
-                // #transition DRT9
+                    newState = State.STATE_NOT_AT_DESIRED_FLOOR;
+                // #transition DRT6
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
                            getSafe()) {
-                    newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
+                    newState = State.STATE_LEVELING;
                 }
                 break;
-            case STATE_AT_UNDESIRED_FLOOR:
+            case STATE_NOT_AT_DESIRED_FLOOR:
                 // State actions for STATE_AT_UNDESIRED_FLOOR
                 currentDirection = getDesiredFloorDirection();
                 drive.set(Speed.SLOW, currentDirection);
@@ -264,43 +263,23 @@ public class DriveControl extends Controller {
                 if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
                 // #transition DRT3
-                } else if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
-                           getSafe() && !getObese()) {
-                    newState = State.STATE_BETWEEN_FLOORS;
-                }
-                break;
-            case STATE_BETWEEN_FLOORS:
-                // State actions for STATE_BETWEEN_FLOORS
-                drive.set(Speed.SLOW, currentDirection);
-                mDrive.set(Speed.SLOW, currentDirection);
-                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
-                
-                // #transition DRT4
-                if (mAtFloor.getCurrentFloor() != MessageDictionary.NONE &&
-                    mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
-                    getSafe() && !getObese()) {
-                    newState = State.STATE_AT_UNDESIRED_FLOOR;
-                // #transition DRT5
-                } else if (!getSafe() || getObese()) {
-                    newState = State.STATE_STOPPED;
-                // #transition DRT6
                 } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
                            getSafe() && !getObese()) {
-                    newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
+                    newState = State.STATE_LEVELING;
                 }
                 break;
-            case STATE_LEVELING_AT_DESIRED_FLOOR:
+            case STATE_LEVELING:
                 // State actions for STATE_LEVELING_AT_DESIRED_FLOOR
                 currentDirection = getLevelingDirection();
                 drive.set(Speed.LEVEL, currentDirection);
                 mDrive.set(Speed.LEVEL, currentDirection);
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
-                // #transition DRT7
+                // #transition DRT4
                 if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
                     getSafe() && !getObese()) {
-                    newState = State.STATE_BETWEEN_FLOORS;
-                // #transition DRT8
+                    newState = State.STATE_NOT_AT_DESIRED_FLOOR;
+                // #transition DRT5
                 } else if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
                            ((mAtFloor.getCurrentFloor() != MessageDictionary.NONE) &&
                            (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor())) ||
