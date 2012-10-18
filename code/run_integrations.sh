@@ -50,13 +50,13 @@ cat integration_tests.txt | grep -v -e "^;" | while read controller cf mf; do
       "$resultspath/$resultsfile" &> /dev/null
     testresult=$?
 
-    if [[ $? -ne 0 ]]
+    if [[ $testresult -ne 0 ]]
     then
       echo "$errorstring $controller failed integration test ($cf, $mf)"
       break
     fi
   done
-  if [[ $? -eq 0 ]]
+  if [[ $testresult -eq 0 ]]
   then
     echo "$controller passed integration test ($cf, $mf)"
   fi
