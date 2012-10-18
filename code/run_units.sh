@@ -52,7 +52,7 @@ cat unit_tests.txt | grep -v -e "^;" | while read controller cf mf; do
 
     if [[ $testresult -ne 0 ]]
     then
-      echo "$errorstring $controller failed integration test ($cf, $mf)"
+      echo "$errorstring $controller failed unit test ($cf, $mf)"
       break
     fi
   done
