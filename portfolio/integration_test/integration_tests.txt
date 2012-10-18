@@ -19,5 +19,6 @@ SD5B sd5b.cf sd5b_test1.mf
 SD6A sd6a.cf sd6a_test1.mf
 SD7A sd7a.cf sd7a_test1.mf
 SD7B sd7b.cf sd7b_test1.mf
+SD7C sd7c.cf sd7c_test1.mf
 SD8a sd8a.cf sd8a_test1.mf
 SD9a sd9a.cf sd9a_test1.mf

@@ -39,7 +39,7 @@
 +20ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 
 ;#arc '8A/1c' Door finishes closing
-+30ms A F DoorMotor FRONT LEFT : command == STOP 
++100ms A F DoorMotor FRONT LEFT : command == STOP 
 +30ms A F DoorMotor FRONT RIGHT : command == STOP 
 
 ; Because dispatcher updates desired direction after doors close
@@ -49,7 +49,10 @@
 +400ms A F CarLantern UP : lighted == false
 +0ms A F CarLantern DOWN : lighted == false
 
++30ms I 0s N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true 
++30ms I 0s N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = true 
+
 ;#arc '8A/3' Car enters drive speed SLOW in direction of desired floor
-+30ms A F Drive : direction == UP
++50ms A F Drive : direction == UP
 +0ms A F Drive : speed == SLOW
 
