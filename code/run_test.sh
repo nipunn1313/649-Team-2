@@ -20,7 +20,7 @@ mf="$3"
 
 # Run the test
 failures=`java -cp "$codepath" simulator.framework.Elevator \
-  -cf "$cf" -mf "$mf" | grep -e "^Failed"`
+  -cf "$cf" -mf "$mf" -head head.txt | grep -e "^Failed"`
 
 # Find the last generated stats file, and either rename or remove it
 # TODO This is wrong, it needs to iterate through numbers until it finds the
