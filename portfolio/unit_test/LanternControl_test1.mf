@@ -8,7 +8,7 @@
 
 #INCLUDE defines.mf
 
-;#transition 'LT2.1'
+; Preconditions
 0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
 0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 UP FRONT
@@ -30,10 +30,11 @@
 +200ms A F CarLantern UP : lighted == true
 +0ms A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == true
 
-;#transition 'LT2.2'
-+1s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 STOP FRONT
+;#transition 'LT2'
++1s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 
 ;#state '1 STATE_LIGHT_OFF'
 +600ms A S LanternControl[UP] : STATE == STATE_LIGHT_OFF
-+100ms A F CarLantern UP : lighted == false
++200ms A F CarLantern UP : lighted == false
 +0ms A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
