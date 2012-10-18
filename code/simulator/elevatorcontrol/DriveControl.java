@@ -246,7 +246,7 @@ public class DriveControl extends Controller {
                     (mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) &&
                     getSafe() && !getObese()) {
                     newState = State.STATE_NOT_AT_DESIRED_FLOOR;
-                // #transition DRT6
+                // #transition DRT5
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
                            (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() ||
                             !(mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed())) &&
@@ -278,13 +278,7 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT4
-                if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
-                    getSafe() && !getObese()) {
-                    newState = State.STATE_NOT_AT_DESIRED_FLOOR;
-                // #transition DRT5
-                } else if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
-                           ((mAtFloor.getCurrentFloor() != MessageDictionary.NONE) &&
-                           (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor())) ||
+                if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
                            !getSafe()) {
                     newState = State.STATE_STOPPED;
                 }
