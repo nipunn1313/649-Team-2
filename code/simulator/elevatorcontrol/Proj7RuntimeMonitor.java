@@ -26,17 +26,23 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
 
     DoorStateMachine doorState = new DoorStateMachine();
     WeightStateMachine weightState = new WeightStateMachine();
+    Stopwatch timer = new Stopwatch();
     boolean hasMoved = false;
     boolean wasOverweight = false;
     int overWeightCount = 0;
+    int wastedOpenings = 0;
+    boolean wasted = true;
+    SimTime reversalTime = SimTime.ZERO;
 
     public Proj7RuntimeMonitor() {
     }
 
     @Override
     protected String[] summarize() {
-        String[] arr = new String[0];
+        String[] arr = new String[3];
         arr[0] = "Overweight Count = " + overWeightCount;
+        arr[1] = "Wasted Openings = " + wastedOpenings;
+        arr[2] = "Reversal Time = " + reversalTime.toString();
         return arr;
     }
 
@@ -71,6 +77,7 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      * @param hallway which door the event pertains to
      */
     private void doorReopening(Hallway hallway) {
+        timer.start();
         //System.out.println(hallway.toString() + " Door Reopening");
     }
 
@@ -86,6 +93,16 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
                 message("Overweight");
                 overWeightCount++;
                 wasOverweight = false;
+            }
+            if (wasted) {
+                message("No weight change");
+                wastedOpenings++;
+                wasted = true;
+            }
+            if (timer.isRunning()) {
+                timer.stop();
+                message("Reversal time increased");
+                reversalTime = SimTime.add(reversalTime,timer.getAccumulatedTime());
             }
         }
     }
@@ -106,7 +123,9 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         if (newWeight > Elevator.MaxCarCapacity) {
             wasOverweight = true;
         }
+        wasted = false;
     }
+    
 
     /**************************************************************************
      * low level message receiving methods
