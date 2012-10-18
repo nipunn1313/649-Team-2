@@ -7,149 +7,161 @@
 ;; @file DriveControl_test1.mf 
 
 #INCLUDE defines.mf
-#DEFINE MESSAGE_PERIOD 10ms
+#DEFINE MESSAGE_PERIOD 0ms
 
 ; Initialize
 0s I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = True
 0s I MESSAGE_PERIOD F DriveSpeed = STOP 0
+0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
+0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
 
 ;#state '1 STATE_STOPPED'
-21ms A F Drive : speed == STOP
-21ms A F Drive : direction == STOP
-21ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-21ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 0
-21ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == STOP
++100ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 0
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == STOP
 
 ;#transition 'DRT1'
-31ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
-31ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
-31ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
-31ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
-31ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
-31ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
-31ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
-; set DriveSpeed to a standard value
-31ms I MESSAGE_PERIOD F DriveSpeed = UP 2
++0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
++0ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 2
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
 
-;#state '3 STATE_NOT_AT_DESIRED_FLOOR'
-71ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
-71ms A F Drive : speed == SLOW
-71ms A F Drive : direction == UP
-71ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
-71ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200
-71ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+;#state '2 STATE_NOT_AT_DESIRED_FLOOR'
++100ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
++0ms A F Drive : speed == SLOW
++0ms A F Drive : direction == UP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == SLOW
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
 ;#transition 'DRT3'
-71ms I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
-81ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
-81ms I MESSAGE_PERIOD F DriveSpeed = UP 1
++0ms I MESSAGE_PERIOD N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
++0ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 1
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = False
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = False
 
-;#state '2 STATE_LEVELING_AT_DESIRED_FLOOR'
-111ms A S DriveControl : STATE == STATE_LEVELING_AT_DESIRED_FLOOR
-111ms A F Drive : speed == LEVEL
-111ms A F Drive : direction == UP
-111ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
-111ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
-111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
-111ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+;#state '3 STATE_LEVELING'
++100ms A S DriveControl : STATE == STATE_LEVELING
++0ms A F Drive : speed == LEVEL
++0ms A F Drive : direction == UP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
-;#transition 'DRT4a' mLevel[*] = True
-121ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
-121ms I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
+;#transition 'DR4a' mLevel[*] = True
++10ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
 
 ;#state '1 STATE_STOPPED'
-161ms A S DriveControl : STATE == STATE_STOPPED
-161ms A F Drive : speed == STOP
-161ms A F Drive : direction == STOP
-161ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-161ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-161ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
-161ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
++100ms A S DriveControl : STATE == STATE_STOPPED
++0ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
+
+;#transition 'DRT5a' mLevel[*] is false and mDesiredFloor.f == CurrentFloor
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = False
+
+;#state '3 STATE_LEVELING'
++100ms A S DriveControl : STATE == STATE_LEVELING
++0ms A F Drive : speed == LEVEL
++0ms A F Drive : direction == UP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+
+;#transition 'DRT4b' not safe
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = True
+
+;#state '1 STATE_STOPPED'
++100ms A S DriveControl : STATE == STATE_STOPPED
++0ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
+
+;#transition 'DRT5b' mLevel[*] is false and a door is opened
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = False
+
+;#state '3 STATE_LEVELING'
++100ms A S DriveControl : STATE == STATE_LEVELING
++0ms A F Drive : speed == LEVEL
++0ms A F Drive : direction == UP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == LEVEL
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == UP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
+
+;#transition 'DRT4'
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = True
+
+;#state '1 STATE_STOPPED'
++100ms A S DriveControl : STATE == STATE_STOPPED
++0ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
 
 ;#transition 'DRT1'
-161ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
-161ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
-161ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
-161ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
-161ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
-161ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
-161ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
-161ms I MESSAGE_PERIOD F DriveSpeed = UP 2
++0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
++0ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 2
 
-;#state '3 STATE_NOT_AT_DESIRED_FLOOR'
-171ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
+;#state '2 STATE_NOT_AT_DESIRED_FLOOR'
++100ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
 
 ;#transition 'DRT2a' Set EmergencyBrake to on
-171ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = True
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = True
 
 ;#state '1 STATE_STOPPED'
-201ms A S DriveControl : STATE == STATE_STOPPED
-201ms A F Drive : speed == STOP
-201ms A F Drive : direction == STOP
-201ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
-201ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
-201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200  
-201ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
++100ms A S DriveControl : STATE == STATE_STOPPED
++0ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getSpeed == STOP
++0ms A N DRIVE_COMMAND_CAN_ID DriveCommand : getDirection == STOP
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 200  
++0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection  == UP
 
 ;#transition 'DRT1'
-201ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
-201ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
-201ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
-201ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
-201ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
-201ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
-201ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
++0ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
++0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
++0ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
++0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
 
-;#state '3 STATE_NOT_AT_DESIRED_FLOOR'
-211ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
+;#state '2 STATE_NOT_AT_DESIRED_FLOOR'
++100ms A S DriveControl : STATE == STATE_NOT_AT_DESIRED_FLOOR
 
 ;#transition 'DRT2b' Set weight to beyond max car capacity
-211ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
++0ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
 
 ;#state '1 STATE_STOPPED'
-221ms A S DriveControl : STATE == STATE_STOPPED
-
-;; Test DRT4(b) and (c)
-
-;#transition 'DRT1'
-221ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
-221ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
-221ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
-221ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
-221ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
-221ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
-221ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
-
-;#transition 'DRT3'
-231ms I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = False
-241ms I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = True
-;#state '2 STATE_LEVELING_AT_DESIRED_FLOOR'
-251ms A S DriveControl : STATE == STATE_LEVELING_AT_DESIRED_FLOOR
-;#transition 'DRT4b' -> Emergency Brake
-251ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = True
-
-;#state '1 STATE_STOPPED'
-261ms A S DriveControl : STATE == STATE_STOPPED
-
-;#transition 'DRT1'
-271ms I MESSAGE_PERIOD N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 FRONT UP
-271ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID Boolean = False
-271ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 5
-271ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
-271ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = True
-271ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True
-271ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = True
-
-;#transition 'DRT3'
-281ms I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = False
-291ms I MESSAGE_PERIOD N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = True
-;#state '2 STATE_LEVELING_AT_DESIRED_FLOOR'
-301ms A S DriveControl : STATE == STATE_LEVELING_AT_DESIRED_FLOOR
-
-;#transition 'DRT4c' -> overweight
-301ms I MESSAGE_PERIOD N CAR_WEIGHT_CAN_ID CarWeight = 14001
-
-;#state '1 STATE_STOPPED'
-311ms A S DriveControl : STATE == STATE_STOPPED
++100ms A S DriveControl : STATE == STATE_STOPPED
