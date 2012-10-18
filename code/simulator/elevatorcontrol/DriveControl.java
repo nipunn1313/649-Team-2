@@ -112,13 +112,19 @@ public class DriveControl extends Controller {
     private final SimTime period;
     
     /**
+     * State variables
+     */
+    private Direction currentDirection;
+    
+    /**
      *  States
      */
     // DriveControl has 3 possible states
     private enum State {
         STATE_STOPPED,
-        STATE_LEVELING_AT_DESIRED_FLOOR,
-        STATE_NOT_AT_DESIRED_FLOOR
+        STATE_AT_UNDESIRED_FLOOR,
+        STATE_BETWEEN_FLOORS,
+        STATE_LEVELING_AT_DESIRED_FLOOR
     }
     
     // Set the state to the initial value (stopped)
@@ -217,7 +223,6 @@ public class DriveControl extends Controller {
      */
     @Override
     public void timerExpired(Object callbackData) {
-        int currentFloor;
         State newState = state;
         
         log ("State=", state, " DesiredFloor=", mDesiredFloor.getFloor(),
@@ -228,49 +233,73 @@ public class DriveControl extends Controller {
         switch(state) {
             case STATE_STOPPED:               
                 // State actions for STATE_STOPPED
-                drive.set(Speed.STOP, Direction.STOP);
-                mDrive.set(Speed.STOP, Direction.STOP);
+                currentDirection = Direction.STOP;
+                drive.set(Speed.STOP, currentDirection);
+                mDrive.set(Speed.STOP, currentDirection);
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
-                currentFloor = mAtFloor.getCurrentFloor();
                 // #transition DRT1
-                if (mDesiredFloor.getFloor() != currentFloor &&
-                        mDoorClosedFront.getBothClosed() && 
-                        mDoorClosedBack.getBothClosed() &&
-                        !mEmergencyBrake.getValue() && 
-                        mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    newState = State.STATE_NOT_AT_DESIRED_FLOOR;
+                if (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
+                    (mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) &&
+                    getSafe()) {
+                    newState = State.STATE_AT_UNDESIRED_FLOOR;
+                // #transition DRT9
+                } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
+                           getSafe()) {
+                    newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
+                }
+                break;
+            case STATE_AT_UNDESIRED_FLOOR:
+                // State actions for STATE_AT_UNDESIRED_FLOOR
+                currentDirection = getDesiredFloorDirection();
+                drive.set(Speed.SLOW, currentDirection);
+                mDrive.set(Speed.SLOW, currentDirection);
+                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
+                
+                // #transition DRT2
+                if (!getSafe()) {
+                    newState = State.STATE_STOPPED;
+                // #transition DRT3
+                } else if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
+                           getSafe()) {
+                    newState = State.STATE_BETWEEN_FLOORS;
+                }
+                break;
+            case STATE_BETWEEN_FLOORS:
+                // State actions for STATE_BETWEEN_FLOORS
+                drive.set(Speed.SLOW, currentDirection);
+                mDrive.set(Speed.SLOW, currentDirection);
+                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
+                
+                // #transition DRT4
+                if (mAtFloor.getCurrentFloor() != MessageDictionary.NONE &&
+                    mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
+                    getSafe()) {
+                    newState = State.STATE_AT_UNDESIRED_FLOOR;
+                // #transition DRT5
+                } else if (!getSafe()) {
+                    newState = State.STATE_STOPPED;
+                // #transition DRT6
+                } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
+                           getSafe()) {
+                    newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
             case STATE_LEVELING_AT_DESIRED_FLOOR:
-                // State actions for Leveling
-                drive.set(Speed.LEVEL, mDesiredFloor.getDirection());
-                mDrive.set(Speed.LEVEL, mDesiredFloor.getDirection());
+                // State actions for STATE_LEVELING_AT_DESIRED_FLOOR
+                currentDirection = getLevelingDirection();
+                drive.set(Speed.LEVEL, currentDirection);
+                mDrive.set(Speed.LEVEL, currentDirection);
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
-                // #transition DRT4
-                if (mLevelUp.getValue() && mLevelDown.getValue() ||
-                        mEmergencyBrake.getValue() ||
-                        mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
+                
+                // #transition DRT7
+                if (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
+                    getSafe()) {
+                    newState = State.STATE_BETWEEN_FLOORS;
+                // #transition DRT8
+                } else if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
+                           !getSafe()) {
                     newState = State.STATE_STOPPED;
-                }
-                break;
-            case STATE_NOT_AT_DESIRED_FLOOR:
-                log("DC: State3 (Not at desiredFloor)");
-                // State actions for not at desired floor
-                drive.set(Speed.SLOW, mDesiredFloor.getDirection());
-                mDrive.set(Speed.SLOW, mDesiredFloor.getDirection());
-                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
-                currentFloor = mAtFloor.getCurrentFloor();
-                // #transition DRT2
-                if (mEmergencyBrake.getValue() ||
-                        mCarWeight.getWeight() >= Elevator.MaxCarCapacity) {
-                    newState = State.STATE_STOPPED;
-                }
-                // #transition DRT3
-                else if (mDesiredFloor.getFloor() == currentFloor &&
-                        !mEmergencyBrake.getValue() &&
-                        mCarWeight.getWeight() < Elevator.MaxCarCapacity) {
-                    newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
             default:
@@ -287,8 +316,41 @@ public class DriveControl extends Controller {
         state = newState;
         // Move to the new state
         setState(STATE_KEY, newState.toString());
+        setState("CURRENTDIRECTION", currentDirection.toString());
         
         // Restart the timer
         timer.start(period);
+    }
+    
+    private Direction getDesiredFloorDirection() {
+        int currentFloor = mAtFloor.getCurrentFloor();
+        int desiredFloor = mDesiredFloor.getFloor();
+        
+        if ((currentFloor < 0) || (currentFloor > Elevator.numFloors) ||
+            (desiredFloor < 0) || (desiredFloor > Elevator.numFloors)) {
+            return Direction.STOP;
+        }
+        
+        if (currentFloor < desiredFloor) {
+            return Direction.UP;
+        } else if (currentFloor > desiredFloor) {
+            return Direction.DOWN;
+        } else {
+            return Direction.STOP;
+        }
+    }
+    
+    private Direction getLevelingDirection() {
+        if (mLevelUp.getValue() == false) {
+            return Direction.UP;
+        } else if (mLevelDown.getValue() == false) {
+            return Direction.DOWN;
+        } else {
+            return Direction.STOP;
+        }
+    }
+    
+    private boolean getSafe() {
+        return (mEmergencyBrake.getValue() == false && mCarWeight.getWeight() < Elevator.MaxCarCapacity);
     }
 }
