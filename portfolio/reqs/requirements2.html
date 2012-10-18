@@ -1456,17 +1456,40 @@ with a floor. </li>
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>CurrentDirection = {Up, Down, Stop} computed desired direction
-based on comparing current floor position with Floor desired by
-Dispatcher.&nbsp; This is implicitly computed and used as a macro in
-the behavior descriptions. </li>
-  <li>CurrentFloor, is a shorthand notation for the value of whichever
-mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is invalid it has
-a mnemonic value of None. </li>
-  <li>CommitPoint[f](v); v = {Reached, NotReached} calculated based on
-car's acceleration profile, current speed, and distance from the floor
-f, to determine whether or not the car can still stop at the next
-floor. </li>
+  <li>
+    CurrentDirection = {Up, Down, Stop}. It is a state variable which holds
+    the direction that the Drive should be set to.
+  </li>
+  <li>
+    LevelingDirection = {Up, Down, Stop}. It is a macro that represents the
+    direction that should be taken while leveling. If exactly one Level[d] is
+    false, it is set to d. Otherwise, it is set to Stop.
+  </li>
+  <li>
+    DesiredFloorDirection = {Up, Down, Stop}. It is a macro that represents the
+    direction that should be taken while moving, but not leveling. It evaluates
+    to the relative direction of mDesiredFloor.f from CurrentFloor. If
+    mDesiredFloor.f is not within the range [1,MaxFloor] inclusive,
+    DesiredFloorDirection shall evaluate to CurrentDirection.
+  </li>
+  <li>
+    CurrentFloor, is a shorthand notation for the value of whichever
+    mAtFloor[f, b] is True, if any. If CurrentFloor is invalid it has a
+    mnemonic value of None.
+  </li>
+  <li>
+    CommitPoint[f](v); v = {Reached, NotReached} calculated based on
+    car's acceleration profile, current speed, and distance from the floor
+    f, to determine whether or not the car can still stop at the next
+    floor.
+  </li>
+  <li>
+    Safe is a macro that evaluates to true if mEmergencyBrake is off.
+  </li>
+  <li>
+    Obese is a macro that evaluates to true if mCarWeight is greater than
+    MaxCarCapacity.
+  </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 <ul>
@@ -1685,65 +1708,73 @@ floor. </li>
 </ul>
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <!--
-<ul>
-  <li>
-    6.6&nbsp; If mDesiredFloor is received as V, then DesiredFloor
-    shall be set to V.
-  </li>
-  <li>
-    6.7&nbsp; If mDesiredFloor is received as V, then DesiredDirection
-    shall be set to V.d.<br />
-  </li>
-  <li>
-    6.8&nbsp; If mAtFloor[f,b] is True and f is DesiredFloor then Drive
-    shall be set to Level speed in direction d.<br />
-  </li>
-  <li>
-    6.9&nbsp; If DriveSpeed is Level speed and
-    mLevel[Top] is True, then Level[Top] shall be set to True.<br />
-  </li>
-  <li>
-    6.10&nbsp; If DriveSpeed is Level speed and
-    mLevel[Bottom] is True, then Level[Bottom] shall be set to True.<br />
-  </li>
-  <li>  
-    6.11&nbsp; If mLevel[Top] is True, and
-    Level[Bottom] is True, then Drive shall be set to Stop, Stop. <br />
-  </li>
-  <li>
-    6.12&nbsp; If mLevel[Bottom] is True, and
-    Level[Top] is True, then Drive shall be set to Stop, Stop. <br />
-  </li>
-  <li>
-    6.13&nbsp; If DriveSpeed is Stop and mDoorClosed is True, then Drive
-    shall be set to Slow, DesiredDirection.<br />
-  </li>
-</ul>
+  If CurrentFloor != NONE
+    If CurrentFloor != mDesiredFloor.f
+      Direction = mDesiredFloor.f - CurrentFloor
+    Else
+      If one mLevel[d] == true #6.8
+        Direction = ~d
+      Else If both mLevel[*] == true #6.9
+        Direction = STOP
+      Else
+        RuntimeException
+  #implied
+  Else
+    Direction = Direction
 -->
 <ul>
   <li>
-    6.6&nbsp; If mEmergencyBrake equals On or mCarWeight is greater than or
-    equal to MaxCarCapacity, then Drive shall be set to (Stop, Stop). (This
-    requirement takes precedence over every following requirement).
+    6.6&nbsp; If Safe equals False, then Drive shall be set to (Stop, Stop).
+    (This requirement takes precedence over every following requirement).
   </li>
   <li>
     6.7&nbsp; If DriveSpeed equals (s,d), mDriveSpeed shall be set to (s,d).
   </li>
   <li>
-    6.8&nbsp; If mDesiredFloor.f equals CurrentFloor, and any mLevel[d] is
-    False, then Drive shall be set to (Level, CurrentDirection).
+    6.8&nbsp; If exactly one mLevel[d] is False, and either mDesiredFloor.f
+    equals CurrentFloor or any mDoorClosed[b,r] are False, then
+  </li>
+  <ul>
+    <li>
+      6.8.1&nbsp; Drive.s shall be set to Level.
+    </li>
+    <li>
+      6.8.2&nbsp; CurrentDirection shall be set to LevelingDirection.
+    </li>
+  </ul>
+  <li>
+    6.9&nbsp; If all mLevel[d] are True, and either mDesiredFloor.f equals
+    CurrentFloor or any mDoorClosed[b,r] are False, then
+  </li>
+  <ul>
+    <li>
+      6.9.1&nbsp; Drive.s shall be set to Stop.
+    </li>
+    <li>
+      6.9.2&nbsp; CurrentDirection shall be set to Stop.
+    </li>
+  </ul>
+  <li>
+    6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, mDesiredFloor.f
+    is in the range [1,MaxFloor] inclusive, and all mDoorClosed[b,r] are True,
+    then
+  </li>
+  <ul>
+    <li>
+      6.10.1&nbsp; Drive.s shall be set to Slow.
+    </li>
+    <li>
+      6.10.2&nbsp; CurrentDirection shall be set to DesiredFloorDirection.
+    </li>
+  </ul>
+  <li>
+    6.11&nbsp; If CurrentFloor equals None, then Drive.s shall be set to Slow.
   </li>
   <li>
-    6.9&nbsp; If mDesiredFloor.f equals CurrentFloor, and all mLevel[d] are
-    True, then Drive shall be set to (Stop, Stop).
+    6.12&nbsp; mDrive shall always be set to Drive.
   </li>
   <li>
-    6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, and all
-    mDoorClosed[b,r] are True, then Drive shall be set to (Slow,
-    CurrentDirection).
-  </li>
-  <li>
-    6.11&nbsp; mDrive shall always be set to Drive.
+    6.13&nbsp; Drive.d shall always be set to CurrentDirection.
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
@@ -1762,16 +1793,16 @@ floor. </li>
       <td style="vertical-align: top;">DRT1</td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
+        ((mDesiredFloor.f &gt;= 1) &amp;&amp;
+        (mDesiredFloor.f &lt;= MaxFloor)) &amp;&amp;<br/>
         (mDoorClosed[*,*] == True) &amp;&amp;<br/>
-        (mEmergencyBrake == Off) &amp;&amp;<br/>
-        (mCarWeight &lt; MaxCarCapacity)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT2</td>
       <td style="vertical-align: top;">
-        (mEmergencyBrake == On) ||<br/>
-        (mCarWeight &ge; MaxCarCapacity)
+        (Safe == False) || (Obese == True)
       </td>
     </tr>
     <tr>
@@ -1779,17 +1810,33 @@ floor. </li>
       </td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
-        (mEmergencyBrake == Off) &amp;&amp;<br/>
-        (mCarWeight &lt; MaxCarCapacity)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT4
       </td>
       <td style="vertical-align: top;">
+        (CurrentFloor == None) &amp;&amp;<br/>
+        (Safe == True) &amp;&amp; (Obese == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT5
+      </td>
+      <td style="vertical-align: top;">
         (mLevel[*] == True) ||<br/>
-        (mEmergencyBrake == On) ||<br/>
-        (mCarWeight &ge; MaxCarCapacity)
+        ((CurrentFloor != None) &amp;&amp; (mDesiredFloor.f != CurrentFloor)) ||<br/>
+        (Safe == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT6
+      </td>
+      <td style="vertical-align: top;">
+        !(mLevel[*] == True) &amp;&amp;<br/>
+        ((mDesiredFloor.f == CurrentFloor) || !(mDoorClosed[*,*] == True)) &amp;&amp;<br/>
+        (Safe == True)
       </td>
     </tr>
   </tbody>
@@ -1802,7 +1849,7 @@ completed by Jacob Olson (jholson)<br>
       <td
         style="vertical-align: top;"><br>
       </td>
-      <td colspan="5" rowspan="1"
+      <td colspan="10" rowspan="1"
         style="vertical-align: top;">Requirements<br>
       </td>
     </tr>
@@ -1812,90 +1859,221 @@ completed by Jacob Olson (jholson)<br>
       </td>
       <td style="vertical-align: top;">6.6</td>
       <td style="vertical-align: top;">6.7</td>
-      <td style="vertical-align: top;">6.8</td>
-      <td style="vertical-align: top;">6.9</td>
-      <td style="vertical-align: top;">6.10</td>
+      <td style="vertical-align: top;">6.8.1</td>
+      <td style="vertical-align: top;">6.8.2</td>
+      <td style="vertical-align: top;">6.9.1</td>
+      <td style="vertical-align: top;">6.9.2</td>
+      <td style="vertical-align: top;">6.10.1</td>
+      <td style="vertical-align: top;">6.10.2</td>
       <td style="vertical-align: top;">6.11</td>
+      <td style="vertical-align: top;">6.12</td>
+      <td style="vertical-align: top;">6.13</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
         State 1:&nbsp; Stopped
       </td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 2:&nbsp; Leveling At Desired Floor
+        State 2:&nbsp; At Undesired Floor
       </td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 3:&nbsp; Not At Desired Floor
+        State 3:&nbsp; Between Floors
       </td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 4:&nbsp; Leveling At Desired Floor
+      </td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
         <span style="font-weight: bold;">Transitions</span>
       </td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 1</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 2</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 3</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 4</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">X</td>
-      <td style="vertical-align: top;">&nbsp;</td>
-      <td style="vertical-align: top;">&nbsp;</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 5</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 6</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 7</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 8</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 9</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
   </tbody>
 </table>
