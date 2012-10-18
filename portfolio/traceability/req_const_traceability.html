@@ -286,7 +286,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        6.8 At desired floor and not level --&gt; set Drive to Level<br />
+        6.8.1 At desired floor and not level --&gt; set Drive.s to Level<br />
       </td>
       <td style="vertical-align: top;">
         ~<br />
@@ -306,7 +306,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        6.9 At desired floor and level --&gt; stop Drive<br />
+        6.8.2 At desired floor and not level --&gt; set CurrentDirection to LevelingDirection<br />
       </td>
       <td style="vertical-align: top;">
         ~<br />
@@ -326,7 +326,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        6.10 At desired floor and doors closed --&gt; set Drive to Slow<br />
+        6.9.1 At desired floor and level --&gt; set Drive.s to Stop<br />
       </td>
       <td style="vertical-align: top;">
         ~<br />
@@ -346,7 +346,107 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        6.11 mDrive shall always be set to Drive<br />
+        6.9.2 At desired floor and level --&gt; set CurrentDirection to Stop<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.10.1 Not at desired floor and doors closed --&gt; set Drive.s to Slow<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.10.2 Not at desired floor and doors closed --&gt; set CurrentDirection to DesiredFloorDirection<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.11 Not at any floor --&gt; set Drive.s to Slow<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.12 mDrive shall always be set to Drive<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.13 Drive.d shall always be set to CurrentDirection<br />
       </td>
       <td style="vertical-align: top;">
         ~<br />
