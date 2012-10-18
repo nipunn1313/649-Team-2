@@ -249,7 +249,6 @@ public class DriveControl extends Controller {
                     newState = State.STATE_AT_UNDESIRED_FLOOR;
                 // #transition DRT9
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
-                           //(mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) &&
                            getSafe()) {
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
@@ -282,7 +281,7 @@ public class DriveControl extends Controller {
                     getSafe() && !getObese()) {
                     newState = State.STATE_AT_UNDESIRED_FLOOR;
                 // #transition DRT5
-                } else if (!getSafe()) {
+                } else if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
                 // #transition DRT6
                 } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
