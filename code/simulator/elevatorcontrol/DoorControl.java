@@ -229,16 +229,10 @@ public class DoorControl extends Controller {
                     newState = State.STATE_DOORS_CLOSED;
                 }
                 //#transition 'DoT 5'
-                else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
-                        mAtFloors.isAtFloor(currentFloor, hallway)) {
-                    newState = State.STATE_DOORS_OPENING;
-                }
-                //#transition 'DoT 5'
-                else if (mDoorReversalFront.getAnyReversal()) {
-                    newState = State.STATE_DOORS_OPENING;
-                }
-                //#transition 'DoT 5'
-                else if (mDoorReversalBack.getAnyReversal()) {
+                else if (((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
+                           mAtFloors.isAtFloor(currentFloor, hallway)) ||
+                           mDoorReversalFront.getAnyReversal() ||
+                           mDoorReversalBack.getAnyReversal()) {
                     newState = State.STATE_DOORS_OPENING;
                 } else {
                     newState = state;
