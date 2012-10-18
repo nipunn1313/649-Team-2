@@ -1468,8 +1468,9 @@ with a floor. </li>
   <li>
     DesiredFloorDirection = {Up, Down, Stop}. It is a macro that represents the
     direction that should be taken while moving, but not leveling. It evaluates
-    to the relative direction of mDesiredFloor.f from CurrentFloor. If either
-    mDesiredFloor.f or CurrentFloor is invalid, it evaluates to Stop.
+    to the relative direction of mDesiredFloor.f from CurrentFloor. If
+    mDesiredFloor.f is not within the range [1,MaxFloor] inclusive,
+    DesiredFloorDirection shall evaluate to CurrentDirection.
   </li>
   <li>
     CurrentFloor, is a shorthand notation for the value of whichever
@@ -1483,8 +1484,11 @@ with a floor. </li>
     floor.
   </li>
   <li>
-    Safe is a macro that evaluates to true if mEmergencyBrake is off and
-    mCarWeight is less than MaxCarCapacity
+    Safe is a macro that evaluates to true if mEmergencyBrake is off.
+  </li>
+  <li>
+    Obese is a macro that evaluates to true if mCarWeight is greater than
+    MaxCarCapacity.
   </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
@@ -1751,8 +1755,9 @@ with a floor. </li>
     </li>
   </ul>
   <li>
-    6.10&nbsp; If CurrentFloor does not equal None, and mDesiredFloor.f does
-    not equal CurrentFloor, and all mDoorClosed[b,r] are True, then
+    6.10&nbsp; If CurrentFloor does not equal None, mDesiredFloor.f does
+    not equal CurrentFloor, mDesiredFloor.f is in the range [1,MaxFloor]
+    inclusive, and all mDoorClosed[b,r] are True, then
   </li>
   <ul>
     <li>
@@ -1788,14 +1793,16 @@ with a floor. </li>
       <td style="vertical-align: top;">DRT1</td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
+        ((mDesiredFloor.f &gt;= 1) &amp;&amp;
+        (mDesiredFloor.f &lt;= MaxFloor)) &amp;&amp;<br/>
         (mDoorClosed[*,*] == True) &amp;&amp;<br/>
-        (Safe == True)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT2</td>
       <td style="vertical-align: top;">
-        Safe == False
+        (Safe == False) || (Obese == True)
       </td>
     </tr>
     <tr>
@@ -1803,7 +1810,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (CurrentFloor == None) &amp;&amp;<br/>
-        (Safe == True)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
@@ -1812,14 +1819,14 @@ with a floor. </li>
       <td style="vertical-align: top;">
         (CurrentFloor != None) &amp;&amp;<br/>
         (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
-        (Safe == True)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT5
       </td>
       <td style="vertical-align: top;">
-        (Safe == False)
+        (Safe == False) || (Obese == True)
       </td>
     </tr>
     <tr>
@@ -1827,15 +1834,15 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
-        (Safe == True)
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT7
       </td>
       <td style="vertical-align: top;">
-        (mDesiredFloor.f != CurrentFloor) &amp;&amp;<br/>
-        (Safe == True)
+        (CurrentFloor == None) &amp;&amp;<br/>
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
@@ -1843,6 +1850,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (mLevel[*] == True) ||<br/>
+        ((CurrentFloor != None) &amp;&amp; (mDesiredFloor.f != CurrentFloor)) ||<br/>
         (Safe == False)
       </td>
     </tr>
@@ -1851,6 +1859,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         !(mLevel[*] == True) &amp;&amp;<br/>
+        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
         (Safe == True)
       </td>
     </tr>

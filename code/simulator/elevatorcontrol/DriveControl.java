@@ -229,7 +229,9 @@ public class DriveControl extends Controller {
                 " CurrentFloor=", mAtFloor.getCurrentFloor(),
                 " Doors Closed=(", mDoorClosedFront.getBothClosed(), ",", 
                 mDoorClosedBack.getBothClosed(), ") CarWeight=", mCarWeight.getWeight(), 
-                " EmergencyBrake=" , mEmergencyBrake.getValue());
+                " EmergencyBrake=" , mEmergencyBrake.getValue(),
+                " LevelUp=", mLevelUp.getValue(),
+                " LevelDown=", mLevelDown.getValue());
         switch(state) {
             case STATE_STOPPED:               
                 // State actions for STATE_STOPPED
@@ -240,11 +242,14 @@ public class DriveControl extends Controller {
                 
                 // #transition DRT1
                 if (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
+                    (mDesiredFloor.getFloor() >= 1) &&
+                    (mDesiredFloor.getFloor() <= Elevator.numFloors) &&
                     (mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) &&
-                    getSafe()) {
+                    getSafe() && !getObese()) {
                     newState = State.STATE_AT_UNDESIRED_FLOOR;
                 // #transition DRT9
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
+                           //(mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor()) &&
                            getSafe()) {
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
@@ -257,11 +262,11 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT2
-                if (!getSafe()) {
+                if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
                 // #transition DRT3
                 } else if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
-                           getSafe()) {
+                           getSafe() && !getObese()) {
                     newState = State.STATE_BETWEEN_FLOORS;
                 }
                 break;
@@ -274,14 +279,14 @@ public class DriveControl extends Controller {
                 // #transition DRT4
                 if (mAtFloor.getCurrentFloor() != MessageDictionary.NONE &&
                     mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
-                    getSafe()) {
+                    getSafe() && !getObese()) {
                     newState = State.STATE_AT_UNDESIRED_FLOOR;
                 // #transition DRT5
                 } else if (!getSafe()) {
                     newState = State.STATE_STOPPED;
                 // #transition DRT6
                 } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
-                           getSafe()) {
+                           getSafe() && !getObese()) {
                     newState = State.STATE_LEVELING_AT_DESIRED_FLOOR;
                 }
                 break;
@@ -293,11 +298,13 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT7
-                if (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
-                    getSafe()) {
+                if (mAtFloor.getCurrentFloor() == MessageDictionary.NONE &&
+                    getSafe() && !getObese()) {
                     newState = State.STATE_BETWEEN_FLOORS;
                 // #transition DRT8
                 } else if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
+                           ((mAtFloor.getCurrentFloor() != MessageDictionary.NONE) &&
+                           (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor())) ||
                            !getSafe()) {
                     newState = State.STATE_STOPPED;
                 }
@@ -326,9 +333,8 @@ public class DriveControl extends Controller {
         int currentFloor = mAtFloor.getCurrentFloor();
         int desiredFloor = mDesiredFloor.getFloor();
         
-        if ((currentFloor < 0) || (currentFloor > Elevator.numFloors) ||
-            (desiredFloor < 0) || (desiredFloor > Elevator.numFloors)) {
-            return Direction.STOP;
+        if (currentFloor == MessageDictionary.NONE) {
+            return currentDirection;
         }
         
         if (currentFloor < desiredFloor) {
@@ -351,6 +357,10 @@ public class DriveControl extends Controller {
     }
     
     private boolean getSafe() {
-        return (mEmergencyBrake.getValue() == false && mCarWeight.getWeight() < Elevator.MaxCarCapacity);
+        return mEmergencyBrake.getValue() == false;
+    }
+    
+    private boolean getObese() {
+        return mCarWeight.getWeight() > Elevator.MaxCarCapacity;
     }
 }
