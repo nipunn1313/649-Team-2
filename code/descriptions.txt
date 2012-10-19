@@ -23,4 +23,5 @@ DoorMotorCanPayloadTranslator.java    Translator  CAN Payload translator for mDo
 DriveSpeedCanPayloadTranslator.java   Translator  CAN Payload translator for mDriveSpeed
 HallCallCanPayloadTranslator.java     Translator  CAN Payload translator for mHallCall
 HallLightCanPayloadTranslator.java    Translator  CAN Payload translator for mHallLight
+Proj7RuntimeMonitor.java              Utility     Monitors overweight occurrences, wasted door openings, and door reversal times
 Utility.java                          Utility     Used to handle multiple of the same modules
