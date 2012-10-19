@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd5b.cf -mf sd5b_test1.mf -head head.txt
-RandomSeed = 1349987359130
+RandomSeed = 1350607596834
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
