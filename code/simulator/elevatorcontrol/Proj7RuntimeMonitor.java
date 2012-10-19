@@ -26,13 +26,12 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
 
     DoorStateMachine doorState = new DoorStateMachine();
     WeightStateMachine weightState = new WeightStateMachine();
-    Stopwatch timer = new Stopwatch();
+    Stopwatch reversalTimer = new Stopwatch();
     boolean hasMoved = false;
     boolean wasOverweight = false;
     int overWeightCount = 0;
     int wastedOpenings = 0;
-    boolean wasted = true;
-    SimTime reversalTime = SimTime.ZERO;
+    boolean isWastedOpening = true;
 
     public Proj7RuntimeMonitor() {
     }
@@ -42,7 +41,7 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         String[] arr = new String[3];
         arr[0] = "Overweight Count = " + overWeightCount;
         arr[1] = "Wasted Openings = " + wastedOpenings;
-        arr[2] = "Reversal Time = " + reversalTime.toString();
+        arr[2] = "Reversal Time = " + reversalTimer.getAccumulatedTime().toString();
         return arr;
     }
 
@@ -77,7 +76,7 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
      * @param hallway which door the event pertains to
      */
     private void doorReopening(Hallway hallway) {
-        timer.start();
+        reversalTimer.start();
         //System.out.println(hallway.toString() + " Door Reopening");
     }
 
@@ -94,16 +93,15 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
                 overWeightCount++;
                 wasOverweight = false;
             }
-            if (wasted) {
+            if (isWastedOpening) {
                 message("No weight change");
                 wastedOpenings++;
-                wasted = true;
             }
-            if (timer.isRunning()) {
-                timer.stop();
+            if (reversalTimer.isRunning()) {
+                reversalTimer.stop();
                 message("Reversal time increased");
-                reversalTime = SimTime.add(reversalTime,timer.getAccumulatedTime());
             }
+            isWastedOpening = true;
         }
     }
 
@@ -123,7 +121,8 @@ public class Proj7RuntimeMonitor extends RuntimeMonitor {
         if (newWeight > Elevator.MaxCarCapacity) {
             wasOverweight = true;
         }
-        wasted = false;
+        message("Weight changed");
+        isWastedOpening = false;
     }
     
 
