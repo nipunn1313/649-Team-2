@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf DoorControl.cf -mf DoorControl_test1.mf -head head.txt
-RandomSeed = 1349399672598
+RandomSeed = 1350607238063
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -17,35 +17,35 @@ Controller File = DoorControl.cf
 
 Assertion Results:
 @0.011s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_CLOSED PASSED
-@0.011s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4bb1aa65 :: command ?== STOP PASSED
+@0.011s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6d8dfef8 :: command ?== STOP PASSED
 @0.061s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
-@0.061s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6f7a29a1 :: command ?== OPEN PASSED
-@0.061s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@aaf8358 :: getDoorCommand ?== OPEN PASSED
+@0.061s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5abb7465 :: command ?== OPEN PASSED
+@0.061s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b34bed0 :: getDoorCommand ?== OPEN PASSED
 @0.111s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENED PASSED
-@0.111s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@67006d75 :: command ?== STOP PASSED
-@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6d8dfef8 :: getDoorCommand ?== STOP PASSED
-@0.211s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
-@0.211s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5abb7465 :: command ?== NUDGE PASSED
-@0.211s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b34bed0 :: getDoorCommand ?== NUDGE PASSED
-@0.311s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_CLOSED PASSED
-@0.311s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5f1121f6 :: command ?== STOP PASSED
-@0.311s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@30f7f540 :: getDoorCommand ?== STOP PASSED
-@0.412s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
-@0.412s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@10b61fd1 :: command ?== OPEN PASSED
-@0.412s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@299209ea :: getDoorCommand ?== OPEN PASSED
-@0.462s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENED PASSED
-@0.462s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5122cdb6 :: command ?== STOP PASSED
-@0.462s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@252f0999 :: getDoorCommand ?== STOP PASSED
-@0.562s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
-@0.562s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@77c99159 :: command ?== NUDGE PASSED
-@0.562s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@fd7ad1c :: getDoorCommand ?== NUDGE PASSED
-@0.762s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
-@0.762s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@798fd984 :: command ?== OPEN PASSED
-@0.762s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@2c091cee :: getDoorCommand ?== OPEN PASSED
-@0.912s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
-@1.012s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
-@1.012s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1b52513a :: command ?== OPEN PASSED
-@1.012s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@68f99ff5 :: getDoorCommand ?== OPEN PASSED
+@0.111s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5f1121f6 :: command ?== STOP PASSED
+@0.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@30f7f540 :: getDoorCommand ?== STOP PASSED
+@5.111s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
+@5.111s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@a4a63d8 :: command ?== NUDGE PASSED
+@5.111s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@29173ef :: getDoorCommand ?== NUDGE PASSED
+@5.211s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_CLOSED PASSED
+@5.211s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@68f99ff5 :: command ?== STOP PASSED
+@5.211s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@75d9fd51 :: getDoorCommand ?== STOP PASSED
+@5.312s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
+@5.312s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@29edc073 :: command ?== OPEN PASSED
+@5.312s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@6c121f1d :: getDoorCommand ?== OPEN PASSED
+@5.362s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENED PASSED
+@5.362s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@37a786c3 :: command ?== STOP PASSED
+@5.362s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@37922221 :: getDoorCommand ?== STOP PASSED
+@10.362s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
+@10.362s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2c64f6cd :: command ?== NUDGE PASSED
+@10.362s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@502bb514 :: getDoorCommand ?== NUDGE PASSED
+@10.562s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
+@10.562s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@95c083 :: command ?== OPEN PASSED
+@10.562s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@182d9c06 :: getDoorCommand ?== OPEN PASSED
+@15.712s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_NUDGE PASSED
+@15.812s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPENING PASSED
+@15.812s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2d20cc56 :: command ?== OPEN PASSED
+@15.812s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1fff7a1e :: getDoorCommand ?== OPEN PASSED
 
 
 ******************Summary******************
