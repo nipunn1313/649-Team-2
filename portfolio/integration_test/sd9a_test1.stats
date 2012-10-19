@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd9a.cf -mf sd9a_test1.mf -head head.txt
-RandomSeed = 1349998273573
+RandomSeed = 1350607601528
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,13 +16,13 @@ Message File = sd9a_test1.mf
 Controller File = sd9a.cf
 
 Assertion Results:
-@0.11s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@43b09468 :: command ?== OPEN PASSED
-@0.11s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@52b2a2d8 :: command ?== OPEN PASSED
-@0.73s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1f292d26 :: lighted ?== true PASSED
-@0.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4bdb699b :: command ?== STOP PASSED
+@0.11s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7ddf5a8f :: command ?== OPEN PASSED
+@0.11s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4de13d52 :: command ?== OPEN PASSED
+@0.73s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@4bdb699b :: lighted ?== true PASSED
 @0.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2107ebe1 :: command ?== STOP PASSED
-@5.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@2fdb7df8 :: command ?== NUDGE PASSED
-@5.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1bc74f37 :: command ?== NUDGE PASSED
+@0.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@26544ec1 :: command ?== STOP PASSED
+@5.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@65faba46 :: command ?== NUDGE PASSED
+@5.81s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@732b3d53 :: command ?== NUDGE PASSED
 @6.02s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@4a79717e :: command ?== STOP PASSED
 @6.02s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@692a3722 :: command ?== STOP PASSED
 @6.62s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@690da5eb :: lighted ?== false PASSED
