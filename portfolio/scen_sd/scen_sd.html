@@ -254,7 +254,7 @@ and has already pressed the hall call button. </h3>
 passenger is waiting. </li>
   <li>HallCall[<b>f</b>,<b>b</b>,<b>d</b>] for passenger's desired direction
     <b>d</b> has already been pressed </li>
-  <li>The elevator is going in direction <b>d</b>. </li>
+  <li>The elevator is going in direction <b>d</b> at <b>Slow</b> speed. </li>
   <li>Passenger is outside the car. </li>
   <li>All DoorClosed[b,r] are True. </li>
 </ul>
@@ -333,15 +333,15 @@ passenger's desired hallway. </h3>
 <ul type="disc">
   <li>Passenger is inside the car, traveling to desired floor <b>f</b>
 and hallway <b>b</b>. </li>
-  <li>Car is traveling in direction <b>d</b>. </li>
+  <li>Car is traveling in direction <b>d</b> at <b>Slow</b> speed. </li>
   <li>All doors are closed. </li>
 </ul>
 <h3> Scenario: </h3>
 <ol start="1" type="1">
-		<li>Elevator approaches floor <b>f</b>. <br />
-		&nbsp; &nbsp;The order that the level sensors are triggered do not matter. </li>
+		<li>Elevator approaches floor <b>f</b>.</li>
 		<li>Carlight[<b>d</b>] turns off.</li>
-		<li>Elevator stops to levelling speed. </li>
+		<li>Elevator stops to levelling speed.  <br />	
+    &nbsp; &nbsp;The order that the level sensors are triggered do not matter.</li>
 		<li>Elevator stops at floor <b>f</b>, hallway <b>b</b>. </li>
 </ol>
 <h3> Post-Conditions: </h3>
