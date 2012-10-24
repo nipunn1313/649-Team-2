@@ -1,0 +1,36 @@
+; 18649-Fall-2012
+; group #2
+; Nipunn Koorapati (nkoorapa)
+; Jacob Olson (jholson)
+; Nick Mazurek (nmazurek)
+; Benet Clark (brclark)
+; proj8group2acceptance1.pass
+
+;Project 8 acceptance test 1
+;Time	Start Floor	Start Hallway	End Floor	End Hallway
+
+; Testing Wean peak -- everyone wants to go to the 5th floor
+
+60s 1 FRONT 5 FRONT
+62.5s 8 FRONT 5 FRONT
+64s 7 BACK 5 FRONT
+80s 2 BACK 7 FRONT
+; THIS GUY WENT TO THE WRONG FLOOR FOR THE MEETING/CLASS
+90s 7 FRONT 5 FRONT
+200s 1 BACK 4 FRONT
+205s 1 BACK 5 FRONT
+205.5s 2 BACK 5 FRONT
+206s 1 FRONT 5 FRONT
+300s 5 FRONT 4 FRONT
+325.3s 6 FRONT 5 FRONT
+327s 8 FRONT 5 FRONT
+330s 4 FRONT 5 FRONT
+340s 1 FRONT 5 FRONT
+350s 2 BACK 5 FRONT
+352s 1 BACK 5 FRONT
+400s 3 FRONT 5 FRONT
+500s 6 FRONT 5 FRONT
+501s 5 FRONT 5 FRONT
+;THIS GUY'S LATE
+800s 2 BACK 5 FRONT
+
