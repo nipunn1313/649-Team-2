@@ -421,6 +421,26 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
+        6.9.3 (At desired floor or doors open) and level --&gt; set ApproachingFloor to False<br />
+      </td>
+      <td style="vertical-align: top;">
+        X<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
         6.10.1 Not at desired floor and doors closed --&gt; set Drive.s to Slow<br />
       </td>
       <td style="vertical-align: top;">
@@ -482,7 +502,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        6.12 Not at any floor and CommitPoint is reached--&gt; set 
+        6.12.1 Not at any floor and CommitPoint is reached--&gt; set 
         Drive.s to Slow<br />
       </td>
       <td style="vertical-align: top;">
@@ -493,6 +513,28 @@ Requirements/Constraints</b></u></td>
       </td>
       <td style="vertical-align: top;">
         X<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">      
+        ~<br />
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td style="vertical-align: top;">
+        6.12.2 Not at any floor and CommitPoint is reached--&gt; set 
+        ApproachingFloor to True<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
+      </td>
+      <td style="vertical-align: top;">
+        ~<br />
       </td>
       <td style="vertical-align: top;">
         ~<br />
@@ -682,8 +724,22 @@ direction<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">10.4 mAtFloor true --&gt;
-      set CarPositionIndicator </td>
+      <td style="vertical-align: top;">10.4 mDriveSpeed.d == UP --&gt;
+      set CarPositionIndicator to min CommitPoint.f &gt; CurrentFloor </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">10.5 mDriveSpeed.d == DOWN --&gt;
+      set CarPositionIndicator to max CommitPoint.f &lt; CurrentFloor </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">~<br>
@@ -765,7 +821,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.6.1 Doors not closed --&gt; Target=NextFloor
+        11.6.1 Doors not closed --&gt; Target.f=NextFloor.f
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -843,6 +899,21 @@ Requirements/Constraints</b></u></td>
         11.9 set mDesiredDwell
       </td>
       <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.10 Doors closed --&gt; set Target.d to NextFloor.d
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>

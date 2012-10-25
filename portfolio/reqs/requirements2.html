@@ -1196,7 +1196,7 @@ simulation by scheduling a future task execution at time of expiration)
     </ul>
   </li>
   <li>
-    5.9&nbsp; When CountDown &lt;= 0, DoorMotor[b,r] shall be commanded
+    5.9&nbsp; When CountDown &lt;= 0 and HasReversed is false, DoorMotor[b,r] shall be commanded
     to Close.<br>
   </li>
   <li>
@@ -1502,6 +1502,11 @@ with a floor. </li>
     Obese is a macro that evaluates to true if mCarWeight is greater than
     MaxCarCapacity.
   </li>
+  <li>
+    ApproachingFloor = {True, False}. Detects whether or not deceleration is
+    occurring at the car is approaching a floor to prevent unexpected
+    accelerations.
+  </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 <ul>
@@ -1765,6 +1770,9 @@ with a floor. </li>
     <li>
       6.9.2&nbsp; CurrentDirection shall be set to Stop.
     </li>
+    <li>
+      6.9.3&nbsp; ApproachingFloor shall be set to false
+    </li>
   </ul>
   <li>
     6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, mDesiredFloor.f
@@ -1780,12 +1788,14 @@ with a floor. </li>
     </li>
   </ul>
   <li>
-    6.11&nbsp; If CurrentFloor equals None, CommitPoint is NotReached, and
-    DriveSpeed.s is Slow, then Drive.s shall be set to Fast.
+    6.11&nbsp; If ApproachingFloor is False, and DriveSpeed.s is Slow, then Drive.s shall be set to Fast.
   </li>
   <li>
     6.12&nbsp; If CurrentFloor equals None, and CommitPoint is Reached, then
-    Drive.s shall be set to Slow.
+    <ul>
+      <li>Drive.s shall be set to Slow.</li>
+      <li>ApproachingFloor shall be set to True</li>
+    </ul>
   </li>
   <li>
     6.13&nbsp; mDrive shall always be set to Drive.
@@ -2053,8 +2063,8 @@ pair of bulbs as a single actuator.</li>
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <li>
-    7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True, then CarLantern[d]
-    shall be set to Off.
+    7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True or DesiredDirection is
+    STOP, then CarLantern[d] shall be set to Off.
   </li>
   <li>
     7.3&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
@@ -2660,8 +2670,12 @@ None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <li>
-    10.4&nbsp; Whenever any mAtFloor[f, b] is True,
-    CarPositionIndicator shall be commanded to display CurrentFloor.
+    10.4&nbsp;If mDriveSpeed.d is Up, then CarPositionIndicator shall be set to
+    the smallest f such that CommitPoint[f] is NotReached.
+  </li>
+  <li>
+    10.5&nbsp;If mDriveSpeed.d is Down, then CarPositionIndicator shall be set to
+    the largest f such that CommitPoint[f] is NotReached.
   </li>
 </ul>
 <h3> State Chart: </h3>
@@ -2713,6 +2727,8 @@ below Lobby (1). </li>
   <li>mHallCall[f, b, d]&nbsp;&nbsp; </li>
   <li>mCarCall[f, b]&nbsp;&nbsp;&nbsp; </li>
   <li>mCarWeight </li>
+  <li>mDriveSpeed</li>
+  <li>mCarLevelPosition</li>
 </ul>
 <h3> Output Interface: </h3>
 <ul>
@@ -2735,9 +2751,18 @@ below Lobby (1). </li>
     mnemonic value of None.
   </li>
   <li>
-    NextFloor is a macro that takes an integer value. It evaluates to 1 if
-    CurrentFloor == None, otherwise it computes the next floor based on the
-    current direction, HallCalls, and CarCalls.
+    NextFloor is a macro that takes an integer value. It computes the nearest
+    floor in the direction that the car is moving such that the CommitPoint is
+    NotReached and there is either a HallCall or a CarCall for that floor. If
+    there is no such floor in that direction, then the same computations are
+    made for the opposite direction. If neither are true then it evaluates to
+    CurrentFloor.  If CurrentFloor is none, it evaluates to 1.
+  </li>
+  <li>
+    CommitPoint[f](v); v = {Reached, NotReached} calculated based on
+    car's acceleration profile, current speed, and distance from the floor
+    f, to determine whether or not the car can still stop at the next
+    floor.
   </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
@@ -2768,8 +2793,8 @@ below Lobby (1). </li>
   </li>
   <ul>
     <li>
-      11.6.1&nbsp; Target
-      shall be set equal to NextFloor<br>
+      11.6.1&nbsp; Target.f
+      shall be set equal to NextFloor.f<br>
     </li>
     <li>
       11.6.2&nbsp; mDesiredFloor.b shall
@@ -2797,6 +2822,10 @@ below Lobby (1). </li>
   <li>
     11.9&nbsp; mDesiredDwell shall always be set to a constant
     appropriate value for door open dwell.
+  </li>
+  <li>
+    11.10&nbsp; Whenever all mDoorClosed[b,r] are True, then Target.d shall be
+    set to NextFloor.d
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
