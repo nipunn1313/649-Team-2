@@ -1132,6 +1132,8 @@ during current cycle. </li>
   <li>CountDown: a count-down timer for Door Dwell[b] (implemented in
 simulation by scheduling a future task execution at time of expiration)
   </li>
+  <li>HasReversed: A state variable that is set when a door reversal occurs. 
+  </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
 <ul>
@@ -1187,12 +1189,15 @@ simulation by scheduling a future task execution at time of expiration)
     </li>
   </ul>
   <li>
-    5.8&nbsp; If mDoorClosed[b, r] is True, then DoorMotor[b,r] should be
-    commanded to Stop.<br>
+    5.8&nbsp; If mDoorClosed[b, r] is True, then 
+    <ul>
+      <li>5.8.1&nbsp; DoorMotor[b,r] should be commanded to Stop.</li>
+      <li>5.8.2&nbsp; HasReversed shall be set to false.</li>
+    </ul>
   </li>
   <li>
     5.9&nbsp; When CountDown &lt;= 0, DoorMotor[b,r] shall be commanded
-    to close.<br>
+    to Close.<br>
   </li>
   <li>
     5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
@@ -1206,11 +1211,14 @@ simulation by scheduling a future task execution at time of expiration)
     5.12&nbsp; mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
   </li>
   <li>
-    5.13&nbsp; If mDoorReversal[b,r] is True, then all DoorMotor[b,r] shall
-    be commanded to Open.
+    5.13&nbsp; If mDoorReversal[b,r] is True
+    <ul>
+      <li>5.13.1&nbsp;All DoorMotor[b,r] shall be commanded to open.</li>
+      <li>5.13.2&nbsp;HasReversed shall be set to true.</li>
+    </ul>
   </li>
   <li>
-    5.13&nbsp; If mDoorReversal[b,r] is True and CountDown &lt;=0, then
+    5.14&nbsp; If HasReversed is True and CountDown &lt;=0, then
     DoorMotor[b,r] shall be commanded to Nudge
   </li>
 </ul>
