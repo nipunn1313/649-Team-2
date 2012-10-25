@@ -1213,13 +1213,13 @@ simulation by scheduling a future task execution at time of expiration)
   <li>
     5.13&nbsp; If mDoorReversal[b,r] is True
     <ul>
-      <li>5.13.1&nbsp;All DoorMotor[b,r] shall be commanded to open.</li>
+      <li>5.13.1&nbsp;DoorMotor[b,*] shall be commanded to open.</li>
       <li>5.13.2&nbsp;HasReversed shall be set to true.</li>
     </ul>
   </li>
   <li>
     5.14&nbsp; If HasReversed is True and CountDown &lt;=0, then
-    DoorMotor[b,r] shall be commanded to Nudge
+    DoorMotor[b,*] shall be commanded to Nudge
   </li>
 </ul>
 <h3>State Chart</h3>
