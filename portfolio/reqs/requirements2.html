@@ -1791,7 +1791,7 @@ with a floor. </li>
     6.11&nbsp; If ApproachingFloor is False, and DriveSpeed.s is Slow, then Drive.s shall be set to Fast.
   </li>
   <li>
-    6.12&nbsp; If CurrentFloor equals None, and CommitPoint is Reached, then
+    6.12&nbsp; If CommitPoint[mDesiredFloor.f] is Reached, then
     <ul>
       <li>6.12.1&nbsp;Drive.s shall be set to Slow.</li>
       <li>6.12.2&nbsp;ApproachingFloor shall be set to True</li>
@@ -2064,7 +2064,7 @@ pair of bulbs as a single actuator.</li>
 <ul>
   <li>
     7.2&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is True or DesiredDirection is
-    STOP, then CarLantern[d] shall be set to Off.
+    Stop, then CarLantern[d] shall be set to Off.
   </li>
   <li>
     7.3&nbsp; If mDoorClosed[<b>b</b>,<b>r</b>] is False and mDesiredFloor.d 
