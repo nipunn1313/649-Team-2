@@ -1192,7 +1192,7 @@ simulation by scheduling a future task execution at time of expiration)
     5.8&nbsp; If mDoorClosed[b, r] is True, then 
     <ul>
       <li>5.8.1&nbsp; DoorMotor[b,r] should be commanded to Stop.</li>
-      <li>5.8.2&nbsp; HasReversed shall be set to false.</li>
+      <li>5.8.2&nbsp; HasReversed shall be set to False.</li>
     </ul>
   </li>
   <li>
@@ -1213,8 +1213,8 @@ simulation by scheduling a future task execution at time of expiration)
   <li>
     5.13&nbsp; If mDoorReversal[b,r] is True
     <ul>
-      <li>5.13.1&nbsp;DoorMotor[b,*] shall be commanded to open.</li>
-      <li>5.13.2&nbsp;HasReversed shall be set to true.</li>
+      <li>5.13.1&nbsp;DoorMotor[b,*] shall be commanded to Open.</li>
+      <li>5.13.2&nbsp;HasReversed shall be set to True.</li>
       <li>5.13.3&nbsp; CountDown shall be set to Dwell.</li>
     </ul>
   </li>
@@ -1296,7 +1296,8 @@ cellspacing="2">
     <tr>
       <td>DoT 9</td>
       <td>
-        mCarWeight(g) &gt;= MaxCarCapacity
+        mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp;
+        mAtFloor[f,<b>b</b>]==True
       </td>
     </tr>
   </tbody>
