@@ -2640,13 +2640,23 @@ None
 </ul>
 <h3> State: </h3>
 <ul>
-  <li>CurrentFloor, is a shorthand notation for the value f of
-    whichever mAtFloor[f, b] is True, if any.&nbsp; If CurrentFloor is
-    invalid it has a mnemonic value of None.</li>
-  <li>CommitPoint[f](v); v = {Reached, NotReached} calculated based on
-    car's acceleration profile, current speed, and distance from the floor
-    f, to determine whether or not the car can still stop at the next
-    floor.
+  <li>
+    CommitPoint[f](v); v = {Reached, NotReached} calculated based on car's
+    acceleration profile, current speed, and distance from the floor f, to
+    determine whether or not the car can still stop at the next floor.
+  </li>
+  <li>
+    NextReachableFloor is a macro that evaluates to the closest floor that the
+    elevator can still stop at, in the direction that the elevator is
+    traveling. If mDriveSpeed.d is Up, it evaluates to min(smallest f such that
+    CommitPoint[f] is NotReached, mDesiredFloor.f). If mDriveSpeed.d is Down,
+    it evaluates to the max(largest f such that CommitPoint[f] is NotReached,
+    mDesiredFloor.f). If mDriveSpeed.d is Stop, it evaluates to
+    CurrentDisplayedFloor.
+  </li>
+  <li>
+    CurrentlyDisplayedFloor is a state variable that holds whatever floor
+    should be displayed on the CarPositionIndicator. It is initialized to 1.
   </li>
 </ul>
 <h3> CONSTRAINTS: </h3>
@@ -2670,12 +2680,10 @@ None
 <h3> TIME-TRIGGERED BEHAVIORS: </h3>
 <ul>
   <li>
-    10.4&nbsp;If mDriveSpeed.d is Up, then CarPositionIndicator shall be set to
-    the smallest f such that CommitPoint[f] is NotReached.
+    10.4&nbsp; CarPositionIndicator shall be set to CurrentlyDisplayedFloor.
   </li>
   <li>
-    10.5&nbsp;If mDriveSpeed.d is Down, then CarPositionIndicator shall be set to
-    the largest f such that CommitPoint[f] is NotReached.
+    10.5&nbsp; CurrentlyDisplayedFloor shall be set to NextReachableFloor.
   </li>
 </ul>
 <h3> State Chart: </h3>
@@ -2691,15 +2699,17 @@ None
   <tbody>
     <tr>
       <td><br /></td>
-      <td colspan="1">Requirements</td>
+      <td colspan="3">Requirements</td>
     </tr>
     <tr>
       <td><b>State</b></td>
       <td>10.4</td>
+      <td>10.5</td>
     </tr>
     <tr>
       <td>State 1: Display</td>
-      <td>X<br /></td>
+      <td>X<br/></td>
+      <td>X<br/></td>
     </tr>
   </tbody>
 </table>
