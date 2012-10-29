@@ -312,6 +312,7 @@ public class DoorControl extends Controller {
 
         //report the current state
         setState(STATE_KEY,newState.toString());
+        setState("DWELL", dwell.toString());
 
         //schedule the next iteration of the controller
         //you must do this at the end of the timer callback in order to restart
