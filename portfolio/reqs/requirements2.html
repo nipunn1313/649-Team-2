@@ -1741,14 +1741,14 @@ with a floor. </li>
 -->
 <ul>
   <li>
-    6.6&nbsp; If Safe equals False, then Drive shall be set to (Stop, Stop).
+    6.6&nbsp; If either Safe equals False or Obese equals True, then Drive shall be set to (Stop, Stop).
     (This requirement takes precedence over every following requirement).
   </li>
   <li>
     6.7&nbsp; If DriveSpeed equals (s,d), mDriveSpeed shall be set to (s,d).
   </li>
   <li>
-    6.8&nbsp; If exactly one mLevel[d] is False, and either mDesiredFloor.f
+    6.8&nbsp; If exactly one mLevel[d] is False, and DriveSpeed.s &lt;= Slow, and either mDesiredFloor.f
     equals CurrentFloor or any mDoorClosed[b,r] are False, then
   </li>
   <ul>
@@ -1776,7 +1776,7 @@ with a floor. </li>
   </ul>
   <li>
     6.10&nbsp; If mDesiredFloor.f does not equal CurrentFloor, mDesiredFloor.f
-    is in the range [1,MaxFloor] inclusive, and all mDoorClosed[b,r] are True,
+    is in the range [1,MaxFloor] inclusive, DriveSpeed.s &lt;= Slow, and all mDoorClosed[b,r] are True,
     then
   </li>
   <ul>
@@ -1836,7 +1836,7 @@ with a floor. </li>
       <td style="vertical-align: top;">DRT3
       </td>
       <td style="vertical-align: top;">
-        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (CommitPoint[mDesiredFloor.f] == NotReached) &amp;&amp;<br/>
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
@@ -1844,12 +1844,50 @@ with a floor. </li>
       <td style="vertical-align: top;">DRT4
       </td>
       <td style="vertical-align: top;">
-        (mLevel[*] == True) ||<br/>
-        (Safe == False)
+        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT5
+      </td>
+      <td style="vertical-align: top;">
+        (Safe == False) || (Obese == True) 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT6
+      </td>
+      <td style="vertical-align: top;">
+         (CommitPoint[mDesiredFloor.f] == Reached) &amp;&amp;<br />
+         (Safe == True) &amp;&amp; (Obese == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT7
+      </td>
+      <td style="vertical-align: top;">
+        (Safe == False) || (Obese == True) 
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT8
+      </td>
+      <td style="vertical-align: top;">
+        (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (Safe == True) &amp;&amp; (Obese == False)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT9
+      </td>
+      <td style="vertical-align: top;">
+        (mLevel[*] == True) || <br />
+        (Safe == False) || (Obese == True)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT10
       </td>
       <td style="vertical-align: top;">
         !(mLevel[*] == True) &amp;&amp;<br/>
@@ -1884,8 +1922,10 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">6.10.1</td>
       <td style="vertical-align: top;">6.10.2</td>
       <td style="vertical-align: top;">6.11</td>
-      <td style="vertical-align: top;">6.12</td>
+      <td style="vertical-align: top;">6.12.1</td>
+      <td style="vertical-align: top;">6.12.2</td>
       <td style="vertical-align: top;">6.13</td>
+      <td style="vertical-align: top;">6.14</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -1900,12 +1940,14 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 2:&nbsp; Leveling
+        State 2:&nbsp; Slow
       </td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
@@ -1915,13 +1957,51 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 3:&nbsp; Fast
+      </td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 4:&nbsp; Approaching Floor
+      </td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 3:&nbsp; Not At Desired Floor
+        State 5:&nbsp; Leveling
       </td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
@@ -1932,9 +2012,12 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
     </tr>
+    <tr>
     <tr>
       <td style="vertical-align: top;">
         <span style="font-weight: bold;">Transitions</span>
@@ -1950,6 +2033,8 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 1</td>
@@ -1961,9 +2046,11 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 2</td>
@@ -1971,8 +2058,10 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -1983,11 +2072,13 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">DRT 3</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -1995,12 +2086,14 @@ completed by Jacob Olson (jholson)<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 4</td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -2009,10 +2102,92 @@ completed by Jacob Olson (jholson)<br>
     </tr>
     <tr>
       <td style="vertical-align: top;">DRT 5</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 6</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 7</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 8</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 9</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DRT 10</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
