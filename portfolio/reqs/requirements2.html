@@ -1837,6 +1837,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (CommitPoint[mDesiredFloor.f] == NotReached) &amp;&amp;<br/>
+        (DriveSpeed &gt;= SlowSpeed &amp;&amp;<br />
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
@@ -1845,6 +1846,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (DriveSpeed &lt;= SlowSpeed &amp;&amp;<br />
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
@@ -1875,6 +1877,7 @@ with a floor. </li>
       </td>
       <td style="vertical-align: top;">
         (mDesiredFloor.f == CurrentFloor) &amp;&amp;<br/>
+        (DriveSpeed &lt;= SlowSpeed &amp;&amp;<br />
         (Safe == True) &amp;&amp; (Obese == False)
       </td>
     </tr>
