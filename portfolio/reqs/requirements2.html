@@ -1192,7 +1192,7 @@ simulation by scheduling a future task execution at time of expiration)
     5.8&nbsp; If mDoorClosed[b, r] is True, then 
     <ul>
       <li>5.8.1&nbsp; DoorMotor[b,r] should be commanded to Stop.</li>
-      <li>5.8.2&nbsp; HasReversed shall be set to false.</li>
+      <li>5.8.2&nbsp; HasReversed shall be set to False.</li>
     </ul>
   </li>
   <li>
@@ -1213,8 +1213,9 @@ simulation by scheduling a future task execution at time of expiration)
   <li>
     5.13&nbsp; If mDoorReversal[b,r] is True
     <ul>
-      <li>5.13.1&nbsp;DoorMotor[b,*] shall be commanded to open.</li>
-      <li>5.13.2&nbsp;HasReversed shall be set to true.</li>
+      <li>5.13.1&nbsp;DoorMotor[b,*] shall be commanded to Open.</li>
+      <li>5.13.2&nbsp;HasReversed shall be set to True.</li>
+      <li>5.13.3&nbsp; CountDown shall be set to Dwell.</li>
     </ul>
   </li>
   <li>
@@ -1272,6 +1273,33 @@ cellspacing="2">
         mAtFloor[f,<b>b</b>]==True)
       </td>
     </tr>
+    <tr>
+      <td>DoT 6</td>
+      <td>
+        mDoorOpened[b,r] == True
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 7</td>
+      <td>
+        (CountDown &lt;= 0) &amp;&amp;
+        <br />
+        (mCarWeight(g) &lt; MaxCarCapacity)
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 8</td>
+      <td>
+        mDoorClosed[b,r] == True
+      </td>
+    </tr>
+    <tr>
+      <td>DoT 9</td>
+      <td>
+        mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp;
+        mAtFloor[f,<b>b</b>]==True
+      </td>
+    </tr>
   </tbody>
 </table>
 <h3>Requirements to Statechart Traceability</h3>
@@ -1280,7 +1308,7 @@ cellspacing="2">
   <tbody>
     <tr>
       <td><br /></td>
-      <td colspan="10">Requirements</td>
+      <td colspan="14">Requirements</td>
     </tr>
     <tr>
       <td><b>State</b></td>
@@ -1288,12 +1316,16 @@ cellspacing="2">
       <td>5.6.2</td>
       <td>5.7.1</td>
       <td>5.7.2</td>
-      <td>5.8</td>
+      <td>5.8.1</td>
+      <td>5.8.2</td>
       <td>5.9</td>
       <td>5.10</td>
       <td>5.11</td>
       <td>5.12</td>
-      <td>5.13</td>
+      <td>5.13.1</td>
+      <td>5.13.2</td>
+      <td>5.13.3</td>
+      <td>5.14</td>
     </tr>
     <tr>
       <td>state 1: Doors closed</td>
@@ -1302,14 +1334,18 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
+      <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>    
-      <td>state 2: Doors opening</td>
+      <td>state 2: Doors open</td>
       <td>X</td>
       <td>X</td>
       <td><br /></td>
@@ -1317,8 +1353,12 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>    
@@ -1331,11 +1371,53 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 4: Doors close</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 5: Doors reopen</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
       <td>X</td>
       <td><br /></td>
     </tr>
     <tr>    
-      <td>state 4: Doors nudge</td>
+      <td>state 6: Doors reopened</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1344,11 +1426,32 @@ cellspacing="2">
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>    
+      <td>state 7: Doors nudge</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
     </tr>
     <tr>    
       <td><b>Transitions</b></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1372,6 +1475,10 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
     </tr>
     <tr>    
       <td>DoT 2</td>
@@ -1379,6 +1486,10 @@ cellspacing="2">
       <td><br /></td>
       <td>X</td>
       <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1393,8 +1504,12 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
-      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1406,6 +1521,10 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1420,10 +1539,82 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+    </tr>
+    <tr>
+      <td>DoT 6</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>
+      <td>DoT 7</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+    </tr>
+    <tr>
+      <td>DoT 8</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+    <tr>
+      <td>DoT 9</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
     </tr>
   </tbody>
 </table>

@@ -87,9 +87,12 @@ public class DoorControl extends Controller {
     //enumerate states
     private enum State {
         STATE_DOORS_CLOSED,
-        STATE_DOORS_OPENING,
+        STATE_DOORS_OPEN,
         STATE_DOORS_OPENED,
+        STATE_DOORS_CLOSE,
         STATE_DOORS_NUDGE,
+        STATE_DOORS_REOPEN,
+        STATE_DOORS_REOPENED,
     }
     //state variable initialized to the initial state DOORS_CLOSED
     private State state = State.STATE_DOORS_CLOSED;
@@ -176,13 +179,13 @@ public class DoorControl extends Controller {
                         mAtFloors.isAtFloor(currentFloor, hallway) &&
                         ((mDriveSpeed.getScaledSpeed()==0) || 
                                 mDriveSpeed.getDirection()==Direction.STOP))) {
-                    newState = State.STATE_DOORS_OPENING;
+                    newState = State.STATE_DOORS_OPEN;
                 } else {
                     newState = state;
                 }
                 break;
-            case STATE_DOORS_OPENING:
-                //state actions for 'DOORS_OPENING'
+            case STATE_DOORS_OPEN:
+                //state actions for 'DOORS_OPEN'
                 localDoorMotor.set(DoorCommand.OPEN);
                 mDoorMotor.setDoorCommand(DoorCommand.OPEN);
 
@@ -211,15 +214,15 @@ public class DoorControl extends Controller {
                 //#transition 'DoT 3'
                 if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
                         mCarWeight.getValue() < Elevator.MaxCarCapacity) {
-                    newState = State.STATE_DOORS_NUDGE;
+                    newState = State.STATE_DOORS_CLOSE;
                 } else {
                     newState = state;
                 }
                 break;
-            case STATE_DOORS_NUDGE:
-                //state actions for 'DOORS_OPENING'
-                localDoorMotor.set(DoorCommand.NUDGE);
-                mDoorMotor.setDoorCommand(DoorCommand.NUDGE);
+            case STATE_DOORS_CLOSE:
+                //state actions for 'DOORS_CLOSE'
+                localDoorMotor.set(DoorCommand.CLOSE);
+                mDoorMotor.setDoorCommand(DoorCommand.CLOSE);
 
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
@@ -233,7 +236,62 @@ public class DoorControl extends Controller {
                            mAtFloors.isAtFloor(currentFloor, hallway)) ||
                            mDoorReversalFront.getAnyReversal() ||
                            mDoorReversalBack.getAnyReversal()) {
-                    newState = State.STATE_DOORS_OPENING;
+                    newState = State.STATE_DOORS_REOPEN;
+                } else {
+                    newState = state;
+                }
+                break;
+            case STATE_DOORS_REOPEN:
+                //state actions for 'DOORS_REOPEN'
+                localDoorMotor.set(DoorCommand.OPEN);
+                mDoorMotor.setDoorCommand(DoorCommand.OPEN);
+
+                // Set local state variables
+                countdown = dwell;
+
+                //transitions
+                //#transition 'DoT 6'
+                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
+                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
+                    newState = State.STATE_DOORS_REOPENED;
+                } else {
+                    newState = state;
+                }
+                break;
+            case STATE_DOORS_REOPENED:
+                //state actions for 'DOORS_REOPENED'
+                localDoorMotor.set(DoorCommand.STOP);
+                mDoorMotor.setDoorCommand(DoorCommand.STOP);
+
+                // Set local state variables
+                countdown = SimTime.subtract(countdown, period);
+                log("Countdown=", countdown);
+
+                //transitions
+                //#transition 'DoT 7'
+                if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
+                        mCarWeight.getValue() < Elevator.MaxCarCapacity) {
+                    newState = State.STATE_DOORS_NUDGE;
+                } else {
+                    newState = state;
+                }
+                break;
+            case STATE_DOORS_NUDGE:
+                //state actions for 'DOORS_CLOSE'
+                localDoorMotor.set(DoorCommand.NUDGE);
+                mDoorMotor.setDoorCommand(DoorCommand.NUDGE);
+
+                currentFloor = mAtFloors.getCurrentFloor();
+                //transitions
+                //#transition 'DoT 8'
+                if (mDoorClosedFront.getBothClosed() &&
+                        mDoorClosedBack.getBothClosed()) {
+                    newState = State.STATE_DOORS_CLOSED;
+                }
+                //#transition 'DoT 9'
+                else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
+                           mAtFloors.isAtFloor(currentFloor, hallway)) {
+                    newState = State.STATE_DOORS_REOPEN;
                 } else {
                     newState = state;
                 }
