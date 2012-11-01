@@ -9,6 +9,7 @@ import simulator.elevatormodules.AtFloorCanPayloadTranslator;
 import simulator.elevatormodules.DoorClosedCanPayloadTranslator;
 import simulator.elevatormodules.DoorOpenedCanPayloadTranslator;
 import simulator.elevatormodules.DoorReversalCanPayloadTranslator;
+import simulator.elevatormodules.DriveObject;
 import simulator.payloads.CANNetwork;
 import simulator.framework.Direction;
 import simulator.framework.Elevator;
@@ -187,6 +188,53 @@ public class Utility {
             return Hallway.BACK;
         } else {
             return Hallway.NONE;
+        }
+    }
+    
+    // Half meter slack on the commit point
+    private static final double slack = .5;
+    
+    public static boolean reachedCommitPoint(int f, int carLevelPositionMM, 
+            double driveSpeed, Direction driveDirection) {
+        
+        double floorHeight = (f - 1) * Elevator.DISTANCE_BETWEEN_FLOORS;
+        double carLevelPosition = (double) carLevelPositionMM / 1000;
+        
+        double distanceToFloor = driveDirection == Direction.UP ?
+                floorHeight - carLevelPosition :
+                carLevelPosition - floorHeight;
+        
+        // Apply some physics. t = v / a. and d = .5 * a * t^2
+        double timeToStop = driveSpeed / DriveObject.Acceleration;
+        double stoppingDistance = .5 * DriveObject.Acceleration * timeToStop * timeToStop;
+        
+        // If we're going fast, provide slack. If we're going slow, no slack
+        // DriveControl won't care, since it only uses commit point when going fast
+        // CarPositionControl cares, since commit point -> switching floors
+        return distanceToFloor - stoppingDistance <= (driveSpeed <= 1.0 ? 0.0 : slack);
+    }
+    
+    public static int nextReachableFloor(int currentFloor,
+            int carLevelPositionMM, double driveSpeed, 
+            Direction driveDirection) {
+        
+        switch (driveDirection) {
+            case UP:
+                for (int f = currentFloor; f <= Elevator.numFloors; f++) {
+                    if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection))
+                        return f;
+                }
+                throw new RuntimeException("We're going to launch out the roof!");
+            case DOWN:
+                for (int f = currentFloor; f >= 0; f--) {
+                    if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection))
+                        return f;
+                }
+                throw new RuntimeException("We're going to crash through the basement");
+            case STOP:
+                return currentFloor;
+            default:
+                throw new RuntimeException("driveDirection holds an unknown value??? " + driveDirection);
         }
     }
 }
