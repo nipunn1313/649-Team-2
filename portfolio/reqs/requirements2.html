@@ -3025,9 +3025,6 @@ below Lobby (1). </li>
     </li>
     <li>
       11.7.2&nbsp; TargetHallway shall be set to NextFloor.b<br />
-    <li>
-      11.7.3&nbsp; mDesiredFloor.b shall
-      be set to b, where f, b is whichever mAtFloor[f, b] is True<br>
     </li>
   </ul>
   <li>
@@ -3109,14 +3106,13 @@ below Lobby (1). </li>
 </table>
 <h3>Requirements to Statechart Traceability</h3>
 completed by Jacob Olson (jholson)<br>
-<table style="text-align: left; width: 409px; height: 312px;" border="1">
+<table style="text-align: left; width: 800px;" border="1">
   <tbody>
     <tr style="font-weight: bold;">
       <td
         style="vertical-align: top;"><br>
       </td>
-      <td colspan="8" rowspan="1"
-        style="vertical-align: top;">Requirements<br>
+      <td colspan="10">Requirements<br>
       </td>
     </tr>
     <tr>
@@ -3125,12 +3121,13 @@ completed by Jacob Olson (jholson)<br>
       </td>
       <td style="vertical-align: top;">11.4</td>
       <td style="vertical-align: top;">11.5</td>
-      <td style="vertical-align: top;">11.6.1</td>
-      <td style="vertical-align: top;">11.6.2</td>
+      <td style="vertical-align: top;">11.6</td>
       <td style="vertical-align: top;">11.7.1</td>
       <td style="vertical-align: top;">11.7.2</td>
-      <td style="vertical-align: top;">11.8</td>
+      <td style="vertical-align: top;">11.8.1</td>
+      <td style="vertical-align: top;">11.8.2</td>
       <td style="vertical-align: top;">11.9</td>
+      <td style="vertical-align: top;">11.10</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -3138,12 +3135,13 @@ completed by Jacob Olson (jholson)<br>
       </td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -3153,10 +3151,11 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -3164,17 +3163,19 @@ completed by Jacob Olson (jholson)<br>
       </td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
         <span style="font-weight: bold;">Transitions</span>
       </td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -3190,6 +3191,7 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -3199,15 +3201,17 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">DIST 2</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 3</td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
@@ -3221,26 +3225,29 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">DIST 4</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 5</td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 6</td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
