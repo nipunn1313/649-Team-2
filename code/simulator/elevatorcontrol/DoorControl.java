@@ -22,7 +22,6 @@ import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.framework.Side;
-import simulator.framework.Speed;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
@@ -194,8 +193,8 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 2'
-                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
-                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
+                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getOpened(side)) ||
+                        (hallway==Hallway.BACK && mDoorOpenedBack.getOpened(side))) {
                     newState = State.STATE_DOORS_OPENED;
                 } else {
                     newState = state;
@@ -227,8 +226,8 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
                 //#transition 'DoT 4'
-                if (mDoorClosedFront.getBothClosed() &&
-                        mDoorClosedBack.getBothClosed()) {
+                if ((hallway==Hallway.FRONT && mDoorClosedFront.getClosed(side)) ||
+                        (hallway==Hallway.BACK && mDoorClosedBack.getClosed(side))) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
                 //#transition 'DoT 5'
@@ -251,8 +250,8 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 6'
-                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
-                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
+                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getOpened(side)) ||
+                        (hallway==Hallway.BACK && mDoorOpenedBack.getOpened(side))) {
                     newState = State.STATE_DOORS_REOPENED;
                 } else {
                     newState = state;
@@ -284,8 +283,8 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
                 //#transition 'DoT 8'
-                if (mDoorClosedFront.getBothClosed() &&
-                        mDoorClosedBack.getBothClosed()) {
+                if ((hallway==Hallway.FRONT && mDoorClosedFront.getClosed(side)) ||
+                        (hallway==Hallway.BACK && mDoorClosedBack.getClosed(side))) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
                 //#transition 'DoT 9'

@@ -46,9 +46,12 @@ public class Utility {
             }
         }
 
+        public boolean getClosed(Side s) {
+            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, s)).getValue();
+        }
+        
         public boolean getBothClosed() {
-            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.LEFT)).getValue() &&
-                    translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
+            return getClosed(Side.LEFT)&& getClosed(Side.RIGHT); 
         }
     }
 
@@ -67,10 +70,13 @@ public class Utility {
                 translatorArray.put(index, t);
             }
         }
+        
+        public boolean getOpened(Side s) {
+            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, s)).getValue();
+        }
 
         public boolean getBothOpened() {
-            return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.LEFT)).getValue() &&
-                    translatorArray.get(ReplicationComputer.computeReplicationId(hallway, Side.RIGHT)).getValue();
+            return getOpened(Side.LEFT) && getOpened(Side.RIGHT);
         }
     }
 
