@@ -33,50 +33,58 @@ public class Utility {
     public static class DoorClosedArray {
 
         HashMap<Integer, DoorClosedCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorClosedCanPayloadTranslator>();
-        public final Hallway hallway;
-
-        public DoorClosedArray(Hallway hallway, CANNetwork.CanConnection conn) {
-            this.hallway = hallway;
-            for (Side s : Side.values()) {
-                int index = ReplicationComputer.computeReplicationId(hallway, s);
-                ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + index);
-                DoorClosedCanPayloadTranslator t = new DoorClosedCanPayloadTranslator(m, hallway, s);
-                conn.registerTimeTriggered(m);
-                translatorArray.put(index, t);
+        
+        public DoorClosedArray(CANNetwork.CanConnection conn) {
+            for (Hallway hallway : Hallway.replicationValues) {
+                for (Side s : Side.values()) {
+                    int index = ReplicationComputer.computeReplicationId(hallway, s);
+                    ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_CLOSED_SENSOR_BASE_CAN_ID + index);
+                    DoorClosedCanPayloadTranslator t = new DoorClosedCanPayloadTranslator(m, hallway, s);
+                    conn.registerTimeTriggered(m);
+                    translatorArray.put(index, t);
+                }
             }
         }
 
-        public boolean getClosed(Side s) {
+        public boolean getClosed(Hallway hallway, Side s) {
             return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, s)).getValue();
         }
         
-        public boolean getBothClosed() {
-            return getClosed(Side.LEFT)&& getClosed(Side.RIGHT); 
+        public boolean getBothClosed(Hallway h) {
+            return getClosed(h, Side.LEFT) && getClosed(h, Side.RIGHT); 
+        }
+        
+        public boolean getAllClosed() {
+            return getBothClosed(Hallway.FRONT) && getBothClosed(Hallway.BACK);
         }
     }
 
     public static class DoorOpenedArray {
 
         HashMap<Integer, DoorOpenedCanPayloadTranslator> translatorArray = new HashMap<Integer, DoorOpenedCanPayloadTranslator>();
-        public final Hallway hallway;
 
-        public DoorOpenedArray(Hallway hallway, CANNetwork.CanConnection conn) {
-            this.hallway = hallway;
-            for (Side s : Side.values()) {
-                int index = ReplicationComputer.computeReplicationId(hallway, s);
-                ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + index);
-                DoorOpenedCanPayloadTranslator t = new DoorOpenedCanPayloadTranslator(m, hallway, s);
-                conn.registerTimeTriggered(m);
-                translatorArray.put(index, t);
+        public DoorOpenedArray(CANNetwork.CanConnection conn) {
+            for (Hallway hallway : Hallway.replicationValues) {
+                for (Side s : Side.values()) {
+                    int index = ReplicationComputer.computeReplicationId(hallway, s);
+                    ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.DOOR_OPEN_SENSOR_BASE_CAN_ID + index);
+                    DoorOpenedCanPayloadTranslator t = new DoorOpenedCanPayloadTranslator(m, hallway, s);
+                    conn.registerTimeTriggered(m);
+                    translatorArray.put(index, t);
+                }
             }
         }
         
-        public boolean getOpened(Side s) {
+        public boolean getOpened(Hallway hallway, Side s) {
             return translatorArray.get(ReplicationComputer.computeReplicationId(hallway, s)).getValue();
         }
 
-        public boolean getBothOpened() {
-            return getOpened(Side.LEFT) && getOpened(Side.RIGHT);
+        public boolean getBothOpened(Hallway h) {
+            return getOpened(h, Side.LEFT) && getOpened(h, Side.RIGHT);
+        }
+        
+        public boolean getAllOpened() {
+            return getBothOpened(Hallway.FRONT) && getBothOpened(Hallway.BACK); 
         }
     }
 
