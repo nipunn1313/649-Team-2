@@ -2958,20 +2958,47 @@ below Lobby (1). </li>
     NextFloor is a macro. Outputs: (f,b,d)
     <ul>
       <li>
-        It computes the nearest floor in the direction that 
-        the car is moving such that the CommitPoint is NotReached and there is 
-        either a CarCall or a HallCall in the same direction of travel.
-        Set <b>d</b> field to direction of travel.
+        It computes the nearest floor <b>f</b> (if it exists) in the
+        TargetDirection <b>d'</b> (or <b>Up</b> if <b>d'</b> is <b>Stop</b>)
+        such that:
+        <ul>
+          <li>The CommitPoint[<b>f</b>] is NotReached and</li>
+          <li>
+            Either of the following is true:
+            <ul>
+              <li>A HallCall[<b>f, d'</b>] is True</li>
+              <ul><li>If found, set <b>d</b> field to <b>d'</b></li></ul>
+              <li>A CarCall[<b>f</b>] is True</li>
+              <ul>If found, and 
+                <li>
+                  Another HallCall or CarCall exists past floor <b>f</b>.
+                  Set <b>d</b> field to <b>d'</b>
+                </li>
+                <li>
+                  Another HallCall or CarCall exists in the other direction.
+                  Set <b>d</b> field to <b>~d'</b>
+                </li>
+                <li>
+                  No other HallCall or CarCall exists.
+                  Set <b>d</b> field to <b>Stop</b>
+                </li>
+              </ul>
+            </ul>
+          </li>
+        </ul>
       </li>
       <li>
-        If there is no such floor in the direction, then it computes the furthest
-        floor in the direction of travel such that there is a HallCall (in the
-        opposite direction). 
-        Set <b>d</b> field to opposite direction of travel.
+        If there is no such floor in the direction, then it computes the
+        furthest floor <b>f</b> in the TargetDirection <b>d'</b> such
+        that:
+        <ul>
+          <li>There is a HallCall[<b>f, ~d'</b>]</li>
+        </ul>
+        If found, set <b>d</b> field to <b>~d'</b>
       </li>
       <li>
         If no such floor exists, then the same computations are made for 
-        the opposite direction. 
+        the opposite direction <b>~d'</b>. 
       </li>
       <li>
         If none are true then it evaluates to CurrentFloor.  
@@ -3030,7 +3057,7 @@ below Lobby (1). </li>
   <li>
     11.8&nbsp; If all mAtFloor[f, b] are False AND any mDoorClosed [b, r]
     is False (which means doors are not
-    closed between floors!); then<br>
+    closed between floors!) then<br>
   </li>
   <ul>
     <li>
@@ -3046,8 +3073,17 @@ below Lobby (1). </li>
     appropriate value for door open dwell.
   </li>
   <li>
-    11.10&nbsp; Whenever all mDoorClosed[b,r] are True, then TargetDirection
-    shall be set to NextFloor.d
+    11.10&nbsp; Whenever all mDoorClosed[b,r] are True then
+    <ul>
+      <li>
+        11.10.1&nbsp; TargetFloor shall be set to NextFloor.f
+      </li>
+      <li>
+        11.10.2&nbsp; TargetHallway shall be set to NextFloor.b
+      </li>
+      <li>
+        11.10.3&nbsp; TargetDirection shall be set to NextFloor.d
+      </li>
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
