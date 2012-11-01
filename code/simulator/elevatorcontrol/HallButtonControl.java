@@ -92,7 +92,7 @@ public class HallButtonControl extends Controller {
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.registerTimeTriggered(networkDesiredFloor);
         // Create mDoorClosed interface
-        mDoorClosed = new DoorClosedArray(hallway, canInterface);
+        mDoorClosed = new DoorClosedArray(canInterface);
         // Create mHallLight interface and register it
         networkHallLight = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_LIGHT_BASE_CAN_ID +
                 ReplicationComputer.computeReplicationId(floor, hallway, direction));

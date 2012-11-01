@@ -22,7 +22,6 @@ import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.framework.Side;
-import simulator.framework.Speed;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
@@ -50,9 +49,9 @@ public class DoorControl extends Controller {
     // translator for DriveSpeed message
     private DriveSpeedCanPayloadTranslator mDriveSpeed;
     // DoorClosedArray creates CanPayloadTranslators for DoorClosed
-    private DoorClosedArray mDoorClosedFront, mDoorClosedBack;
+    private DoorClosedArray mDoorClosed;
     // DoorOpenedArray creates CanPayloadTranslators for DoorOpened
-    private DoorOpenedArray mDoorOpenedFront, mDoorOpenedBack;
+    private DoorOpenedArray mDoorOpened;
     // DoorReversayArray creates CanPayloadTranslators for DoorReversal
     private DoorReversalArray mDoorReversalFront, mDoorReversalBack;
     //receive CarWeight from network
@@ -124,12 +123,10 @@ public class DoorControl extends Controller {
         canInterface.registerTimeTriggered(networkDriveSpeedIn);
 
         //Register mDoorCloseds
-        mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
-        mDoorClosedBack = new DoorClosedArray(Hallway.BACK, canInterface);
+        mDoorClosed = new DoorClosedArray(canInterface);
 
         //Register mDoorOpeneds
-        mDoorOpenedFront = new DoorOpenedArray(Hallway.FRONT, canInterface);
-        mDoorOpenedBack = new DoorOpenedArray(Hallway.BACK, canInterface);
+        mDoorOpened = new DoorOpenedArray(canInterface);
         
         //Register mDoorReversals
         mDoorReversalFront = new DoorReversalArray(Hallway.FRONT, canInterface);
@@ -194,8 +191,7 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 2'
-                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
-                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
+                if (mDoorOpened.getOpened(hallway, side)) {
                     newState = State.STATE_DOORS_OPENED;
                 } else {
                     newState = state;
@@ -227,8 +223,7 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
                 //#transition 'DoT 4'
-                if (mDoorClosedFront.getBothClosed() &&
-                        mDoorClosedBack.getBothClosed()) {
+                if (mDoorClosed.getClosed(hallway, side)) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
                 //#transition 'DoT 5'
@@ -251,8 +246,7 @@ public class DoorControl extends Controller {
 
                 //transitions
                 //#transition 'DoT 6'
-                if ((hallway==Hallway.FRONT && mDoorOpenedFront.getBothOpened()) ||
-                        (hallway==Hallway.BACK && mDoorOpenedBack.getBothOpened())) {
+                if (mDoorOpened.getOpened(hallway, side)) {
                     newState = State.STATE_DOORS_REOPENED;
                 } else {
                     newState = state;
@@ -284,8 +278,7 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
                 //#transition 'DoT 8'
-                if (mDoorClosedFront.getBothClosed() &&
-                        mDoorClosedBack.getBothClosed()) {
+                if (mDoorClosed.getClosed(hallway, side)) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
                 //#transition 'DoT 9'
@@ -312,6 +305,7 @@ public class DoorControl extends Controller {
 
         //report the current state
         setState(STATE_KEY,newState.toString());
+        setState("DWELL", dwell.toString());
 
         //schedule the next iteration of the controller
         //you must do this at the end of the timer callback in order to restart

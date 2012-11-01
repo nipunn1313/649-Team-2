@@ -8,8 +8,6 @@
  */
 package simulator.elevatorcontrol;
 
-import javax.management.RuntimeErrorException;
-
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
@@ -20,7 +18,6 @@ import simulator.elevatormodules.LevelingCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.Elevator;
-import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.framework.Speed;
 import simulator.payloads.CanMailbox;
@@ -78,10 +75,7 @@ public class DriveControl extends Controller {
     
     /* mDoorClosed */
     // DoorClosed Message for front
-    private DoorClosedArray mDoorClosedFront;
-    
-    // DoorClosed Message for front
-    private DoorClosedArray mDoorClosedBack; 
+    private DoorClosedArray mDoorClosed;
     
     // mEmergencyBrake
     private ReadableCanMailbox networkEmergencyBrake;
@@ -179,8 +173,7 @@ public class DriveControl extends Controller {
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         
-        mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
-        mDoorClosedBack = new DoorClosedArray(Hallway.BACK, canInterface);
+        mDoorClosed = new DoorClosedArray(canInterface);
         
         networkEmergencyBrake = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.EMERGENCY_BRAKE_CAN_ID);
@@ -226,8 +219,8 @@ public class DriveControl extends Controller {
         
         log ("State=", state, " DesiredFloor=", mDesiredFloor.getFloor(),
                 " CurrentFloor=", mAtFloor.getCurrentFloor(),
-                " Doors Closed=(", mDoorClosedFront.getBothClosed(), ",", 
-                mDoorClosedBack.getBothClosed(), ") CarWeight=", mCarWeight.getWeight(), 
+                " Doors Closed=(", mDoorClosed.getAllClosed(), ")",
+                "CarWeight=", mCarWeight.getWeight(), 
                 " EmergencyBrake=" , mEmergencyBrake.getValue(),
                 " LevelUp=", mLevelUp.getValue(),
                 " LevelDown=", mLevelDown.getValue());
@@ -243,13 +236,13 @@ public class DriveControl extends Controller {
                 if (mDesiredFloor.getFloor() != mAtFloor.getCurrentFloor() &&
                     (mDesiredFloor.getFloor() >= 1) &&
                     (mDesiredFloor.getFloor() <= Elevator.numFloors) &&
-                    (mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed()) &&
+                    mDoorClosed.getAllClosed() &&
                     getSafe() && !getObese()) {
                     newState = State.STATE_NOT_AT_DESIRED_FLOOR;
                 // #transition DRT5
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
                            (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() ||
-                            !(mDoorClosedFront.getBothClosed() && mDoorClosedBack.getBothClosed())) &&
+                            !mDoorClosed.getAllClosed()) &&
                            getSafe()) {
                     newState = State.STATE_LEVELING;
                 }

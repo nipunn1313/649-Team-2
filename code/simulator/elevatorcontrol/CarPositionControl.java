@@ -9,12 +9,11 @@
 
 package simulator.elevatorcontrol;
 
-import java.net.NetworkInterface;
-
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.framework.Controller;
+import simulator.framework.Direction;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CarPositionIndicatorPayload;
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
@@ -59,6 +58,7 @@ public class CarPositionControl extends Controller {
     }
     
     private State state = State.STATE_DISPLAY;
+    private int currentlyDisplayedFloor;
     private final SimTime period;
     
     /**
@@ -99,6 +99,7 @@ public class CarPositionControl extends Controller {
         
         // Initialize the car position to the first floor
         carPositionIndicator.set(1);
+        currentlyDisplayedFloor = 1;
         
         timer.start(period);
     }
@@ -110,23 +111,23 @@ public class CarPositionControl extends Controller {
      */
     @Override
     public void timerExpired(Object callbackData) {
-        int currentFloor;
         switch(state) {
             case STATE_DISPLAY:
-                currentFloor = mAtFloor.getCurrentFloor();
-                // CurrentFloor returns -1 if the car is not at a floor, so 
-                // account for that.
-                // TODO: Figure out how to clear the position indicator
-                if (currentFloor >= 0)
-                    carPositionIndicator.set(currentFloor);
+                Direction d = mDriveSpeed.getDirection();
+                double speed = mDriveSpeed.getSpeed();
+                int carLevelPosition = mCarLevelPosition.getPosition();
+                currentlyDisplayedFloor = Utility.nextReachableFloor(currentlyDisplayedFloor,
+                        carLevelPosition, speed, d);
+                carPositionIndicator.set(currentlyDisplayedFloor);
                 break;
             default:
                 throw new RuntimeException("State: " + state + " was not recognized");
         }
-        log("Current floor: ", mAtFloor.getCurrentFloor(), 
-                " DesiredFloor ", mDesiredFloor.getFloor(),
-                " Drive Speed ", mDriveSpeed.getSpeed(),
-                " CarPosition: ", carPositionIndicator.floor());
+        log("Floor=", mAtFloor.getCurrentFloor(), 
+                " DesiredFloor=", mDesiredFloor.getFloor(),
+                " DriveSpeed=", mDriveSpeed.getSpeed(), " ", mDriveSpeed.getDirection(),
+                " CarLevelPos=", mCarLevelPosition.getPosition(),
+                " CarPos=", carPositionIndicator.floor());
         
         // There's only one state, so set it at the end.
         setState(STATE_KEY, state.toString());
