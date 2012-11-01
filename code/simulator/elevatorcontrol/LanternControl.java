@@ -10,11 +10,9 @@
 package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
-import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
-import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
 import simulator.payloads.CanMailbox;
 import simulator.payloads.CarLanternPayload;
@@ -32,7 +30,7 @@ public class LanternControl extends Controller {
     
     // network interface
     // DoorClosedArray creates CanPayloadTranslators for DoorClosed
-    private DoorClosedArray mDoorClosedFront, mDoorClosedBack;
+    private DoorClosedArray mDoorClosed;
     // receive DesiredFloor from network
     private ReadableCanMailbox networkDesiredFloorIn;
     // translator for DesiredFloor message
@@ -77,8 +75,7 @@ public class LanternControl extends Controller {
         //initialize network interface
         
         //Register mDoorCloseds
-        mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
-        mDoorClosedBack = new DoorClosedArray(Hallway.BACK, canInterface);
+        mDoorClosed = new DoorClosedArray(canInterface);
         
         // Register mDesiredFloor
         networkDesiredFloorIn = CanMailbox.getReadableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
@@ -108,8 +105,7 @@ public class LanternControl extends Controller {
                 //#transition 'LT 1'
                 currentDirection = mDesiredFloor.getDirection();
                 if (currentDirection == direction &&
-                        !(mDoorClosedFront.getBothClosed() &&
-                                mDoorClosedBack.getBothClosed())) {
+                        !mDoorClosed.getAllClosed()) {
                     newState = State.STATE_LIGHT_ON;
                 } else {
                     newState = state;
@@ -122,8 +118,7 @@ public class LanternControl extends Controller {
                 
                 //transitions
                 //#transition 'LT 2'
-                if (mDoorClosedFront.getBothClosed() &&
-                        mDoorClosedBack.getBothClosed()) {
+                if (mDoorClosed.getAllClosed()) {
                     newState = State.STATE_LIGHT_OFF;
                 } else {
                     newState = state;

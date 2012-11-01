@@ -29,8 +29,7 @@ public class Dispatcher extends Controller {
     private AtFloorArray mAtFloors;
 
     // Receive door closed messages (from both hallways)
-    private DoorClosedArray mDoorClosedFront;
-    private DoorClosedArray mDoorClosedBack;
+    private DoorClosedArray mDoorClosed;
 
     // Receive hall call messages
     private HallCallArray mHallCalls;
@@ -84,8 +83,7 @@ public class Dispatcher extends Controller {
         mAtFloors = new AtFloorArray(canInterface);
         
         // Create mDoorClosed interfaces
-        mDoorClosedFront = new DoorClosedArray(Hallway.FRONT, canInterface);
-        mDoorClosedBack = new DoorClosedArray(Hallway.BACK, canInterface);
+        mDoorClosed = new DoorClosedArray(canInterface);
         
         // Create mHallCall interface
         mHallCalls = new HallCallArray(canInterface);
@@ -128,11 +126,11 @@ public class Dispatcher extends Controller {
                 
                 // Transitions
                 // #transition 'DIST1'
-                if (!(mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) &&
+                if (!mDoorClosed.getAllClosed() &&
                     mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
                 // #transition 'DIST3'
-                } else if (!(mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) &&
+                } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() != MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_AT_FLOOR;
                 } else {
@@ -152,10 +150,10 @@ public class Dispatcher extends Controller {
                 
                 // Transitions
                 // #transition 'DIST4'
-                if (mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) {
+                if (mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
                 // #transition 'DIST5'
-                } else if (!(mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) &&
+                } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
                 } else {
@@ -171,10 +169,10 @@ public class Dispatcher extends Controller {
                 
                 // Transitions
                 // #transition 'DIST2'
-                if (mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) {
+                if (mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
                 // #transition 'DIST6'
-                } else if (!(mDoorClosedBack.getBothClosed() && mDoorClosedFront.getBothClosed()) &&
+                } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() != MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_AT_FLOOR;
                 } else {
