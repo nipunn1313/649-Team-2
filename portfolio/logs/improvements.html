@@ -129,6 +129,21 @@ Project 8<br/>
   </li>
 </ul>
 
+Project 9<br />
+<ul>
+  <li>On line 42 of CarLevelPositionSensor.java (in the constructor), it takes
+  the position (in meters) and then divides by 10 and again by 100. This gives
+  the position in kilometers (which is obviously not what you want for an
+  elevator!).<br />
+  In the actual loop, it does the conversion to millimeters correctly
+  (*10*100), but in the constructor it does it incorrectly. Just pointing it
+  out.<br />
+
+  It probably doesn't actually affect operation since the constructor only sets
+  the mCarLevelPosition incorrectly for a single time-trigger at the beginning,
+  but it's still worth squashing bugs.
+  </li>
+</ul>
 &lt;add the rest of the project entries here&gt;<br>
 
 </body>
