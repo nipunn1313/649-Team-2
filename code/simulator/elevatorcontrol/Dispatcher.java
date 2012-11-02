@@ -12,8 +12,10 @@ package simulator.elevatorcontrol;
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.CarCallArray;
+import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
+import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.elevatormodules.CarWeightCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
@@ -40,7 +42,15 @@ public class Dispatcher extends Controller {
     // Receive car weight messages
     private ReadableCanMailbox networkCarWeight;
     private CarWeightCanPayloadTranslator mCarWeight;
+    
+    // Receive car level position
+    private ReadableCanMailbox networkCarLevelPosition;
+    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
 
+    // Receive drive speed
+    private ReadableCanMailbox networkDriveSpeed;
+    private DriveSpeedCanPayloadTranslator mDriveSpeed;
+    
     // Send desired floor messages
     private WriteableCanMailbox networkDesiredFloor;
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
@@ -68,8 +78,10 @@ public class Dispatcher extends Controller {
     private State state = State.STATE_DOORS_CLOSED;
 
     // State variable holding the desired floor, initialized to 1
-    private int target = 1;
-
+    private int TargetFloor = 1;
+    private Direction TargetDirection = Direction.STOP;
+    private Hallway TargetHallway = Hallway.NONE;
+    
     public Dispatcher(int numFloors, SimTime period, boolean verbose) {
         // Make a call to the Controller superclass
         super("Dispatcher", verbose);
@@ -96,10 +108,21 @@ public class Dispatcher extends Controller {
         mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
         canInterface.registerTimeTriggered(networkCarWeight);
         
+        // Create mCarLevelPosition interface
+        networkCarLevelPosition = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
+        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(networkCarLevelPosition);
+        canInterface.registerTimeTriggered(networkCarLevelPosition);
+
+        // Create mDriveSpeed interface
+        networkDriveSpeed = CanMailbox.getReadableCanMailbox(MessageDictionary.DRIVE_SPEED_CAN_ID);
+        mDriveSpeed = new DriveSpeedCanPayloadTranslator(networkDriveSpeed);
+        canInterface.registerTimeTriggered(networkDriveSpeed);
+        
         // Create mDesiredFloor interface
         networkDesiredFloor = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_FLOOR_CAN_ID);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.sendTimeTriggered(networkDesiredFloor, period);
+      
         
         // Create mDesiredDwell interface
         networkDesiredDwellFront = CanMailbox.getWriteableCanMailbox(MessageDictionary.DESIRED_DWELL_BASE_CAN_ID +
@@ -117,10 +140,19 @@ public class Dispatcher extends Controller {
 
     public void timerExpired(Object callbackData) {
         State newState = state;
+        DesiredFloor nextFloor;
+        int currentFloor = mAtFloors.getCurrentFloor();
         switch (state) {
             case STATE_DOORS_CLOSED:
                 // State actions for 'DOORS CLOSED'
-                mDesiredFloor.set(target, Utility.getLandings(target), Direction.STOP);
+                nextFloor = Utility.getNextFloor(mCarLevelPosition.getPosition(), 
+                        mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
+                        mHallCalls, TargetDirection, currentFloor);
+                TargetFloor = nextFloor.getFloor();
+                TargetHallway = nextFloor.getHallway();
+                TargetDirection = nextFloor.getDirection();
+                
+                mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(5000);
                 mDesiredDwellBack.set(5000);
                 
@@ -139,12 +171,13 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_AT_FLOOR:
                 // State actions for 'DOORS OPEN AT FLOOR'
-                if (mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
-                    target = 1;
-                } else {
-                    target = (mAtFloors.getCurrentFloor() % numFloors) + 1;
-                }
-                mDesiredFloor.set(target, Utility.getLandings(target), Direction.STOP);
+                nextFloor = Utility.getNextFloor(mCarLevelPosition.getPosition(), 
+                        mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
+                        mHallCalls, TargetDirection, currentFloor);
+                TargetFloor = nextFloor.getFloor();
+                TargetHallway = nextFloor.getHallway();
+
+                mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(5000);
                 mDesiredDwellBack.set(5000);
                 
@@ -162,8 +195,8 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_BETWEEN_FLOORS:
                 // State actions for 'DOORS OPEN BETWEEN FLOORS'
-                target = 1;
-                mDesiredFloor.set(target, Hallway.NONE, Direction.STOP);
+                TargetFloor = 1;
+                mDesiredFloor.set(TargetFloor, Hallway.NONE, Direction.STOP);
                 mDesiredDwellFront.set(5000);
                 mDesiredDwellBack.set(5000);
                 
@@ -195,7 +228,10 @@ public class Dispatcher extends Controller {
         
         // Report the current state
         setState(STATE_KEY, newState.toString());
-        setState("TARGET", Integer.toString(target));
+        setState("TARGET_FLOOR", Integer.toString(TargetFloor));
+        setState("TARGET_HALLWAY", TargetHallway.toString());
+        setState("TARGET_DIRECTION", TargetDirection.toString());
+        
         
         // Schedule the next controller iteration
         timer.start(period);
