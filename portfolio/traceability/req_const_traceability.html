@@ -794,7 +794,7 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">11.4 set mDesiredFloor.f to Target</td>
+      <td style="vertical-align: top;">11.4 set mDesiredFloor.f to TargetFloor</td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">X<br>
@@ -807,7 +807,7 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">11.5 set mDesiredFloor.d to Target.d</td>
+      <td style="vertical-align: top;">11.5 set mDesiredFloor.d to TargetDirection</td>
       <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;">~<br>
@@ -820,24 +820,7 @@ Requirements/Constraints</b></u></td>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">
-        11.6.1 Doors not closed --&gt; Target.f=NextFloor.f
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;">X<br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top;"><br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">
-        11.6.2 Doors not closed --&gt; set mDesiredFloor.b to appropriate floor
-      </td>
+      <td style="vertical-align: top;">11.6 set mDesiredFloor.b to TargetHallway</td>
       <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;">~<br>
@@ -851,7 +834,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.7.1 If doors are open between floors --&gt; set Target=1
+        11.7.1 Doors not closed --&gt; TargetFloor=NextFloor.f
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -866,7 +849,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.7.2 If doors are open between floors --&gt; set mDesiredFloor.b=None
+        11.7.2 Doors not closed --&gt; TargetHallway=NextFloor.b
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -881,7 +864,22 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.8 If at floor with front/back --&gt;  set mDesiredFloor.b=Both
+        11.8.1 If doors are open between floors --&gt; set TargetFloor=1
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.8.2 If doors are open between floors --&gt; set mDesiredFloor.b=None
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -911,13 +909,43 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.10 Doors closed --&gt; set Target.d to NextFloor.d
+        11.10.1 Doors closed --&gt; set TargetFloor to NextFloor.f
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
       <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.10.2 Doors closed --&gt; set TargetHallway to NextFloor.b
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.10.3 Doors closed --&gt; set TargetDirection to NextFloor.d
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
