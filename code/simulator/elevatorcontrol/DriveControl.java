@@ -265,8 +265,7 @@ public class DriveControl extends Controller {
                     newState = State.STATE_LEVELING;
                  // #transition DRT3
                 } else if (!Utility.reachedCommitPoint(mDesiredFloor.getFloor(), 
-                        mCarLevelPosition.getPosition(), driveSpeed.speed(), driveSpeed.direction()))
-                {
+                        mCarLevelPosition.getPosition(), driveSpeed.speed(), driveSpeed.direction())) {
                     newState = State.STATE_FAST;
                 }
                 break;
@@ -276,13 +275,11 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT5
-                if (!getSafe() || getObese())
-                {
+                if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
-                    // #transition DRT6
+                // #transition DRT6
                 } else if (Utility.reachedCommitPoint(mDesiredFloor.getFloor(), mCarLevelPosition.getPosition(),
-                        driveSpeed.speed(), driveSpeed.direction()))
-                {    
+                        driveSpeed.speed(), driveSpeed.direction())) {    
                     newState = State.STATE_APPROACHING_FLOOR;
                 }
                 break;
@@ -292,12 +289,10 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT7
-                if (!getSafe() || getObese())
-                {
+                if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
-                  // #transition DRT8
-                } else if (mDesiredFloor.getFloor() ==  mAtFloor.getCurrentFloor())
-                {
+                // #transition DRT8
+                } else if (mDesiredFloor.getFloor() ==  mAtFloor.getCurrentFloor()) {
                     newState = State.STATE_LEVELING;
                 }
                 break;                
