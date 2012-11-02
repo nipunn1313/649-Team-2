@@ -116,7 +116,9 @@ public class DriveControl extends Controller {
     // DriveControl has 3 possible states
     private enum State {
         STATE_STOPPED,
-        STATE_NOT_AT_DESIRED_FLOOR,
+        STATE_SLOW,
+        STATE_FAST,
+        STATE_APPROACHING_FLOOR,
         STATE_LEVELING
     }
     
@@ -238,16 +240,16 @@ public class DriveControl extends Controller {
                     (mDesiredFloor.getFloor() <= Elevator.numFloors) &&
                     mDoorClosed.getAllClosed() &&
                     getSafe() && !getObese()) {
-                    newState = State.STATE_NOT_AT_DESIRED_FLOOR;
-                // #transition DRT5
+                    newState = State.STATE_SLOW;
+                // #transition DRT10
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
                            (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() ||
                             !mDoorClosed.getAllClosed()) &&
-                           getSafe()) {
+                           getSafe() && !getObese()) {
                     newState = State.STATE_LEVELING;
                 }
                 break;
-            case STATE_NOT_AT_DESIRED_FLOOR:
+            case STATE_SLOW:
                 // State actions for STATE_AT_UNDESIRED_FLOOR
                 currentDirection = getDesiredFloorDirection();
                 drive.set(Speed.SLOW, currentDirection);
@@ -257,12 +259,43 @@ public class DriveControl extends Controller {
                 // #transition DRT2
                 if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
-                // #transition DRT3
+                 // #transition DRT4
                 } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
                            getSafe() && !getObese()) {
                     newState = State.STATE_LEVELING;
+                 // #transition DRT3
+                } else if (!Utility.reachedCommitPoint(mDesiredFloor.getFloor(), 
+                        mCarLevelPosition.getPosition(), driveSpeed.speed(), driveSpeed.direction())) {
+                    newState = State.STATE_FAST;
                 }
                 break;
+            case STATE_FAST:
+                drive.set(Speed.FAST, currentDirection);
+                mDrive.set(Speed.FAST, currentDirection);
+                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
+                
+                // #transition DRT5
+                if (!getSafe() || getObese()) {
+                    newState = State.STATE_STOPPED;
+                // #transition DRT6
+                } else if (Utility.reachedCommitPoint(mDesiredFloor.getFloor(), mCarLevelPosition.getPosition(),
+                        driveSpeed.speed(), driveSpeed.direction())) {    
+                    newState = State.STATE_APPROACHING_FLOOR;
+                }
+                break;
+            case STATE_APPROACHING_FLOOR:
+                drive.set(Speed.SLOW, currentDirection);
+                mDrive.set(Speed.SLOW, currentDirection);
+                mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
+                
+                // #transition DRT7
+                if (!getSafe() || getObese()) {
+                    newState = State.STATE_STOPPED;
+                // #transition DRT8
+                } else if (mDesiredFloor.getFloor() ==  mAtFloor.getCurrentFloor()) {
+                    newState = State.STATE_LEVELING;
+                }
+                break;                
             case STATE_LEVELING:
                 // State actions for STATE_LEVELING_AT_DESIRED_FLOOR
                 currentDirection = getLevelingDirection();
@@ -270,9 +303,9 @@ public class DriveControl extends Controller {
                 mDrive.set(Speed.LEVEL, currentDirection);
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
-                // #transition DRT4
+                // #transition DRT9
                 if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
-                           !getSafe()) {
+                           !getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
                 }
                 break;
