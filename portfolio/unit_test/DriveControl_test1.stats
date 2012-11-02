@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf DriveControl.cf -mf DriveControl_test1.mf -head head.txt
-RandomSeed = 1351828141884
+RandomSeed = 1351829950923
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
