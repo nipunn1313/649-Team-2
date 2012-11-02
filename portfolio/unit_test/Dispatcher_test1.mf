@@ -34,7 +34,7 @@
 
 ;#state '3 STATE_DOORS_OPEN_BETWEEN_FLOORS'
 +210ms A S Dispatcher : STATE == STATE_DOORS_OPEN_BETWEEN_FLOORS
-+0ms   A S Dispatcher : TARGET_FLOor == 1
++0ms   A S Dispatcher : TARGET_FLOOR == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
@@ -50,6 +50,7 @@
 +210ms A S Dispatcher : STATE == STATE_DOORS_OPEN_AT_FLOOR
 +0ms   A S Dispatcher : TARGET_FLOOR == 2
 +0ms   A S Dispatcher : TARGET_HALLWAY == BACK
++0ms   A S Dispatcher : TARGET_DIRECTION == STOP
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 2
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == BACK
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
