@@ -63,6 +63,9 @@ public class Dispatcher extends Controller {
 
     // Store the period for the controller
     private final SimTime period;
+    
+    // Store dwell time
+    public static final int DWELL_TIME = 5000;
 
     // Store the number of floors
     private final int numFloors;
@@ -153,8 +156,8 @@ public class Dispatcher extends Controller {
                 TargetDirection = nextFloor.getDirection();
                 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
-                mDesiredDwellFront.set(5000);
-                mDesiredDwellBack.set(5000);
+                mDesiredDwellFront.set(DWELL_TIME);
+                mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
                 // #transition 'DIST1'
@@ -178,8 +181,8 @@ public class Dispatcher extends Controller {
                 TargetHallway = nextFloor.getHallway();
 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
-                mDesiredDwellFront.set(5000);
-                mDesiredDwellBack.set(5000);
+                mDesiredDwellFront.set(DWELL_TIME);
+                mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
                 // #transition 'DIST4'
@@ -197,8 +200,8 @@ public class Dispatcher extends Controller {
                 // State actions for 'DOORS OPEN BETWEEN FLOORS'
                 TargetFloor = 1;
                 mDesiredFloor.set(TargetFloor, Hallway.NONE, Direction.STOP);
-                mDesiredDwellFront.set(5000);
-                mDesiredDwellBack.set(5000);
+                mDesiredDwellFront.set(DWELL_TIME);
+                mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
                 // #transition 'DIST2'
