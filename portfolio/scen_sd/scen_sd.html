@@ -442,7 +442,8 @@ on floor y and stops. </h3>
   <li>CarPositionIndicator updates to the correct floor whenever the car passes
       a commit point</li>
   <li>When car reaches commit point for floor y, Drive is set to (Slow, d)</li>
-  <li>When AtFloor[<b>y,g</b>] is True, Drive is set to Level</li>
+  <li>When car is slow enough and AtFloor[<b>y,g</b>] is True, 
+      Drive is set to Level</li>
   <li>When both Level sensors are true, Drive is set to Stop
     <br>&nbsp;&nbsp; The order that the level sensors are tripped does not matter
   </li>

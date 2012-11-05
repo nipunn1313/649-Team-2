@@ -13,6 +13,7 @@ import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.elevatormodules.CarWeightCanPayloadTranslator;
+import simulator.elevatormodules.DriveObject;
 import simulator.elevatormodules.HoistwayLimitSensorCanPayloadTranslator;
 import simulator.elevatormodules.LevelingCanPayloadTranslator;
 import simulator.framework.Controller;
@@ -261,11 +262,14 @@ public class DriveControl extends Controller {
                     newState = State.STATE_STOPPED;
                  // #transition DRT4
                 } else if (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() &&
+                           driveSpeed.speed() <= DriveObject.SlowSpeed &&
                            getSafe() && !getObese()) {
                     newState = State.STATE_LEVELING;
                  // #transition DRT3
                 } else if (!Utility.reachedCommitPoint(mDesiredFloor.getFloor(), 
-                        mCarLevelPosition.getPosition(), driveSpeed.speed(), driveSpeed.direction())) {
+                        mCarLevelPosition.getPosition(), driveSpeed.speed(), driveSpeed.direction()) &&
+                        driveSpeed.speed() >= DriveObject.SlowSpeed &&
+                        getSafe() && !getObese()) {
                     newState = State.STATE_FAST;
                 }
                 break;
@@ -292,7 +296,9 @@ public class DriveControl extends Controller {
                 if (!getSafe() || getObese()) {
                     newState = State.STATE_STOPPED;
                 // #transition DRT8
-                } else if (mDesiredFloor.getFloor() ==  mAtFloor.getCurrentFloor()) {
+                } else if (mDesiredFloor.getFloor() ==  mAtFloor.getCurrentFloor() &&
+                        driveSpeed.speed() <= DriveObject.SlowSpeed &&
+                        getSafe() && !getObese()) {
                     newState = State.STATE_LEVELING;
                 }
                 break;                
