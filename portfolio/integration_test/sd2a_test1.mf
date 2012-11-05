@@ -33,11 +33,11 @@
 ;#arc '2A/2a' car light turns on
 +0ms A F CarLight 2 BACK : lighted == true
 
-;#arc '2A/2c' passenger observes car light
+;#arc '2A/2b' passenger observes car light
 
 ;#arc '2A/3a' Doors start closing
-+150ms A F DoorMotor BACK LEFT : command == NUDGE
-+0ms A F DoorMotor BACK RIGHT : command == NUDGE
++150ms A F DoorMotor BACK LEFT : command == CLOSE
++0ms A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '2A/3b' Doors finish closing
 +100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
