@@ -20,13 +20,11 @@
 ;#arc '9A/1' Door control stores dwell time
 +0s I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 5000
 
-;#arc '9A/2' Verify door control shall be set to (Open)
+;#arc '9A/2a' Verify door control shall be set to (Open)
 +50ms A F DoorMotor FRONT LEFT : command == OPEN
 +0ms A F DoorMotor FRONT RIGHT : command == OPEN
 
-; Arcs 3 and 4A are interchangeable. They're independent
-
-;#arc '9A/4A' Door opens
+;#arc '9A/2b' Door opens
 +10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
 +10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
 
@@ -36,25 +34,25 @@
 ;#arc '9A/4B' Verify lantern control lights the correct
 +600ms A F CarLantern UP : lighted == true
 
-;#arc '9A/5A'
+;#arc '9A/5a'
 +30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
 
-;#arc '9A/5B'
+;#arc '9A/5b'
 +50ms A F DoorMotor FRONT LEFT : command == STOP
 +0ms A F DoorMotor FRONT RIGHT : command == STOP
 
-;#arc '9A/6A'
-+5s A F DoorMotor FRONT LEFT : command == NUDGE
-+0s A F DoorMotor FRONT RIGHT : command == NUDGE
+;#arc '9A/6a'
++5s A F DoorMotor FRONT LEFT : command == CLOSE
++0s A F DoorMotor FRONT RIGHT : command == CLOSE
 
-;#arc '9A/6B'
+;#arc '9A/6b'
 +30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
 +30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
 +50ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
 +50ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 
-;#arc '9A/6C'
+;#arc '9A/6c'
 +50ms A F DoorMotor FRONT LEFT : command == STOP
 +0s A F DoorMotor FRONT RIGHT : command == STOP
 
