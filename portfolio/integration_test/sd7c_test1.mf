@@ -24,7 +24,7 @@
 +30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
 
 
-; Set desired floor to somewhere else so elevator will enter NUDGE state
+; Set desired floor to somewhere else so elevator will enter CLOSE state
 +100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
 
 ; Check state of Lantern control while door is open
@@ -32,8 +32,8 @@
 
 
 ;#arc '7C/1a' Set DoorMotor to Nudge after countdown expires
-+200ms A F DoorMotor FRONT LEFT : command == NUDGE
-+0ms A F DoorMotor FRONT RIGHT : command == NUDGE
++200ms A F DoorMotor FRONT LEFT : command == CLOSE
++0ms A F DoorMotor FRONT RIGHT : command == CLOSE
 +30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = false
 +30ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = false
 
