@@ -207,7 +207,8 @@
 
 ;#transition 'DRT3' CommitPoint is not reached
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 7000
-+0ms I MESSAGE_PERIOD F DriveSpeed = UP 1.0
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
++100ms I MESSAGE_PERIOD F DriveSpeed = UP 1.00
 
 ;#state '3 STATE_FAST'
 +100ms A S DriveControl : STATE == STATE_FAST
@@ -233,6 +234,8 @@
 
 ;#transition 'DRT3'
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
++100ms I MESSAGE_PERIOD F DriveSpeed = UP 1.00
 
 ;#state '3 STATE_FAST'
 +100ms A S DriveControl : STATE == STATE_FAST
@@ -255,10 +258,12 @@
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 9500
 
 ;#state '2 STATE_SLOW'
-+30ms A S DriveControl : STATE == STATE_SLOW
++100ms A S DriveControl : STATE == STATE_SLOW
 
 ;#transition 'DRT3'
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
++100ms I MESSAGE_PERIOD F DriveSpeed = UP 1.00
 
 ;#state '3 STATE_FAST'
 +100ms A S DriveControl : STATE == STATE_FAST
@@ -288,6 +293,8 @@
 
 ;#transition 'DRT3'
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
++100ms I MESSAGE_PERIOD F DriveSpeed = UP 1.00
 
 ;#state '3 STATE_FAST'
 +100ms A S DriveControl : STATE == STATE_FAST
@@ -313,6 +320,8 @@
 
 ;#transition 'DRT3'
 +0ms I MESSAGE_PERIOD N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
++100ms I MESSAGE_PERIOD F DriveSpeed = UP 1.00
 
 ;#state '3 STATE_FAST'
 +100ms A S DriveControl : STATE == STATE_FAST
@@ -327,6 +336,7 @@
 +0s I MESSAGE_PERIOD N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = False
 +10ms I MESSAGE_PERIOD N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = True
 +0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = False
++0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.25
 
 ;#state '5 STATE_LEVELING'
 +50ms A S DriveControl : STATE == STATE_LEVELING

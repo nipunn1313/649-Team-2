@@ -20,24 +20,49 @@
 0s I 0ms N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 UP BACK
 ; Start moving the elevator
 +50ms I  0ms N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = False
+; Claim that we've reached SlowSpeed
++50ms I 0ms F DriveSpeed = UP 0.25
 
-;#arc '6A/1a' Elevator arrives at floor 2
-+50ms I 0ms N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
+;#arc '6A/1a' Drive is set to (Fast, d)
++50ms A F Drive : speed == FAST
++0ms A F Drive : direction == UP
 
-;#arc '6A/1b' CarPositionIndicator is updated to floor 2
+;#arc '6A/1b' DriveSpeed reaches FastSpeed
++50ms I 0ms F DriveSpeed = UP 1.0
+
+;#arc '6A/1c' mDriveSpeed set
++50ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 100
+
+;#arc '6A/2a' Pass commit point for floor 1
++50ms I 0ms N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 500
+
+;#arc '6A/2b' CarPositionIndicator is updated to floor 2
 +200ms A F CarPositionIndicator : floor == 2
 
-;#arc '6A/2a' Drive is set to LEVEL speed in UP Direction
+;#arc '6A/3a' Pass commit point for floor 2
++50ms I 0ms N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 4600
+
+;#arc '6A/3b' Drive is set to (Slow, d)
++50ms A F Drive : speed == SLOW
++0ms A F Drive : direction == UP
+
+;#arc '6A/4a' DriveSpeed reaches SlowSpeed
++50ms I 0ms F DriveSpeed = UP 0.25
+
+;#arc '6A/4b' Elevator arrives at floor 2
++50ms I 0ms N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = True
+
+;#arc '6A/4c' Drive is set to LEVEL speed in UP Direction
 +50ms A F Drive : direction == UP
 +0ms A F Drive : speed == LEVEL
 
-;#arc '6A/2b' mLevel[top] is true
+;#arc '6A/5a' mLevel[top] is true
 +10ms I 0ms N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
 
-;#arc '6A/2c' mLevel[bottom] is true
+;#arc '6A/5b' mLevel[bottom] is true
 +10ms I 0ms N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
 
-;#arc '6A/2d' Drive is set to STOP speed and STOP direction
+;#arc '6A/5c' Drive is set to STOP speed and STOP direction
 +50ms A F Drive : direction == STOP
 +0ms A F Drive : speed == STOP
 

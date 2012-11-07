@@ -23,9 +23,9 @@
 +30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
 +30ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
 
-;#arc '1B/1a' Doors start closing
-+150ms A F DoorMotor BACK LEFT : command == NUDGE
-+0ms A F DoorMotor BACK RIGHT : command == NUDGE
+;#arc '1B/1' Doors start closing
++150ms A F DoorMotor BACK LEFT : command == CLOSE
++0ms A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '1B/2' Passenger arrives
 ;#arc '1B/3a' Passenger presses hall button
