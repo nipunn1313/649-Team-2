@@ -50,11 +50,11 @@
 ;#arc '3B/4c'
 +10ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = False
 
-;#arc '3B/4d' DoorMotor Set to nudge
-+5100ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
-+0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == NUDGE
-+0ms A F DoorMotor FRONT LEFT : command == NUDGE 
-+0ms A F DoorMotor FRONT RIGHT : command == NUDGE 
+;#arc '3B/4d' DoorMotor Set to close
++5100ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == CLOSE
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][RIGHT]_CAN_ID DoorMotor FRONT RIGHT : getDoorCommand == CLOSE
++0ms A F DoorMotor FRONT LEFT : command == CLOSE 
++0ms A F DoorMotor FRONT RIGHT : command == CLOSE 
 
 ;#arc '3B/4e' DoorClosed is True
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
