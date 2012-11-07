@@ -28,8 +28,8 @@
 +100ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
 
 ;#arc '5B/1' Set DoorMotor to Nudge after countdown expires
-+200ms A F DoorMotor BACK LEFT : command == NUDGE
-+0ms A F DoorMotor BACK RIGHT : command == NUDGE
++200ms A F DoorMotor BACK LEFT : command == CLOSE
++0ms A F DoorMotor BACK RIGHT : command == CLOSE
 +30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = false
 +10ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = false
 
