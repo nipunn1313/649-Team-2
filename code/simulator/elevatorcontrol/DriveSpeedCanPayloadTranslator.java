@@ -49,27 +49,31 @@ public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setSpeed(double speed) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, (int)(speed*SCALE_VAL), 0, MessageLengths.mDriveSpeed);
+        addUnsignedIntToBitset(b, (int)(speed*SCALE_VAL), MessageLengths.mDriveSpeed_Speed_off, 
+                MessageLengths.mDriveSpeed_Speed_len);
         setMessagePayload(b, getByteSize());
     }
 
     public double getSpeed() {
-        int val = getIntFromBitset(getMessagePayload(), 0, MessageLengths.mDriveSpeed);
+        int val = getScaledSpeed();
         return ((double)val)/SCALE_VAL;
     }
 
     public int getScaledSpeed() {
-        return getIntFromBitset(getMessagePayload(), 0, MessageLengths.mDriveSpeed);
+        return getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDriveSpeed_Speed_off, 
+                MessageLengths.mDriveSpeed_Speed_len);
     }
     
     public void setDirection(Direction dir) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dir.ordinal(), MessageLengths.mDriveSpeed, MessageLengths.mDriveSpeed);
+        addUnsignedIntToBitset(b, dir.ordinal(), MessageLengths.mDriveSpeed_Direction_off, 
+                MessageLengths.mDriveSpeed_Direction_len);
         setMessagePayload(b, getByteSize());
     }
 
     public Direction getDirection() {
-        int val = getIntFromBitset(getMessagePayload(), MessageLengths.mDriveSpeed, MessageLengths.mDriveSpeed);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDriveSpeed_Direction_off, 
+                MessageLengths.mDriveSpeed_Direction_len);
         for (Direction d : Direction.values()) {
             if (d.ordinal() == val) {
                 return d;

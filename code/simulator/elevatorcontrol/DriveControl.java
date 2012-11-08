@@ -70,7 +70,7 @@ public class DriveControl extends Controller {
 
     // mCarLevelPosition
     private ReadableCanMailbox networkCarLevelPosition;
-    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
+    private OurCarLevelPositionCanPayloadTranslator mCarLevelPosition;
     
     /* mDoorClosed */
     // DoorClosed Message for front
@@ -170,7 +170,7 @@ public class DriveControl extends Controller {
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
+        mCarLevelPosition = new OurCarLevelPositionCanPayloadTranslator(
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         

@@ -53,12 +53,12 @@ public class OurIntegerCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setValue(int value) {
         BitSet b = new BitSet();
-        addIntToBitset(b, value, 0, numBits);
+        addUnsignedIntToBitset(b, value, 0, numBits);
         setMessagePayload(b, getByteSize());
     }
     
     public int getValue() {
-        return getIntFromBitset(getMessagePayload(), 0, numBits);
+        return getUnsignedIntFromBitset(getMessagePayload(), 0, numBits);
     }
     
     @Override

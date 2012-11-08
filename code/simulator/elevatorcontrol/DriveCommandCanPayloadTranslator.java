@@ -42,12 +42,14 @@ public class DriveCommandCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setSpeed(Speed speed) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, speed.ordinal(), 0, MessageLengths.mDrive);
+        addUnsignedIntToBitset(b, speed.ordinal(), MessageLengths.mDrive_Speed_off, 
+                MessageLengths.mDrive_Speed_len);
         setMessagePayload(b, getByteSize());
     }
 
     public Speed getSpeed() {
-        int val = getIntFromBitset(getMessagePayload(), 0, MessageLengths.mDrive);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDrive_Speed_off, 
+                MessageLengths.mDrive_Speed_len);
         for (Speed s : Speed.values()) {
             if (s.ordinal() == val) {
                 return s;
@@ -58,12 +60,14 @@ public class DriveCommandCanPayloadTranslator extends CanPayloadTranslator {
 
     public void setDirection(Direction dir) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dir.ordinal(), MessageLengths.mDrive, MessageLengths.mDrive);
+        addUnsignedIntToBitset(b, dir.ordinal(), MessageLengths.mDrive_Direction_off, 
+                MessageLengths.mDrive_Direction_len);
         setMessagePayload(b, getByteSize());
     }
 
     public Direction getDirection() {
-        int val = getIntFromBitset(getMessagePayload(), MessageLengths.mDrive, MessageLengths.mDrive);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDrive_Direction_off, 
+                MessageLengths.mDrive_Direction_len);
         for (Direction d : Direction.values()) {
             if (d.ordinal() == val) {
                 return d;
