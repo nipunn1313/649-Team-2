@@ -4,7 +4,7 @@
  * Jacob Olson (jholson)
  * Benet Clark (brclark)
  * Nick Mazurek (nmazurek)
- * @file IntegerCanPayloadTranslator649.java
+ * @file OurIntegerCanPayloadTranslator.java
  */
 
 package simulator.elevatorcontrol;
@@ -37,7 +37,7 @@ public class OurIntegerCanPayloadTranslator extends CanPayloadTranslator {
     /**
      * Constructor for use with ReadableCanMailbox objects
      * @param payload
-     * @param numBits: Rounded up to the nearest Byte for teh translator
+     * @param numBits: Rounded up to the nearest Byte for the translator
      */
 
     public OurIntegerCanPayloadTranslator(ReadableCanMailbox payload, int numBits) {

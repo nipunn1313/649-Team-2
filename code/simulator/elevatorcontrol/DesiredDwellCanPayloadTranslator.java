@@ -19,7 +19,7 @@ public class DesiredDwellCanPayloadTranslator extends OurIntegerCanPayloadTransl
      * @param p  CAN payload object whos message is interpreted by this translator
      */
     public DesiredDwellCanPayloadTranslator(WriteableCanMailbox p) {
-        super(p, 6);
+        super(p, MessageLengths.mDesiredDwell);
     }
 
     /**
@@ -27,7 +27,7 @@ public class DesiredDwellCanPayloadTranslator extends OurIntegerCanPayloadTransl
      * @param p  CAN payload object whose message is interpreted by this translator
      */
     public DesiredDwellCanPayloadTranslator(ReadableCanMailbox p) {
-        super(p, 6);
+        super(p, 16);
     }
 
     // TODO: THIS IS WRONG. SHOULD RETURN A SIMTIME

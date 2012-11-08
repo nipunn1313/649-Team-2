@@ -11,7 +11,6 @@ package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
-import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.payloads.CanMailbox;
@@ -43,7 +42,7 @@ public class CarPositionControl extends Controller {
     
     // mCarLevelPosition
     private ReadableCanMailbox networkCarLevelPosition;
-    private OurIntegerCanPayloadTranslator mCarLevelPosition;
+    private OurCarLevelPositionCanPayloadTranslator mCarLevelPosition;
     
     // mDesiredFloor
     private ReadableCanMailbox networkDesiredFloor;
@@ -81,8 +80,8 @@ public class CarPositionControl extends Controller {
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new OurIntegerCanPayloadTranslator(
-                networkCarLevelPosition, 16);
+        mCarLevelPosition = new OurCarLevelPositionCanPayloadTranslator(
+                networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(

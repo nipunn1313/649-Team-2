@@ -4,7 +4,7 @@
  * Jacob Olson (jholson)
  * Benet Clark (brclark)
  * Nick Mazurek (nmazurek)
- * @file BooleanCanPayloadTranslator649.java
+ * @file OurBooleanCanPayloadTranslator.java
  */
 package simulator.elevatorcontrol;
 

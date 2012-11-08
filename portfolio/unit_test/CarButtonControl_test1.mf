@@ -19,8 +19,8 @@
 ;#state '1 STATE_LIGHT_OFF'
 210ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
 210ms A F CarLight 2 BACK : lighted == false
-210ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
-210ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+210ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == false
+210ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == false
 
 ;#transition 'CBT1'
 220ms I 0s F CarCall 2 BACK = true
@@ -28,8 +28,8 @@
 ;#state '2 STATE_PRESSED'
 510ms A S CarButtonControl[2][BACK] : STATE == STATE_PRESSED
 510ms A F CarLight 2 BACK : lighted == true
-510ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
-510ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+510ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == true
+510ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == true
 
 ;#transition 'CBT4'
 520ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
@@ -39,8 +39,8 @@
 ;#state '3 STATE_UNPRESSED_ON'
 810ms A S CarButtonControl[2][BACK] : STATE == STATE_UNPRESSED_ON
 810ms A F CarLight 2 BACK : lighted == true
-810ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
-810ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+810ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == true
+810ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == false
 
 ;#transition 'CBT5'
 820ms I 0s F CarCall 2 BACK = true
@@ -48,8 +48,8 @@
 ;#state '2 STATE_PRESSED'
 1110ms A S CarButtonControl[2][BACK] : STATE == STATE_PRESSED
 1110ms A F CarLight 2 BACK : lighted == true
-1110ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
-1110ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == true
+1110ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == true
+1110ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == true
 
 ;#transition 'CBT2'
 1120ms I 0s F CarCall 2 BACK = false
@@ -59,8 +59,8 @@
 ;#state '1 STATE_LIGHT_OFF'
 1410ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
 1410ms A F CarLight 2 BACK : lighted == false
-1410ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
-1410ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+1410ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == false
+1410ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == false
 
 ; Setup conditions for before CBT3 (gotta do two state transitions)
 ;#transition 'CBT1'
@@ -75,8 +75,8 @@
 ;#state '3 STATE_UNPRESSED_ON'
 2010ms A S CarButtonControl[2][BACK] : STATE == STATE_UNPRESSED_ON
 2010ms A F CarLight 2 BACK : lighted == true
-2010ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == true
-2010ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+2010ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == true
+2010ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == false
 
 ;#transition 'CBT3'
 2020ms I 0s F CarCall 2 BACK = false
@@ -87,6 +87,6 @@
 ;#state '1 STATE_LIGHT_OFF'
 2310ms A S CarButtonControl[2][BACK] : STATE == STATE_LIGHT_OFF
 2310ms A F CarLight 2 BACK : lighted == false
-2310ms A N CAR_LIGHT_[2][BACK]_CAN_ID Boolean : getValue == false
-2310ms A N CAR_CALL_[2][BACK]_CAN_ID Boolean : getValue == false
+2310ms A N CAR_LIGHT_[2][BACK]_CAN_ID OurBoolean : getValue == false
+2310ms A N CAR_CALL_[2][BACK]_CAN_ID OurBoolean : getValue == false
 
