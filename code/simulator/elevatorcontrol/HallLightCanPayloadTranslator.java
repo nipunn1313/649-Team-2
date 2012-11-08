@@ -11,9 +11,8 @@ package simulator.elevatorcontrol;
 
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
-public class HallLightCanPayloadTranslator extends BooleanCanPayloadTranslator {
+public class HallLightCanPayloadTranslator extends OurBooleanCanPayloadTranslator {
     public HallLightCanPayloadTranslator(ReadableCanMailbox payload) {
         super(payload);
     }

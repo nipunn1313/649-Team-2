@@ -43,7 +43,7 @@ public class CarPositionControl extends Controller {
     
     // mCarLevelPosition
     private ReadableCanMailbox networkCarLevelPosition;
-    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
+    private OurIntegerCanPayloadTranslator mCarLevelPosition;
     
     // mDesiredFloor
     private ReadableCanMailbox networkDesiredFloor;
@@ -81,8 +81,8 @@ public class CarPositionControl extends Controller {
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
-                networkCarLevelPosition);
+        mCarLevelPosition = new OurIntegerCanPayloadTranslator(
+                networkCarLevelPosition, 16);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(
@@ -115,7 +115,7 @@ public class CarPositionControl extends Controller {
             case STATE_DISPLAY:
                 Direction d = mDriveSpeed.getDirection();
                 double speed = mDriveSpeed.getSpeed();
-                int carLevelPosition = mCarLevelPosition.getPosition();
+                int carLevelPosition = mCarLevelPosition.getValue();
                 currentlyDisplayedFloor = Utility.nextReachableFloor(currentlyDisplayedFloor,
                         carLevelPosition, speed, d);
                 carPositionIndicator.set(currentlyDisplayedFloor);
@@ -126,7 +126,7 @@ public class CarPositionControl extends Controller {
         log("Floor=", mAtFloor.getCurrentFloor(), 
                 " DesiredFloor=", mDesiredFloor.getFloor(),
                 " DriveSpeed=", mDriveSpeed.getSpeed(), " ", mDriveSpeed.getDirection(),
-                " CarLevelPos=", mCarLevelPosition.getPosition(),
+                " CarLevelPos=", mCarLevelPosition.getValue(),
                 " CarPos=", carPositionIndicator.floor());
         
         // There's only one state, so set it at the end.
