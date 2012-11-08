@@ -10,17 +10,16 @@ package simulator.elevatorcontrol;
 
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.IntegerCanPayloadTranslator;
 
 
-public class DesiredDwellCanPayloadTranslator extends IntegerCanPayloadTranslator {
+public class DesiredDwellCanPayloadTranslator extends OurIntegerCanPayloadTranslator {
 
     /**
      * CAN payload translator for Desired dwell message
      * @param p  CAN payload object whos message is interpreted by this translator
      */
     public DesiredDwellCanPayloadTranslator(WriteableCanMailbox p) {
-        super(p);
+        super(p, MessageLengths.mDesiredDwell);
     }
 
     /**
@@ -28,7 +27,7 @@ public class DesiredDwellCanPayloadTranslator extends IntegerCanPayloadTranslato
      * @param p  CAN payload object whose message is interpreted by this translator
      */
     public DesiredDwellCanPayloadTranslator(ReadableCanMailbox p) {
-        super(p);
+        super(p, MessageLengths.mDesiredDwell);
     }
 
     // TODO: THIS IS WRONG. SHOULD RETURN A SIMTIME

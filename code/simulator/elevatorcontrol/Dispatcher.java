@@ -45,7 +45,7 @@ public class Dispatcher extends Controller {
     
     // Receive car level position
     private ReadableCanMailbox networkCarLevelPosition;
-    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
+    private OurCarLevelPositionCanPayloadTranslator mCarLevelPosition;
 
     // Receive drive speed
     private ReadableCanMailbox networkDriveSpeed;
@@ -113,7 +113,7 @@ public class Dispatcher extends Controller {
         
         // Create mCarLevelPosition interface
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(networkCarLevelPosition);
+        mCarLevelPosition = new OurCarLevelPositionCanPayloadTranslator(networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
 
         // Create mDriveSpeed interface
