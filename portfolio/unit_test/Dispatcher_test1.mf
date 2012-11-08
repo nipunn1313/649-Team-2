@@ -44,7 +44,7 @@
 ;#transition 'DIST6'
 +10ms  I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
 +0ms  I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
-+0ms I 0s N HALL_CALL_[2][BACK][UP]_CAN_ID Boolean = true
++0ms I 0s N HALL_CALL_[2][BACK][UP]_CAN_ID OurBoolean = true
 
 ;#state '2 STATE_DOORS_OPEN_AT_FLOOR'
 +210ms A S Dispatcher : STATE == STATE_DOORS_OPEN_AT_FLOOR
@@ -100,7 +100,7 @@
 +0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
 
 ; Turn off hall calls
-+0ms I 0s N HALL_CALL_[2][BACK][UP]_CAN_ID Boolean = false
++0ms I 0s N HALL_CALL_[2][BACK][UP]_CAN_ID OurBoolean = false
 
 ;#transition 'DIST2'
 +10ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true

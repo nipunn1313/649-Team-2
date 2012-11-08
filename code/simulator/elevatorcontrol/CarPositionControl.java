@@ -11,7 +11,6 @@ package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
-import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.payloads.CanMailbox;
@@ -43,7 +42,7 @@ public class CarPositionControl extends Controller {
     
     // mCarLevelPosition
     private ReadableCanMailbox networkCarLevelPosition;
-    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
+    private OurCarLevelPositionCanPayloadTranslator mCarLevelPosition;
     
     // mDesiredFloor
     private ReadableCanMailbox networkDesiredFloor;
@@ -81,7 +80,7 @@ public class CarPositionControl extends Controller {
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
+        mCarLevelPosition = new OurCarLevelPositionCanPayloadTranslator(
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         
@@ -115,7 +114,7 @@ public class CarPositionControl extends Controller {
             case STATE_DISPLAY:
                 Direction d = mDriveSpeed.getDirection();
                 double speed = mDriveSpeed.getSpeed();
-                int carLevelPosition = mCarLevelPosition.getPosition();
+                int carLevelPosition = mCarLevelPosition.getValue();
                 currentlyDisplayedFloor = Utility.nextReachableFloor(currentlyDisplayedFloor,
                         carLevelPosition, speed, d);
                 carPositionIndicator.set(currentlyDisplayedFloor);
@@ -126,7 +125,7 @@ public class CarPositionControl extends Controller {
         log("Floor=", mAtFloor.getCurrentFloor(), 
                 " DesiredFloor=", mDesiredFloor.getFloor(),
                 " DriveSpeed=", mDriveSpeed.getSpeed(), " ", mDriveSpeed.getDirection(),
-                " CarLevelPos=", mCarLevelPosition.getPosition(),
+                " CarLevelPos=", mCarLevelPosition.getValue(),
                 " CarPos=", carPositionIndicator.floor());
         
         // There's only one state, so set it at the end.

@@ -11,9 +11,8 @@ package simulator.elevatorcontrol;
 
 import simulator.payloads.CanMailbox.ReadableCanMailbox;
 import simulator.payloads.CanMailbox.WriteableCanMailbox;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
 
-public class CarLanternCanPayloadTranslator extends BooleanCanPayloadTranslator {
+public class CarLanternCanPayloadTranslator extends OurBooleanCanPayloadTranslator {
     public CarLanternCanPayloadTranslator(ReadableCanMailbox payload) {
         super(payload);
     }

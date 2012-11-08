@@ -23,7 +23,8 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * @param p  CAN payload object whos message is interpreted by this translator
      */
     public DoorMotorCanPayloadTranslator(WriteableCanMailbox p, Hallway hallway, Side side) {
-        super(p, 8, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
+        super(p, (MessageLengths.mDoorMotorCommand + 7)/8,
+                MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
     }
 
     /**
@@ -31,11 +32,12 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
      * @param p  CAN payload object whose message is interpreted by this translator
      */
     public DoorMotorCanPayloadTranslator(ReadableCanMailbox p, Hallway hallway, Side side) {
-        super(p, 8, MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
+        super(p, (MessageLengths.mDoorMotorCommand + 7)/8,
+                MessageDictionary.DOOR_MOTOR_COMMAND_BASE_CAN_ID + ReplicationComputer.computeReplicationId(hallway, side));
     }
 
     public DoorCommand getDoorCommand() {
-        int val = getIntFromBitset(getMessagePayload(), 0, 32);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), 0, MessageLengths.mDoorMotorCommand);
         for (DoorCommand d : DoorCommand.values()) {
             if (d.ordinal() == val) {
                 return d;
@@ -46,7 +48,7 @@ public class DoorMotorCanPayloadTranslator extends CanPayloadTranslator {
 
     public void setDoorCommand(DoorCommand command) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, command.ordinal(), 0, 32);
+        addUnsignedIntToBitset(b, command.ordinal(), 0, MessageLengths.mDoorMotorCommand);
         setMessagePayload(b, getByteSize());
     }
 

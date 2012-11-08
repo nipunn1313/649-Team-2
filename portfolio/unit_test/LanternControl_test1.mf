@@ -18,7 +18,7 @@
 ;#state '1 STATE_LIGHT_OFF'
 +201ms A S LanternControl[UP] : STATE == STATE_LIGHT_OFF
 +200ms A F CarLantern UP : lighted == false
-+0ms A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
++0ms A N CAR_LANTERN_[UP]_CAN_ID OurBoolean : getValue == false
 
 ;#transition 'LT1'
 +1s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
@@ -28,7 +28,7 @@
 ;#state '2 STATE_LIGHT_ON'
 +600ms A S LanternControl[UP] : STATE == STATE_LIGHT_ON
 +200ms A F CarLantern UP : lighted == true
-+0ms A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == true
++0ms A N CAR_LANTERN_[UP]_CAN_ID OurBoolean : getValue == true
 
 ;#transition 'LT2'
 +1s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
@@ -37,4 +37,4 @@
 ;#state '1 STATE_LIGHT_OFF'
 +600ms A S LanternControl[UP] : STATE == STATE_LIGHT_OFF
 +200ms A F CarLantern UP : lighted == false
-+0ms A N CAR_LANTERN_[UP]_CAN_ID Boolean : getValue == false
++0ms A N CAR_LANTERN_[UP]_CAN_ID OurBoolean : getValue == false

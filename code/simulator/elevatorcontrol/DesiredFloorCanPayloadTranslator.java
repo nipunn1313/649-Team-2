@@ -26,7 +26,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      * @param payload
      */
     public DesiredFloorCanPayloadTranslator(WriteableCanMailbox payload) {
-        super(payload, 8, MessageDictionary.DESIRED_FLOOR_CAN_ID);
+        super(payload, (MessageLengths.mDesiredFloor + 7)/8, 
+                MessageDictionary.DESIRED_FLOOR_CAN_ID);
     }
 
     /**
@@ -36,7 +37,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      * @param payload
      */
     public DesiredFloorCanPayloadTranslator(ReadableCanMailbox payload) {
-        super(payload, 8, MessageDictionary.DESIRED_FLOOR_CAN_ID);
+        super(payload, (MessageLengths.mDesiredFloor + 7)/8, 
+                MessageDictionary.DESIRED_FLOOR_CAN_ID);
     }
     
     /**
@@ -75,7 +77,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      */
     public void setFloor(int floor) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, floor, 0, 32);
+        addUnsignedIntToBitset(b, floor, MessageLengths.mDesiredFloor_Floor_off,
+                MessageLengths.mDesiredFloor_Floor_len);
         setMessagePayload(b, getByteSize());
     }
 
@@ -84,7 +87,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      * @return the floor value from the can message payload
      */
     public int getFloor() {
-        return getIntFromBitset(getMessagePayload(), 0, 32);
+        return getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDesiredFloor_Floor_off,
+                MessageLengths.mDesiredFloor_Floor_len);
     }
 
     /**
@@ -93,7 +97,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      */
     public void setDirection(Direction dir) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dir.ordinal(), 32, 16);
+        addUnsignedIntToBitset(b, dir.ordinal(), MessageLengths.mDesiredFloor_Direction_off,
+                MessageLengths.mDesiredFloor_Direction_len);
         setMessagePayload(b, getByteSize());
     }
 
@@ -102,7 +107,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      * @return the direction value from the can payload
      */
     public Direction getDirection() {
-        int val = getIntFromBitset(getMessagePayload(), 32, 16);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDesiredFloor_Direction_off,
+                MessageLengths.mDesiredFloor_Direction_len);
         for (Direction d : Direction.values()) {
             if (d.ordinal() == val) {
                 return d;
@@ -117,7 +123,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      */
     public void setHallway(Hallway hallway) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, hallway.ordinal(), 48, 16);
+        addUnsignedIntToBitset(b, hallway.ordinal(), MessageLengths.mDesiredFloor_Hallway_off,
+                MessageLengths.mDesiredFloor_Hallway_len);
         setMessagePayload(b, getByteSize());
     }
 
@@ -126,7 +133,8 @@ public class DesiredFloorCanPayloadTranslator extends CanPayloadTranslator {
      * @return the hallway value from the CAN payload.
      */
     public Hallway getHallway() {
-        int val = getIntFromBitset(getMessagePayload(), 48, 16);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDesiredFloor_Hallway_off,
+                MessageLengths.mDesiredFloor_Hallway_len);
         for (Hallway h : Hallway.values()) {
             if (h.ordinal() == val) {
                 return h;

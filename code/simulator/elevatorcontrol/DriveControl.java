@@ -28,8 +28,6 @@ import simulator.payloads.DrivePayload;
 import simulator.payloads.DrivePayload.WriteableDrivePayload;
 import simulator.payloads.DriveSpeedPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
-import simulator.payloads.translators.BooleanCanPayloadTranslator;
-
 
 /**
  * @class DriveControl
@@ -72,7 +70,7 @@ public class DriveControl extends Controller {
 
     // mCarLevelPosition
     private ReadableCanMailbox networkCarLevelPosition;
-    private CarLevelPositionCanPayloadTranslator mCarLevelPosition;
+    private OurCarLevelPositionCanPayloadTranslator mCarLevelPosition;
     
     /* mDoorClosed */
     // DoorClosed Message for front
@@ -80,7 +78,7 @@ public class DriveControl extends Controller {
     
     // mEmergencyBrake
     private ReadableCanMailbox networkEmergencyBrake;
-    private BooleanCanPayloadTranslator mEmergencyBrake;
+    private OurBooleanCanPayloadTranslator mEmergencyBrake;
     
     // mDesiredFloor
     private ReadableCanMailbox networkDesiredFloor;
@@ -172,7 +170,7 @@ public class DriveControl extends Controller {
         
         networkCarLevelPosition = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.CAR_LEVEL_POSITION_CAN_ID);
-        mCarLevelPosition = new CarLevelPositionCanPayloadTranslator(
+        mCarLevelPosition = new OurCarLevelPositionCanPayloadTranslator(
                 networkCarLevelPosition);
         canInterface.registerTimeTriggered(networkCarLevelPosition);
         
@@ -180,7 +178,7 @@ public class DriveControl extends Controller {
         
         networkEmergencyBrake = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.EMERGENCY_BRAKE_CAN_ID);
-        mEmergencyBrake = new BooleanCanPayloadTranslator(networkEmergencyBrake);
+        mEmergencyBrake = new OurBooleanCanPayloadTranslator(networkEmergencyBrake);
         canInterface.registerTimeTriggered(networkEmergencyBrake);
         
         networkDesiredFloor = CanMailbox.getReadableCanMailbox(

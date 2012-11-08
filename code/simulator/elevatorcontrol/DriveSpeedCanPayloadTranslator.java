@@ -25,11 +25,11 @@ public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
     private static final int SCALE_VAL = 100;
     
     public DriveSpeedCanPayloadTranslator(WriteableCanMailbox p) {
-      super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
+      super(p, (MessageLengths.mDriveSpeed + 7)/8, MessageDictionary.DRIVE_SPEED_CAN_ID);
     }
 	
     public DriveSpeedCanPayloadTranslator(ReadableCanMailbox p) {
-      super(p, 8, MessageDictionary.DRIVE_SPEED_CAN_ID);
+      super(p, (MessageLengths.mDriveSpeed + 7)/8, MessageDictionary.DRIVE_SPEED_CAN_ID);
     }
 	
     /**
@@ -49,27 +49,31 @@ public class DriveSpeedCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setSpeed(double speed) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, (int)(speed*SCALE_VAL), 0, 32);
+        addUnsignedIntToBitset(b, (int)(speed*SCALE_VAL), MessageLengths.mDriveSpeed_Speed_off, 
+                MessageLengths.mDriveSpeed_Speed_len);
         setMessagePayload(b, getByteSize());
     }
 
     public double getSpeed() {
-        int val = getIntFromBitset(getMessagePayload(), 0, 32);
+        int val = getScaledSpeed();
         return ((double)val)/SCALE_VAL;
     }
 
     public int getScaledSpeed() {
-        return getIntFromBitset(getMessagePayload(), 0, 32);
+        return getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDriveSpeed_Speed_off, 
+                MessageLengths.mDriveSpeed_Speed_len);
     }
     
     public void setDirection(Direction dir) {
         BitSet b = getMessagePayload();
-        addIntToBitset(b, dir.ordinal(), 32, 32);
+        addUnsignedIntToBitset(b, dir.ordinal(), MessageLengths.mDriveSpeed_Direction_off, 
+                MessageLengths.mDriveSpeed_Direction_len);
         setMessagePayload(b, getByteSize());
     }
 
     public Direction getDirection() {
-        int val = getIntFromBitset(getMessagePayload(), 32, 32);
+        int val = getUnsignedIntFromBitset(getMessagePayload(), MessageLengths.mDriveSpeed_Direction_off, 
+                MessageLengths.mDriveSpeed_Direction_len);
         for (Direction d : Direction.values()) {
             if (d.ordinal() == val) {
                 return d;
