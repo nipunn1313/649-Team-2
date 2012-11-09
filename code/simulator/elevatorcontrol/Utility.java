@@ -252,6 +252,10 @@ public class Utility {
             int carLevelPositionMM, double driveSpeed, 
             Direction driveDirection) {
         
+        // If we're slower than leveling, we're basically stopped anyway.
+        if (driveSpeed <= DriveObject.LevelingSpeed)
+            return currentFloor;
+        
         switch (driveDirection) {
             case UP:
                 for (int f = currentFloor; f <= Elevator.numFloors; f++) {
