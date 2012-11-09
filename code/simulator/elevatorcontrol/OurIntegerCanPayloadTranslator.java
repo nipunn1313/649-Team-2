@@ -23,15 +23,17 @@ public class OurIntegerCanPayloadTranslator extends CanPayloadTranslator {
 
     // Stores the number of bits in the translator
     private int numBits;
+    private boolean signed;
     
     /**
      * Constructor for use with WriteableCanMailbox objects
      * @param payload
      * @param numBits: Rounded up to the nearest Byte
      */
-    public OurIntegerCanPayloadTranslator(WriteableCanMailbox payload, int numBits) {
+    public OurIntegerCanPayloadTranslator(WriteableCanMailbox payload, int numBits, boolean signed) {
         super(payload, (numBits + 7)/8);
         this.numBits = numBits;
+        this.signed = signed;
     }
 
     /**
@@ -39,10 +41,10 @@ public class OurIntegerCanPayloadTranslator extends CanPayloadTranslator {
      * @param payload
      * @param numBits: Rounded up to the nearest Byte for the translator
      */
-
-    public OurIntegerCanPayloadTranslator(ReadableCanMailbox payload, int numBits) {
+    public OurIntegerCanPayloadTranslator(ReadableCanMailbox payload, int numBits, boolean signed) {
         super(payload, (numBits + 7)/8);
         this.numBits = numBits;
+        this.signed = signed;
     }
 
     
@@ -53,12 +55,16 @@ public class OurIntegerCanPayloadTranslator extends CanPayloadTranslator {
     
     public void setValue(int value) {
         BitSet b = new BitSet();
-        addUnsignedIntToBitset(b, value, 0, numBits);
+        if (signed)
+            addIntToBitset(b, value, 0, numBits);
+        else
+            addUnsignedIntToBitset(b, value, 0, numBits);
         setMessagePayload(b, getByteSize());
     }
     
     public int getValue() {
-        return getUnsignedIntFromBitset(getMessagePayload(), 0, numBits);
+        return signed ? getIntFromBitset(getMessagePayload(), 0, numBits) :
+                getUnsignedIntFromBitset(getMessagePayload(), 0, numBits);
     }
     
     @Override
