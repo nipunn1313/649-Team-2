@@ -1,0 +1,60 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -pf proj10acceptance1.pass -head head.txt -b 200
+RandomSeed = 1352422159124
+CanNetworkBitTime = 5000 ns
+Effective Can Bitrate = 199999.99999999997
+Run Time = null
+Real time rate = null
+Acceptance Test File = proj10acceptance1.pass
+
+STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
+-----------------------------------------------------
+
+The following passengers were stranded:
+Passenger 0: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 1: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 2: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 3: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 4: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 7: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 5: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 6: NOT_DELIVERED, OVERWEIGHT_BACKOFF
+Passenger 8: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 9: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 10: NOT_DELIVERED, WAITING_IN_CAR
+Passenger 11: NOT_DELIVERED, OVERWEIGHT_BACKOFF
+Passenger 12: NOT_DELIVERED, OVERWEIGHT_BACKOFF
+Passenger 13: NOT_DELIVERED, WAITING_IN_HALL
+Passenger 14: NOT_DELIVERED, WAITING_IN_HALL
+Passenger 15: NOT_DELIVERED, WAITING_IN_HALL
+Passenger 16: NOT_DELIVERED, WAITING_IN_HALL
+
+These passengers were delivered:
+
+Passenger Delivery Summary
+Delivered: 0
+Stranded: 17
+Total: 17
+
+Deliver Stats (lower is better):
+Average_delivery_time: n/a
+Maximum_delivery_time:  n/a
+Delivery_performance_score:  2147483647
+
+Satisfaction Stats (higher is better):
+Average_satisfaction_score: n/a
+Min_satisfaction_score:  n/a
+Satisfaction_performance_score:  0.000
+
+
+
+Network Utilization Summary:
+Recent: 86.16 % Max: 86.16 %  Overall:  86.16 %
+
