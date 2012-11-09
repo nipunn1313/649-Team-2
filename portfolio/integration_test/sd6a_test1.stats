@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd6a.cf -mf sd6a_test1.mf -head head.txt
-RandomSeed = 1350607597572
+RandomSeed = 1352415647238
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,15 +16,20 @@ Message File = sd6a_test1.mf
 Controller File = sd6a.cf
 
 Assertion Results:
-@0.3s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@65b4fad5 :: floor ?== 2 PASSED
-@0.35s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@4ba33d48 :: direction ?== UP PASSED
-@0.35s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@74b2002f :: speed ?== LEVEL PASSED
-@0.42s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@56406199 :: direction ?== STOP PASSED
-@0.42s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@79f6f296 :: speed ?== STOP PASSED
+@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@7e80fa6f :: speed ?== FAST PASSED
+@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2996c1b0 :: direction ?== UP PASSED
+@0.25s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@3d66aa18 :: getScaledSpeed ?== 100 PASSED
+@0.5s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@4bdb699b :: floor ?== 2 PASSED
+@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2107ebe1 :: speed ?== SLOW PASSED
+@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@26544ec1 :: direction ?== UP PASSED
+@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@19968e23 :: direction ?== UP PASSED
+@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@378f6235 :: speed ?== LEVEL PASSED
+@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@39d85f79 :: direction ?== STOP PASSED
+@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@6115273a :: speed ?== STOP PASSED
 
 
 ******************Summary******************
-Passed:  5
+Passed:  10
 Failed:  0
-Total :  5
+Total :  10
 

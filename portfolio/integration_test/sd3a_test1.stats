@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd3a.cf -mf sd3a_test1.mf -head head.txt
-RandomSeed = 1350607593810
+RandomSeed = 1352415640978
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,10 +16,10 @@ Message File = sd3a_test1.mf
 Controller File = sd3a.cf
 
 Assertion Results:
-@0.33s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@78105738 :: lighted ?== false PASSED
 @0.33s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@33bfc93a :: lighted ?== false PASSED
-@0.33s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@86e293a :: lighted ?== false PASSED
+@0.33s:  PASSED simulator.payloads.HallLightPayload$ReadableHallLightPayload@86e293a :: lighted ?== false PASSED
 @0.33s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@7ca3d4cf :: lighted ?== false PASSED
+@0.33s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@59e152c5 :: lighted ?== false PASSED
 
 
 ******************Summary******************
