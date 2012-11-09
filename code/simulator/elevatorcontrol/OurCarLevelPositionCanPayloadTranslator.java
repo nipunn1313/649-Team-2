@@ -16,11 +16,11 @@ public class OurCarLevelPositionCanPayloadTranslator extends
         OurIntegerCanPayloadTranslator {
 
     public OurCarLevelPositionCanPayloadTranslator(WriteableCanMailbox payload) {
-        super(payload, MessageLengths.mCarLevelPosition);
+        super(payload, MessageLengths.mCarLevelPosition, true);
     }
 
     public OurCarLevelPositionCanPayloadTranslator(ReadableCanMailbox payload) {
-        super(payload, MessageLengths.mCarLevelPosition);
+        super(payload, MessageLengths.mCarLevelPosition, true);
     }
     
     public int getPosition() {
