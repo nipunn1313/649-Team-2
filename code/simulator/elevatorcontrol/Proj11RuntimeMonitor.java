@@ -9,6 +9,9 @@
 
 package simulator.elevatorcontrol;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jSimPack.SimTime;
 import simulator.framework.DoorCommand;
 import simulator.framework.Elevator;
@@ -16,6 +19,7 @@ import simulator.framework.Hallway;
 import simulator.framework.Harness;
 import simulator.framework.RuntimeMonitor;
 import simulator.framework.Side;
+import simulator.framework.Timer;
 import simulator.payloads.CarWeightPayload.ReadableCarWeightPayload;
 import simulator.payloads.DoorClosedPayload.ReadableDoorClosedPayload;
 import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
@@ -24,6 +28,9 @@ import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
 
 public class Proj11RuntimeMonitor extends RuntimeMonitor {
 
+    private final Timer timer = new Timer(this);
+    private final SimTime period = new SimTime("10ms");
+    
     DoorStateMachine doorState = new DoorStateMachine();
     WeightStateMachine weightState = new WeightStateMachine();
     Stopwatch reversalTimer = new Stopwatch();
@@ -32,8 +39,12 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
     int overWeightCount = 0;
     int wastedOpenings = 0;
     boolean isWastedOpening = true;
+    
+    R_T6RuntimeMonitor R_T6Monitor = new R_T6RuntimeMonitor();
+    R_T7RuntimeMonitor R_T7Monitor = new R_T7RuntimeMonitor();
 
     public Proj11RuntimeMonitor() {
+        timer.start(period);
     }
 
     @Override
@@ -46,7 +57,22 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
     }
 
     public void timerExpired(Object callbackData) {
-        //do nothing
+        List<String> warnings = new ArrayList<String>();
+        List<String> messages = new ArrayList<String>();
+        
+        R_T6Monitor.onTimerExpired(this.driveActualSpeed, this.atFloors, this.hallLights, this.carLights,
+                warnings, messages);
+        /*
+        R_T7Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights, this.carLights,
+                warnings, messages);
+                */
+        
+        for (String message : messages)
+            this.message(message);
+        for (String warning : warnings)
+            this.warning(warning);
+        
+        timer.start(period);
     }
 
     /**************************************************************************
@@ -187,7 +213,7 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
      * Also provides external methods that can be queried to determine the
      * current door state.
      */
-    private class DoorStateMachine {
+    public class DoorStateMachine {
 
         DoorState state[] = new DoorState[2];
 
