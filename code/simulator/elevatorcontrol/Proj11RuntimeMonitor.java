@@ -22,7 +22,7 @@ import simulator.payloads.DoorMotorPayload.ReadableDoorMotorPayload;
 import simulator.payloads.DoorOpenPayload.ReadableDoorOpenPayload;
 import simulator.payloads.DriveSpeedPayload.ReadableDriveSpeedPayload;
 
-public class Proj12RuntimeMonitor extends RuntimeMonitor {
+public class Proj11RuntimeMonitor extends RuntimeMonitor {
 
     DoorStateMachine doorState = new DoorStateMachine();
     WeightStateMachine weightState = new WeightStateMachine();
@@ -33,7 +33,7 @@ public class Proj12RuntimeMonitor extends RuntimeMonitor {
     int wastedOpenings = 0;
     boolean isWastedOpening = true;
 
-    public Proj12RuntimeMonitor() {
+    public Proj11RuntimeMonitor() {
     }
 
     @Override
