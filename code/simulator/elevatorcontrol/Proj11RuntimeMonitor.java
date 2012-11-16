@@ -45,7 +45,9 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
     R_T81RuntimeMonitor R_T81Monitor = new R_T81RuntimeMonitor();
     R_T82RuntimeMonitor R_T82Monitor = new R_T82RuntimeMonitor();
     R_T83RuntimeMonitor R_T83Monitor = new R_T83RuntimeMonitor();
-
+    R_T9RuntimeMonitor R_T9Monitor = new R_T9RuntimeMonitor();
+    R_T10RuntimeMonitor R_T10MonitorFront = new R_T10RuntimeMonitor(Hallway.FRONT);
+    R_T10RuntimeMonitor R_T10MonitorBack = new R_T10RuntimeMonitor(Hallway.BACK);
     public Proj11RuntimeMonitor() {
         timer.start(period);
     }
@@ -73,6 +75,10 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
                 this.carLights, this.carLanterns, warnings, messages);
         R_T83Monitor.onTimerExpired(this.driveActualSpeed, this.atFloors, this.doorState, this.hallLights,
                 this.carLights, this.carLanterns, warnings, messages);
+        R_T9Monitor.onTimerExpired(this.driveActualSpeed, this.carLevelPosition, this.driveCommandedSpeed, 
+                this.mDesiredFloor, warnings, messages);
+        R_T10MonitorFront.onTimerExpired(doorState, doorReversals, warnings, messages);
+        R_T10MonitorBack.onTimerExpired(doorState, doorReversals, warnings, messages);
         
         for (String message : messages)
             this.message(message);
@@ -311,9 +317,17 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
         public boolean anyDoorMotorOpening(Hallway h) {
             return doorMotors[h.ordinal()][Side.LEFT.ordinal()].command() == DoorCommand.OPEN || doorMotors[h.ordinal()][Side.RIGHT.ordinal()].command() == DoorCommand.OPEN;
         }
+        
+        public boolean anyDoorMotorNudging(Hallway h) {
+            return doorMotors[h.ordinal()][Side.LEFT.ordinal()].command() == DoorCommand.NUDGE || doorMotors[h.ordinal()][Side.RIGHT.ordinal()].command() == DoorCommand.NUDGE;
+        }
 
         public boolean anyDoorMotorClosing(Hallway h) {
             return doorMotors[h.ordinal()][Side.LEFT.ordinal()].command() == DoorCommand.CLOSE || doorMotors[h.ordinal()][Side.RIGHT.ordinal()].command() == DoorCommand.CLOSE;
+        }
+        
+        public boolean anyDoorMotorOpening() {
+            return anyDoorMotorOpening(Hallway.BACK) || anyDoorMotorOpening(Hallway.FRONT);
         }
     }
 
