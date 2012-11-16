@@ -4,7 +4,7 @@
  * Jacob Olson (jholson)
  * Benet Clark (brclark)
  * Nick Mazurek (nmazurek)
- * @file R_T6RuntimeMonitor.java
+ * @file R_T9RuntimeMonitor.java
  */
 
 package simulator.elevatorcontrol;
@@ -25,7 +25,7 @@ public class R_T9RuntimeMonitor {
         STATE_SHOULD_SLOW
     };
     
-    private static final double FAST_SPEED = 1.0;
+    private static final double FAST_SPEED = DriveObject.FastSpeed;
     private State state = State.STATE_STOPPED;
     
     public void onTimerExpired(ReadableDriveSpeedPayload driveActualSpeed, 
