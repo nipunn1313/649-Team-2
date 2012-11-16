@@ -1164,7 +1164,8 @@ simulation by scheduling a future task execution at time of expiration)
 <ul>
   <li>
     5.6&nbsp; If any mAtFloor[f, b] is True and f equals
-    mDesiredFloor.f, and mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)
+    mDesiredFloor.f, mDesiredFloor.b == DoorControl.b, and 
+    mDriveSpeed = (0, d) or mDriveSpeed = (s, Stop)
     then: <br>
   </li>
   <ul>
@@ -1196,12 +1197,17 @@ simulation by scheduling a future task execution at time of expiration)
     </ul>
   </li>
   <li>
-    5.9&nbsp; When CountDown &lt;= 0 and HasReversed is false, DoorMotor[b,r] shall be commanded
+    5.9&nbsp; When CountDown &lt;= 0, mDoorClosed[b,r] == False, 
+    and HasReversed is false, DoorMotor[b,r] shall be commanded
     to Close.<br>
   </li>
   <li>
     5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
-    False, DoorMotor[b, r] shall be commanded to Open.<br>
+    False, then:<br />
+    <ul>
+      <li>5.10.1&nbsp; HasReversed should be set to false.</li>
+      <li>5.10.2&nbsp; DoorMotor[b, r] shall be commanded to Open.</li>
+    </ul>
   </li>
   <li>
     5.11&nbsp; Dwell shall be set to an appropriate value based on
