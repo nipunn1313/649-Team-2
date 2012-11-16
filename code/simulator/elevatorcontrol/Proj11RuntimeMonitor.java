@@ -41,11 +41,16 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
     boolean isWastedOpening = true;
     
     R_T6RuntimeMonitor R_T6Monitor = new R_T6RuntimeMonitor();
+<<<<<<< HEAD
     R_T7RuntimeMonitor R_T7Monitor = new R_T7RuntimeMonitor();
     R_T81RuntimeMonitor R_T81Monitor = new R_T81RuntimeMonitor();
     R_T82RuntimeMonitor R_T82Monitor = new R_T82RuntimeMonitor();
     R_T83RuntimeMonitor R_T83Monitor = new R_T83RuntimeMonitor();
 
+=======
+    //R_T7RuntimeMonitor R_T7Monitor = new R_T7RuntimeMonitor();
+    R_T9RuntimeMonitor R_T9Monitor = new R_T9RuntimeMonitor();
+>>>>>>> Runtime monitor implementation for RT-9
     public Proj11RuntimeMonitor() {
         timer.start(period);
     }
@@ -73,7 +78,8 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
                 this.carLights, this.carLanterns, warnings, messages);
         R_T83Monitor.onTimerExpired(this.driveActualSpeed, this.atFloors, this.doorState, this.hallLights,
                 this.carLights, this.carLanterns, warnings, messages);
-        
+        R_T9Monitor.onTimerExpired(this.driveActualSpeed, this.carLevelPosition, this.driveCommandedSpeed, 
+                this.mDesiredFloor, warnings, messages);
         for (String message : messages)
             this.message(message);
         for (String warning : warnings)
