@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
-  <title>18649 CHANGE THIS TITLE</title>
+  <title>18649 High Level Requirements Verification</title>
 </head>
 <body>
 <h1 style="text-align: center;">18649 - High Level Requirements
@@ -12,14 +12,71 @@ Verification<br>
 Group 2 - Nipunn Koorapati (nkoorapa), Jacob Olson (jholson),
 Ben Clark (brclark), Nick Mazurek (nmazurek)<br>
 <hr style="width: 100%; height: 2px;">
-<h2>Verification Framework Description<br>
-</h2>
-Add description of verification approach here<br>
-<br>
-<h2>Verification Instructions</h2>
-<br>
-Add instructions here<br>
-<br>
+<h2>Verification Framework Description</h2>
+To verify requirements R-T6 through R-T10, we constructed a state chart for
+each requirement that monitors the relevant elevator state.<br/>
+<br/>
+<h3>R-T6</h3>
+It must be verified that whenever the car stops, it is at a floor for which
+there are pending calls. This means that stopping where there is no floor
+should result in a warning, and stopping at a floor for which there are no
+hall calls or car calls shall result in a warning.<br/>
+<img src="runtime_monitor_rt6.png"/>
+
+<h3>R-T7</h3>
+It must be verified that whenever the car opens any door, it is at a
+hallway for which there are pending calls. This means that if a door is open at
+a hallway, and there are no hall calls or car calls for that specific hallway
+on that specific floor, a warning shall be issued.
+<br/>
+<img src="runtime_monitor_rt7.png"/>
+
+<h3>R-T8.1</h3>
+It must be verified that whenever the car opens any door, if there is a
+pending call on a different floor, a car lantern turns on. So, when the door
+opens, if there is a hall call or car call at a different floor AND both car
+lanterns are off, this constitutes an illegal state, and a warning shall be
+issued.
+<br/>
+<img src="runtime_monitor_rt8-1.png"/>
+
+<h3>R-T8.2</h3>
+It must be verified that whenever the direction indicated by the car lanterns
+should not change while the elevator doors are not closed. So, when the door
+opens, the state of the car lanterns should be noted. If either car lantern
+changes state while any door is still open, a warning shall be issued.
+<br/>
+<img src="runtime_monitor_rt8-2.png"/>
+
+<h3>R-T8.3</h3>
+It must be verified that whenever a car lantern is lit at a floor, after it has
+left, it first services any pending calls in the same direction as the car
+lantern. So, when car doors first open at a floor, the direction that the car
+lantern indicates should be noted. Then, whenever the car moves from the floor,
+if the movement is in the opposite direction that the car lantern indicated,
+a warning shall be issued.
+<br/>
+<img src="runtime_monitor_rt8-3.png"/>
+
+<h3>R-T9</h3>
+To ensure that the car travels at fast speed as much as possible, the
+CommitPoint calculation must be performed to know whether it is feasible for
+the car to advance its speed. Therefore, if the car's measured drive speed is
+equal to the SLOW speed, and the CommitPoint has not been reached for the
+desired floor, we can deduce that the car can go faster, thus violating the
+requirement. A warning shall be issued in this case.
+<br/>
+<img src="runtime_monitor_rt9.png"/>
+
+<h3>R-T10</h3>
+It must be verified that if a door is commanded to Nudge, at least one door
+reversal shall have occurred before doing so. To verify this, when the door
+opens, the first door reversal shall be recorded. If a Nudge proceeds to happen
+after this door reversal, this generates no warning. A Nudge in any other
+circumstance shall result in a warning.
+<br/>
+<img src="runtime_monitor_rt10.png"/>
+
 <h2>Verification Results</h2>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
