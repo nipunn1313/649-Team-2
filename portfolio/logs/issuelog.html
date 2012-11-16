@@ -1838,6 +1838,199 @@ to resolve the issue.&nbsp; This should be a specific list, such as
       <td style="vertical-align: top;">proj10acceptance1.pass<br>
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;">91<br>
+      </td>
+      <td style="vertical-align: top;">11/13/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">nmazurek, brclark<br>
+      </td>
+      <td style="vertical-align: top;">Proj 11 Runtime Monitor State Charts<br>
+      </td>
+      <td style="vertical-align: top;">Make runtime monitor statecharts for
+      each of the high level requirements.<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">runtime_monitor_rt6,
+      runtime_monitor_rt7, runtime_monitor_rt8-1, runtime_monitor_rt8-2,
+      runtime_monitor_rt8-3, runtime_monitor_rt9, runtime_monitor_rt10<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">92<br>
+      </td>
+      <td style="vertical-align: top;">11/13/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">nkoorapa<br>
+      </td>
+      <td style="vertical-align: top;">Proj 11 Runtime Monitor<br>
+      </td>
+      <td style="vertical-align: top;">Write the runtime monitor based on the
+      state charts.<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">Proj11RuntimeMonitor.java<br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">93<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">jholson, nmazurek<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor Statechart RT 6<br>
+      </td>
+      <td style="vertical-align: top;">Wrong logic on transition between
+      states. Needs to transition when no CarCalls or HallCalls at specific
+      floor. Also use DriveSpeed.s == 0 to check for Stop.<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">runtime_monitor_rt6<br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">94<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">jholson, nmazurek<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor Statechart RT 7<br>
+      </td>
+      <td style="vertical-align: top;">Wrong transition logic. Must include
+      mAtFloor[f,b] == True, get rid of mDrive.d, and check which hallway the
+      door is replicated for.<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">runtime_monitor_rt7<br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">95<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">jholson, nmazurek<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor Statechart RT 8.1<br>
+      </td>
+      <td style="vertical-align: top;">Add transition from Red state "Lantern
+      off with pending call" to top state "Lantern off with no pending call"
+      based on mDoorClosed. Top state should be renamed to "Doors Closed".<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">runtime_monitor_rt8-1<br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">96<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">jholson, nmazurek, nkoorapa, brclark<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor Statechart RT 9<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor will output a warning
+      every time it reaches Slow speed, has not reached the commit point, BUT
+      is about to swith to Fast speed.<br>
+      </td>
+      <td style="vertical-align: top; color: red;">Pending<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">97<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">11/15/12<br>
+      </td>
+      <td style="vertical-align: top;">nkoorapa<br>
+      </td>
+      <td style="vertical-align: top;">Runtime Monitor Statecharts RT 8.1-3<br>
+      </td>
+      <td style="vertical-align: top;">Use "any CarLantern[d]" to reference
+      both replicated CarLanterns.<br>
+      </td>
+      <td style="vertical-align: top;">Done<br>
+      </td>
+      <td style="vertical-align: top;">runtime_monitor_rt8-1, 8-2, 8-3<br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">...<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">...<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+     <tr>
+      <td style="vertical-align: top;">...<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
      <tr>
       <td style="vertical-align: top;">...<br>
       </td>
