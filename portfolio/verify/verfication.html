@@ -71,9 +71,10 @@ requirement. A warning shall be issued in this case.
 <h3>R-T10</h3>
 It must be verified that if a door is commanded to Nudge, at least one door
 reversal shall have occurred before doing so. To verify this, when the door
-opens, the first door reversal shall be recorded. If a Nudge proceeds to happen
-after this door reversal, this generates no warning. A Nudge in any other
-circumstance shall result in a warning.
+reopens after receiving an mDoorReversal, the first door reversal shall 
+be recorded. If a Nudge proceeds to happen after this door reversal, this 
+generates no warning. A Nudge in any other circumstance shall result in a 
+warning.
 <br/>
 <img src="runtime_monitor_rt10.png"/>
 
