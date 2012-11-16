@@ -71,7 +71,7 @@ public class R_T7RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_DOORS_NOT_CLOSED_NO_CALL) {
-            warnings.add("Doors opened on floor " + f + " hallway " + h +
+            warnings.add("Doors opened on floor " + (f+1) + " hallway " + h +
                     " but there was no call on that floor");
         }
         
