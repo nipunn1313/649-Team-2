@@ -14,20 +14,22 @@ Ben Clark (brclark), Nick Mazurek (nmazurek)<br>
 <hr style="width: 100%; height: 2px;">
 <h2>Verification Framework Description</h2>
 To verify requirements R-T6 through R-T10, we constructed a state chart for
-each requirement that monitors the relevant elevator state.<br/>
+each requirement that monitors the relevant elevator state. Each state chart
+below has been implemented as a separate .java file, for modularity's sake
 <br/>
 <h3>R-T6</h3>
 It must be verified that whenever the car stops, it is at a floor for which
 there are pending calls. This means that stopping where there is no floor
 should result in a warning, and stopping at a floor for which there are no
 hall calls or car calls shall result in a warning.<br/>
+<br/>
 <img src="runtime_monitor_rt6.png"/>
 
 <h3>R-T7</h3>
 It must be verified that whenever the car opens any door, it is at a
 hallway for which there are pending calls. This means that if a door is open at
 a hallway, and there are no hall calls or car calls for that specific hallway
-on that specific floor, a warning shall be issued.
+on that specific floor, a warning shall be issued.<br/>
 <br/>
 <img src="runtime_monitor_rt7.png"/>
 
@@ -36,7 +38,7 @@ It must be verified that whenever the car opens any door, if there is a
 pending call on a different floor, a car lantern turns on. So, when the door
 opens, if there is a hall call or car call at a different floor AND both car
 lanterns are off, this constitutes an illegal state, and a warning shall be
-issued.
+issued.<br/>
 <br/>
 <img src="runtime_monitor_rt8-1.png"/>
 
@@ -44,7 +46,7 @@ issued.
 It must be verified that whenever the direction indicated by the car lanterns
 should not change while the elevator doors are not closed. So, when the door
 opens, the state of the car lanterns should be noted. If either car lantern
-changes state while any door is still open, a warning shall be issued.
+changes state while any door is still open, a warning shall be issued.<br/>
 <br/>
 <img src="runtime_monitor_rt8-2.png"/>
 
@@ -54,7 +56,7 @@ left, it first services any pending calls in the same direction as the car
 lantern. So, when car doors first open at a floor, the direction that the car
 lantern indicates should be noted. Then, whenever the car moves from the floor,
 if the movement is in the opposite direction that the car lantern indicated,
-a warning shall be issued.
+a warning shall be issued.<br/>
 <br/>
 <img src="runtime_monitor_rt8-3.png"/>
 
@@ -64,7 +66,7 @@ CommitPoint calculation must be performed to know whether it is feasible for
 the car to advance its speed. Therefore, if the car's measured drive speed is
 equal to the SLOW speed, and the CommitPoint has not been reached for the
 desired floor, we can deduce that the car can go faster, thus violating the
-requirement. A warning shall be issued in this case.
+requirement. A warning shall be issued in this case.<br/>
 <br/>
 <img src="runtime_monitor_rt9.png"/>
 
@@ -79,44 +81,111 @@ warning.
 <img src="runtime_monitor_rt10.png"/>
 
 <h2>Verification Results</h2>
-<br>
+        The elevator fails R-T7 and R-T8.1. <br/>
+        <br/>
+        R-T7 is failed because of requirement 5.6. When DoorControl detects
+        that the car is stopped at the desired floor and the doors are closed,
+        it commands them to open, providing wrong behavior when there are no
+        pending calls on other floors.<br/>
+        <br/>
+        R-T8.1 is failed because of the Dispatcher. LanternControl relies on
+        mDesiredFloor, and the Dispatcher delivers the wrong one. The failures
+        occur because of how the Dispatcher handles HallCalls and CarCalls,
+        specifically in requirements 11.7.1 and 11.7.2, where Dispatcher
+        invokes the NextFloor macro. The NextFloor macro makes the assumption
+        that when a person makes a hall call, the mHallCall signal is sent out
+        until the elevator stops at the hallway. In reality, this signal is
+        only sent out in the brief moment when the person presses the hall call
+        button. What we should be using is mHallLight, since this has the
+        desired action. As a result of this, the wrong mDesiredFloor is sent
+        out all of the time.
+        <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top; font-weight: bold;">Acceptance
-Test Name<br>
+      <td style="vertical-align: top; font-weight: bold;">
+        Acceptance Test Name<br>
       </td>
-      <td style="vertical-align: top; font-weight: bold;">Verification
-Status<br>
+      <td style="vertical-align: top; font-weight: bold;">
+        Verification Status<br>
       </td>
-      <td style="vertical-align: top; font-weight: bold;">Link to
-Verification Results<br>
+      <td style="vertical-align: top; font-weight: bold;">
+        Link to Verification Results<br>
       </td>
-      <td style="vertical-align: top; font-weight: bold;">Notes<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">proj5acceptance1.pass<br>
-      </td>
-      <td style="vertical-align: top;">pass / fail<br>
-      </td>
-      <td style="vertical-align: top;"><a href="p5-1_verification.out">p5-1_verification.out</a><br>
-      </td>
-      <td style="vertical-align: top;">If failed, identify the specific
-source of the failure, such as requirement (list requirement numbers),
-implementation (cite line file and line numbers), monitor (cite line
-file and line numbers), etc.<br>
+      <td style="vertical-align: top; font-weight: bold;">
+        Notes<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">....<br>
+      <td style="vertical-align: top;">proj10acceptance1.pass<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">fail<br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;"><a href="proj10acceptance1_verification.out">proj10acceptance1_verification.out</a><br>
       </td>
-      <td style="vertical-align: top;"><br>
+      <td style="vertical-align: top;">
+        Failures summarized above
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj10acceptance2.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj10acceptance2_verification.out">proj10acceptance2_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj10acceptance3.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj10acceptance3_verification.out">proj10acceptance3_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj11acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj11acceptance1_verification.out">proj11acceptance1_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj11acceptance2.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj11acceptance2_verification.out">proj11acceptance2_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj11acceptance3.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj11acceptance3_verification.out">proj11acceptance3_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
       </td>
     </tr>
   </tbody>
