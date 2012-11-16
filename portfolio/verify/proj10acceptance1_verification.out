@@ -1,0 +1,153 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+
+Simulator Parameters:
+Command line = -monitor Proj11RuntimeMonitor -pf ../acceptance_test/proj10acceptance1.pass -head head.txt
+RandomSeed = 1353037031205
+CanNetworkBitTime = 0 ns
+Effective Can Bitrate = Infinity
+Run Time = null
+Real time rate = null
+Acceptance Test File = ../acceptance_test/proj10acceptance1.pass
+Monitors: Proj11RuntimeMonitor  
+
+
+[Elevator] @0.000000000: Starting Simulation
+[RuntimeMonitor] @0.170000000: WARNING:  Doors opened on floor 1 hallway BACK but there was no call on that floor
+[RuntimeMonitor] @2.898000000: Weight changed
+[RuntimeMonitor] @9.220000000: No weight change
+[RuntimeMonitor] @9.290000000: WARNING:  Doors opened on floor 1 hallway BACK but there was no call on that floor
+[RuntimeMonitor] @11.240000000: Weight changed
+[RuntimeMonitor] @11.444000000: Weight changed
+[RuntimeMonitor] @12.538000000: Weight changed
+[RuntimeMonitor] @13.296000000: Weight changed
+[RuntimeMonitor] @14.090000000: Weight changed
+[RuntimeMonitor] @14.557000000: Weight changed
+[RuntimeMonitor] @15.898000000: Weight changed
+[RuntimeMonitor] @15.929000000: Weight changed
+[RuntimeMonitor] @17.949000000: Weight changed
+[RuntimeMonitor] @17.984000000: Weight changed
+[RuntimeMonitor] @19.818000000: Weight changed
+[RuntimeMonitor] @19.888000000: Weight changed
+[RuntimeMonitor] @43.320000000: Overweight
+[RuntimeMonitor] @43.320000000: Reversal time increased
+[RuntimeMonitor] @43.320000000: No weight change
+[RuntimeMonitor] @43.410000000: WARNING:  Doors opened on floor 1 hallway BACK but there was no call on that floor
+[RuntimeMonitor] @43.410000000: WARNING:  Lanterns are off when doors are open at floor 1 hallway BACK but there are pending calls
+[RuntimeMonitor] @45.583000000: Weight changed
+[RuntimeMonitor] @46.004000000: Weight changed
+[RuntimeMonitor] @47.066000000: Weight changed
+[RuntimeMonitor] @47.908000000: Weight changed
+[RuntimeMonitor] @52.520000000: Overweight
+[RuntimeMonitor] @52.520000000: No weight change
+[RuntimeMonitor] @52.650000000: WARNING:  Doors opened on floor 1 hallway BACK but there was no call on that floor
+[RuntimeMonitor] @52.650000000: WARNING:  Lanterns are off when doors are open at floor 1 hallway BACK but there are pending calls
+[RuntimeMonitor] @55.244000000: Weight changed
+[RuntimeMonitor] @55.396000000: Weight changed
+[RuntimeMonitor] @57.148000000: Weight changed
+[RuntimeMonitor] @57.452000000: Weight changed
+[Elevator] @60.000000000: Progress indicator
+[RuntimeMonitor] @61.720000000: Overweight
+[RuntimeMonitor] @61.720000000: No weight change
+[RuntimeMonitor] @61.850000000: WARNING:  Doors opened on floor 1 hallway BACK but there was no call on that floor
+[RuntimeMonitor] @61.850000000: WARNING:  Lanterns are off when doors are open at floor 1 hallway BACK but there are pending calls
+[RuntimeMonitor] @64.444000000: Weight changed
+[RuntimeMonitor] @64.509000000: Weight changed
+[Elevator] @120.000000000: Progress indicator
+[Elevator] @180.000000000: Progress indicator
+[Elevator] @240.000000000: Progress indicator
+[Elevator] @300.000000000: Progress indicator
+[Elevator] @360.000000000: Progress indicator
+[Elevator] @420.000000000: Progress indicator
+[Elevator] @480.000000000: Progress indicator
+[Elevator] @540.000000000: Progress indicator
+[Elevator] @600.000000000: Progress indicator
+[Elevator] @660.000000000: Progress indicator
+[Elevator] @720.000000000: Progress indicator
+[Elevator] @780.000000000: Progress indicator
+[Elevator] @840.000000000: Progress indicator
+[Elevator] @900.000000000: Progress indicator
+[Elevator] @960.000000000: Progress indicator
+[Elevator] @1020.000000000: Progress indicator
+[Elevator] @1080.000000000: Progress indicator
+[Elevator] @1140.000000000: Progress indicator
+[Elevator] @1200.000000000: Progress indicator
+[Elevator] @1260.000000000: Progress indicator
+[Elevator] @1320.000000000: Progress indicator
+[Elevator] @1380.000000000: Progress indicator
+[Elevator] @1440.000000000: Progress indicator
+[Elevator] @1500.000000000: Progress indicator
+[Elevator] @1560.000000000: Progress indicator
+[Elevator] @1620.000000000: Progress indicator
+[Elevator] @1680.000000000: Progress indicator
+[Elevator] @1740.000000000: Progress indicator
+[Elevator] @1800.000000000: Progress indicator
+[Elevator] @1860.000000000: Progress indicator
+[Elevator] @1920.000000000: Progress indicator
+[Elevator] @1980.000000000: Progress indicator
+[Elevator] @2040.000000000: Progress indicator
+[Elevator] @2100.000000000: Progress indicator
+[Elevator] @2160.000000000: Progress indicator
+[Elevator] @2220.000000000: Progress indicator
+[Elevator] @2280.000000000: Progress indicator
+[Elevator] @2340.000000000: Progress indicator
+[Elevator] @2400.000000000: Progress indicator
+[Elevator] @2460.000000000: Progress indicator
+[Elevator] @2520.000000000: Progress indicator
+[Elevator] @2580.000000000: Progress indicator
+[Elevator] @2640.000000000: Progress indicator
+[Elevator] @2700.000000000: Progress indicator
+[Elevator] @2760.000000000: Progress indicator
+[Elevator] @2820.000000000: Progress indicator
+[Elevator] @2880.000000000: Progress indicator
+[Elevator] @2940.000000000: Progress indicator
+[Elevator] @3000.000000000: Progress indicator
+[Elevator] @3060.000000000: Progress indicator
+[Elevator] @3120.000000000: Progress indicator
+[Elevator] @3180.000000000: Progress indicator
+[Elevator] @3240.000000000: Progress indicator
+[Elevator] @3300.000000000: Progress indicator
+[Elevator] @3360.000000000: Progress indicator
+[Elevator] @3420.000000000: Progress indicator
+[Elevator] @3480.000000000: Progress indicator
+[Elevator] @3540.000000000: Progress indicator
+[Elevator] @3600.000000000: Progress indicator
+[Elevator] @3660.000000000: Progress indicator
+[Elevator] @3701.000000000: Simulation Finished
+
+Monitors Warning Results: 
+RuntimeMonitor generated 8 warnings.
+
+Monitors Summmary Results: 
+Overweight Count = 3
+Wasted Openings = 4
+Reversal Time = 25.89s
+
+STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
+-----------------------------------------------------
+
+
+Passenger Delivery Summary
+Delivered: 0
+Stranded: 17
+Total: 17
+
+Deliver Stats (lower is better):
+Average_delivery_time: n/a
+Maximum_delivery_time:  n/a
+Delivery_performance_score:  2147483647
+
+Satisfaction Stats (higher is better):
+Average_satisfaction_score: n/a
+Min_satisfaction_score:  n/a
+Satisfaction_performance_score:  0.000
+
+
+3701.0s simulation seconds
+ 40.565 real seconds
+ effective rate 91.24
