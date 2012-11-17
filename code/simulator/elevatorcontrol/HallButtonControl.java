@@ -149,7 +149,7 @@ public class HallButtonControl extends Controller {
                 // State actions for 'UNPRESSED ON'
                 localHallLight.set(true);
                 mHallLight.set(true);
-                mHallCall.set(false);
+                mHallCall.set(true);
                 
                 // Transitions
                 // #transition 'HBT5'

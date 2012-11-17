@@ -131,7 +131,7 @@ public class CarButtonControl extends Controller {
                 }
                 break;
             case STATE_UNPRESSED_ON:
-                mCarCall.set(false);
+                mCarCall.set(true);
                 localCarLight.set(true);
                 mCarLight.set(true);
                 
