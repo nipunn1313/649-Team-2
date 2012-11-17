@@ -33,7 +33,7 @@ public class CarButtonControl extends Controller {
     private State state = State.STATE_LIGHT_OFF;
     
     private final int floor;
-    private final Hallway hallway;
+    //private final Hallway hallway;
     private final SimTime period;
 
     /* Input Interface */
@@ -60,7 +60,7 @@ public class CarButtonControl extends Controller {
 
         /* Save floor/hallway/period */
         this.floor = floor;
-        this.hallway = hallway;
+        //this.hallway = hallway;
         this.period = period;
         
         /* Setup mailboxes */

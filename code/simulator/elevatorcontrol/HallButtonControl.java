@@ -11,7 +11,6 @@ package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
-import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
@@ -38,7 +37,7 @@ public class HallButtonControl extends Controller {
     private DesiredFloorCanPayloadTranslator mDesiredFloor;
     
     // Receive door closed messages
-    private DoorClosedArray mDoorClosed;
+    //private DoorClosedArray mDoorClosed;
     
     // Send hall light messages
     private WriteableCanMailbox networkHallLight;
@@ -50,8 +49,8 @@ public class HallButtonControl extends Controller {
     
     // These variables keep track of which instance this is
     private final int floor;
-    private final Hallway hallway;
-    private final Direction direction;
+    //private final Hallway hallway;
+    //private final Direction direction;
     
     // Store the period for the controller
     private SimTime period;
@@ -73,8 +72,8 @@ public class HallButtonControl extends Controller {
         // Store the arguments in internal state
         this.period = period;
         this.floor = floor;
-        this.hallway = hallway;
-        this.direction = direction;
+        //this.hallway = hallway;
+        //this.direction = direction;
         
         // Initialize physical state
         // Create a hall call payload object and register it
@@ -92,7 +91,7 @@ public class HallButtonControl extends Controller {
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
         canInterface.registerTimeTriggered(networkDesiredFloor);
         // Create mDoorClosed interface
-        mDoorClosed = new DoorClosedArray(canInterface);
+        //mDoorClosed = new DoorClosedArray(canInterface);
         // Create mHallLight interface and register it
         networkHallLight = CanMailbox.getWriteableCanMailbox(MessageDictionary.HALL_LIGHT_BASE_CAN_ID +
                 ReplicationComputer.computeReplicationId(floor, hallway, direction));

@@ -15,8 +15,6 @@ import simulator.elevatorcontrol.Utility.CarCallArray;
 import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
-import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
-import simulator.elevatormodules.CarWeightCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
@@ -41,7 +39,7 @@ public class Dispatcher extends Controller {
 
     // Receive car weight messages
     private ReadableCanMailbox networkCarWeight;
-    private CarWeightCanPayloadTranslator mCarWeight;
+    //private CarWeightCanPayloadTranslator mCarWeight;
     
     // Receive car level position
     private ReadableCanMailbox networkCarLevelPosition;
@@ -68,7 +66,7 @@ public class Dispatcher extends Controller {
     public static final int DWELL_TIME = 5000;
 
     // Store the number of floors
-    private final int numFloors;
+    //private final int numFloors;
 
     // Enumerate states
     private enum State {
@@ -91,7 +89,7 @@ public class Dispatcher extends Controller {
 
         // Store the arguments in internal state
         this.period = period;
-        this.numFloors = numFloors;
+        //this.numFloors = numFloors;
 
         // Initialize network interfaces
         // Create mAtFloor interface
@@ -108,7 +106,7 @@ public class Dispatcher extends Controller {
         
         // Create mCarWeight interface
         networkCarWeight = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
-        mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
+        //mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
         canInterface.registerTimeTriggered(networkCarWeight);
         
         // Create mCarLevelPosition interface

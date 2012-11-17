@@ -11,10 +11,8 @@ package simulator.elevatorcontrol;
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
-import simulator.elevatormodules.CarLevelPositionCanPayloadTranslator;
 import simulator.elevatormodules.CarWeightCanPayloadTranslator;
 import simulator.elevatormodules.DriveObject;
-import simulator.elevatormodules.HoistwayLimitSensorCanPayloadTranslator;
 import simulator.elevatormodules.LevelingCanPayloadTranslator;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
@@ -89,11 +87,11 @@ public class DriveControl extends Controller {
      */
     // Hoistway Limit up
     private ReadableCanMailbox networkHoistwayLimitUp;
-    private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitUp;
+    //private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitUp;
     
     // Hoistway Limit down
     private ReadableCanMailbox networkHoistwayLimitDown;
-    private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitDown;
+    //private HoistwayLimitSensorCanPayloadTranslator mHoistwayLimitDown;
     
     // mCarWeight
     private ReadableCanMailbox networkCarWeight;
@@ -189,15 +187,15 @@ public class DriveControl extends Controller {
         networkHoistwayLimitUp = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + 
                 ReplicationComputer.computeReplicationId(Direction.UP));
-        mHoistwayLimitUp = new HoistwayLimitSensorCanPayloadTranslator(
-                networkHoistwayLimitUp, Direction.UP);
+        //mHoistwayLimitUp = new HoistwayLimitSensorCanPayloadTranslator(
+        //        networkHoistwayLimitUp, Direction.UP);
         canInterface.registerTimeTriggered(networkHoistwayLimitUp);
         
         networkHoistwayLimitDown = CanMailbox.getReadableCanMailbox(
                 MessageDictionary.HOISTWAY_LIMIT_BASE_CAN_ID + 
                 ReplicationComputer.computeReplicationId(Direction.DOWN));
-        mHoistwayLimitDown = new HoistwayLimitSensorCanPayloadTranslator(
-                networkHoistwayLimitDown, Direction.DOWN);
+        //mHoistwayLimitDown = new HoistwayLimitSensorCanPayloadTranslator(
+        //        networkHoistwayLimitDown, Direction.DOWN);
         canInterface.registerTimeTriggered(networkHoistwayLimitDown);
         
         networkCarWeight = CanMailbox.getReadableCanMailbox(
