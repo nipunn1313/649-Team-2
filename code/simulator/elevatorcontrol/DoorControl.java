@@ -174,6 +174,7 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 if ((currentFloor == mDesiredFloor.getFloor() &&
                         mAtFloors.isAtFloor(currentFloor, hallway) &&
+                        mDesiredFloor.getHallway() == hallway &&
                         ((mDriveSpeed.getScaledSpeed()==0) || 
                                 mDriveSpeed.getDirection()==Direction.STOP))) {
                     newState = State.STATE_DOORS_OPEN;
@@ -207,9 +208,10 @@ public class DoorControl extends Controller {
                 log("Countdown=", countdown);
 
                 //transitions
-                //#transition 'DoT 3'
+                //#transition 'DoT 4'
                 if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
-                        mCarWeight.getValue() < Elevator.MaxCarCapacity) {
+                        mCarWeight.getValue() < Elevator.MaxCarCapacity &&
+                        mDesiredFloor.getHallway() == hallway) {
                     newState = State.STATE_DOORS_CLOSE;
                 } else {
                     newState = state;
@@ -222,17 +224,22 @@ public class DoorControl extends Controller {
 
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
-                //#transition 'DoT 4'
+                //#transition 'DoT 5'
                 if (mDoorClosed.getClosed(hallway, side)) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
-                //#transition 'DoT 5'
-                else if (((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
-                           mAtFloors.isAtFloor(currentFloor, hallway)) ||
-                           mDoorReversalFront.getAnyReversal() ||
-                           mDoorReversalBack.getAnyReversal()) {
+                //#transition 'DoT 3'
+                else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
+                           mAtFloors.isAtFloor(currentFloor, hallway) &&
+                           mDesiredFloor.getHallway() == hallway) {
+                    newState = State.STATE_DOORS_OPEN;
+                }
+                //#transition 'DoT 6'
+                else if ((hallway == Hallway.FRONT && mDoorReversalFront.getAnyReversal()) ||
+                        (hallway == Hallway.BACK && mDoorReversalBack.getAnyReversal())) {
                     newState = State.STATE_DOORS_REOPEN;
-                } else {
+                }
+                else {
                     newState = state;
                 }
                 break;
@@ -245,7 +252,7 @@ public class DoorControl extends Controller {
                 countdown = dwell;
 
                 //transitions
-                //#transition 'DoT 6'
+                //#transition 'DoT 7'
                 if (mDoorOpened.getOpened(hallway, side)) {
                     newState = State.STATE_DOORS_REOPENED;
                 } else {
@@ -262,29 +269,31 @@ public class DoorControl extends Controller {
                 log("Countdown=", countdown);
 
                 //transitions
-                //#transition 'DoT 7'
+                //#transition 'DoT 9'
                 if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
-                        mCarWeight.getValue() < Elevator.MaxCarCapacity) {
+                        mCarWeight.getValue() < Elevator.MaxCarCapacity &&
+                        mDesiredFloor.getHallway() == hallway) {
                     newState = State.STATE_DOORS_NUDGE;
                 } else {
                     newState = state;
                 }
                 break;
             case STATE_DOORS_NUDGE:
-                //state actions for 'DOORS_CLOSE'
+                //state actions for 'DOORS_NUDGE'
                 localDoorMotor.set(DoorCommand.NUDGE);
                 mDoorMotor.setDoorCommand(DoorCommand.NUDGE);
 
                 currentFloor = mAtFloors.getCurrentFloor();
                 //transitions
-                //#transition 'DoT 8'
+                //#transition 'DoT 10'
                 if (mDoorClosed.getClosed(hallway, side)) {
                     newState = State.STATE_DOORS_CLOSED;
                 }
-                //#transition 'DoT 9'
+                //#transition 'DoT 8'
                 else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
-                           mAtFloors.isAtFloor(currentFloor, hallway)) {
-                    newState = State.STATE_DOORS_REOPEN;
+                           mAtFloors.isAtFloor(currentFloor, hallway) &&
+                           mDesiredFloor.getHallway() == hallway) {
+                    newState = State.STATE_DOORS_OPEN;
                 } else {
                     newState = state;
                 }

@@ -1197,16 +1197,18 @@ simulation by scheduling a future task execution at time of expiration)
     </ul>
   </li>
   <li>
-    5.9&nbsp; When CountDown &lt;= 0, mDoorClosed[b,r] == False, 
+    5.9&nbsp; When CountDown &lt;= 0, mDoorClosed[b,r] == False,
+    mDesiredFloor.b == DoorControl.b,
     and HasReversed is false, DoorMotor[b,r] shall be commanded
     to Close.<br>
   </li>
   <li>
-    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
+    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, mDesiredFloor.b ==
+    DoorControl.b, and mDoorOpened[b, r] is
     False, then:<br />
     <ul>
       <li>5.10.1&nbsp; HasReversed should be set to false.</li>
-      <li>5.10.2&nbsp; DoorMotor[b, r] shall be commanded to Open.</li>
+      <li>5.10.2&nbsp; DoorMotor[<b>b</b>, r] shall be commanded to Open.</li>
     </ul>
   </li>
   <li>
@@ -1214,7 +1216,8 @@ simulation by scheduling a future task execution at time of expiration)
     mDesiredDwell[b].<br>
   </li>
   <li>
-    5.12&nbsp; mDoorMotor[b,r] shall be set to the current value of DoorMotor[b,r]<br>
+    5.12&nbsp; mDoorMotor[b,r] shall be set to the current value of 
+    DoorMotor[b,r].<br>
   </li>
   <li>
     5.13&nbsp; If mDoorReversal[b,r] is True
@@ -1247,9 +1250,9 @@ cellspacing="2">
     <tr>
       <td>DoT 1</td>
       <td>
-        (mAtFloor[f,<b>b</b>] == True &amp;&amp; mDesiredFloor.f == f &amp;&amp;
-        <br />
-        (mDriveSpeed == (0,d) || mDriveSpeed == (s, Stop)))
+        mAtFloor[f,<b>b</b>] == True &amp;&amp; mDesiredFloor.f == f &amp;&amp;
+        <br /> mDesiredFloor.b == DoorControl.b &amp;&amp;
+        (mDriveSpeed == (0,d) || mDriveSpeed == (s, Stop))
       </td>
     </tr>
     <tr>
@@ -1261,52 +1264,60 @@ cellspacing="2">
     <tr>
       <td>DoT 3</td>
       <td>
-        (CountDown &lt;= 0) &amp;&amp; <br />
-        (mCarWeight(g) &lt; MaxCarCapacity)
+        mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; 
+        mAtFloor[f,<b>b</b>]==True &amp;&amp; <br />
+        mDesiredFloor.b == DoorControl.b
       </td>
     </tr>
     <tr>
       <td>DoT 4</td>
       <td>
-        mDoorClosed[b,r] == True
+        (CountDown &lt;= 0) &amp;&amp;
+        (mCarWeight(g) &lt; MaxCarCapacity) &amp;&amp; <br />
+        mDesiredFloor.b == DoorControl.b
       </td>
     </tr>
     <tr>
       <td>DoT 5</td>
       <td>
-        (mDoorReversal[b,*] == True) ||<br />
-        (mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; 
-        mAtFloor[f,<b>b</b>]==True)
+        mDoorClosed[b,r] == True
       </td>
     </tr>
     <tr>
       <td>DoT 6</td>
       <td>
-        mDoorOpened[b,r] == True
+        mDoorReversal[b,*] == True
       </td>
     </tr>
     <tr>
       <td>DoT 7</td>
       <td>
-        (CountDown &lt;= 0) &amp;&amp;
-        <br />
-        (mCarWeight(g) &lt; MaxCarCapacity)
+        mDoorOpened[b,r] == True
       </td>
     </tr>
-    <tr>
+   <tr>
       <td>DoT 8</td>
       <td>
-        mDoorClosed[b,r] == True
+        mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp;
+        mAtFloor[f,<b>b</b>]==True &amp;&amp; <br />
+        mDesiredFloor.b == DoorControl.b
       </td>
     </tr>
     <tr>
       <td>DoT 9</td>
       <td>
-        mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp;
-        mAtFloor[f,<b>b</b>]==True
+        (CountDown &lt;= 0) &amp;&amp;
+        (mCarWeight(g) &lt; MaxCarCapacity) &amp;&amp; <br />
+        mDesiredFloor.b == DoorControl.b
       </td>
     </tr>
-  </tbody>
+    <tr>
+      <td>DoT 10</td>
+      <td>
+        mDoorClosed[b,r] == True
+      </td>
+    </tr>
+ </tbody>
 </table>
 <h3>Requirements to Statechart Traceability</h3>
 <table style="text-align: left; width: 800px;" border="1" cellpadding="2"
@@ -1314,7 +1325,7 @@ cellspacing="2">
   <tbody>
     <tr>
       <td><br /></td>
-      <td colspan="14">Requirements</td>
+      <td colspan="15">Requirements</td>
     </tr>
     <tr>
       <td><b>State</b></td>
@@ -1325,7 +1336,8 @@ cellspacing="2">
       <td>5.8.1</td>
       <td>5.8.2</td>
       <td>5.9</td>
-      <td>5.10</td>
+      <td>5.10.1</td>
+      <td>5.10.2</td>
       <td>5.11</td>
       <td>5.12</td>
       <td>5.13.1</td>
@@ -1344,6 +1356,7 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
@@ -1354,6 +1367,7 @@ cellspacing="2">
       <td>state 2: Doors open</td>
       <td>X</td>
       <td>X</td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1378,6 +1392,7 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
@@ -1395,6 +1410,7 @@ cellspacing="2">
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
@@ -1410,7 +1426,8 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td>X</td>
       <td>X</td>
@@ -1429,6 +1446,7 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
@@ -1437,6 +1455,7 @@ cellspacing="2">
     </tr>
     <tr>    
       <td>state 7: Doors nudge</td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1468,11 +1487,13 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
     </tr>
     <tr>    
       <td>DoT 1</td>
       <td>X</td>
       <td>X</td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1502,8 +1523,9 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
     </tr>
-    <tr>    
+   <tr>    
       <td>DoT 3</td>
       <td><br /></td>
       <td><br /></td>
@@ -1511,8 +1533,9 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td>X</td>
       <td><br /></td>
+      <td>X</td>
+      <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1526,7 +1549,8 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
@@ -1543,50 +1567,53 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
       <td>X</td>
       <td>X</td>
-      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>
       <td>DoT 6</td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td>X</td>
       <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
+      <td>X</td>
       <td><br /></td>
     </tr>
     <tr>
       <td>DoT 7</td>
       <td><br /></td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
+      <td>X</td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
     </tr>
     <tr>
       <td>DoT 8</td>
@@ -1594,10 +1621,11 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
-      <td>X</td>
-      <td>X</td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -1614,7 +1642,26 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td>X</td>
+    </tr>
+    <tr>
+      <td>DoT 10</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
