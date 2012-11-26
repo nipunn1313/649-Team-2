@@ -43,7 +43,7 @@
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 
 ; Countdown should start as soon as State 3 is reached
-;#transition 'DoT 3' Dwell finishes. Doors start closing
+;#transition 'DoT 4' Dwell finishes. Doors start closing
 +0ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
 
 ;#state '4 STATE_DOORS_CLOSE'
@@ -51,7 +51,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == CLOSE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == CLOSE
 
-;#transition 'DoT 4' Doors finish closing
+;#transition 'DoT 5' Doors finish closing
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
 +0ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
@@ -84,7 +84,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == STOP
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 
-;#transition 'DoT 3' Doors close after dwell
+;#transition 'DoT 4' Doors close after dwell
 ; Countdown should start as soon as State 3 is reached
 ; Wait 5s (dwell time)
 
@@ -93,9 +93,38 @@
 +0ms A F DoorMotor FRONT LEFT : command == CLOSE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == CLOSE
 
-;#transition 'DoT 5.1' Doors reopen upon overweight
+;#transition 'DoT 3' Doors open upon overweight
 +50ms I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0.0 UP
 +0ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 14001
++0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
++0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
+
+;#state '2 STATE_DOORS_OPEN'
++200ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPEN
++0ms A F DoorMotor FRONT LEFT : command == OPEN
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == OPEN
+
+;#transition 'DoT 2' Doors finish opening
++0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
++0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = True
++0ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
+
+;#state '3 STATE_DOORS_OPENED'
++50ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPENED
++0ms A F DoorMotor FRONT LEFT : command == STOP
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
+
+;#transition 'DoT 4' Doors close after dwell
+; Countdown should start as soon as State 3 is reached
+; Wait 5s (dwell time)
+
+;#state '4 STATE_DOORS_CLOSE'
++5s A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_CLOSE
++0ms A F DoorMotor FRONT LEFT : command == CLOSE
++0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == CLOSE
+
+;#transition 'DoT 6' Doors reopen upon Reversal 
++0ms I 0s N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = True
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
 
@@ -104,9 +133,11 @@
 +0ms A F DoorMotor FRONT LEFT : command == OPEN
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == OPEN
 
-;#transition 'DoT 6' Doors finish reopening
+;#transition 'DoT 7' Doors finish reopening
++0ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = True
++0ms I 0s N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = False
 
 ;#state '6 STATE_DOORS_REOPENED'
 +100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_REOPENED
@@ -114,14 +145,13 @@
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 
 ;#transition 'DoT 7' Doors nudge upon countdown finishing after dwell
-+50ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
 
 ;#state '7 STATE_DOORS_NUDGE'
 +5100ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_NUDGE
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
 
-;#transition 'DoT 8' Doors finish closing
+;#transition 'DoT 10' Doors finish closing
 +50ms I 0s N AT_FLOOR_[4][FRONT]_CAN_ID AtFloor 4 FRONT = False
 +50ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 4 FRONT UP
 +50ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = True
@@ -157,7 +187,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == STOP
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 
-;#transition 'DoT 3' Doors begin closing after countdown expires
+;#transition 'DoT 4' Doors begin closing after countdown expires
 ; Countdown should start as soon as State 3 is reached
 ; Wait 5s (dwell time)
 
@@ -166,7 +196,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == CLOSE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == CLOSE
 
-;#transition 'DoT 5.2' Doors reopen upon DoorReversal
+;#transition 'DoT 6.2' Doors reopen upon DoorReversal
 +0ms I 0s N DOOR_REVERSAL_SENSOR_[FRONT][LEFT]_CAN_ID DoorReversal FRONT LEFT = True
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
@@ -176,7 +206,8 @@
 +0ms A F DoorMotor FRONT LEFT : command == OPEN
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == OPEN
 
-;#transition 'DoT 6' Doors finish reopening
+;#transition 'DoT 7' Doors finish reopening
++0ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = True
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = True
 
@@ -185,7 +216,7 @@
 +0ms A F DoorMotor FRONT LEFT : command == STOP
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == STOP
 
-;#transition 'DoT 7' Doors nudge upon countdown expiry
+;#transition 'DoT 9' Doors nudge upon countdown expires
 +50ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
 
 ;#state '7 STATE_DOORS_NUDGE'
@@ -193,12 +224,12 @@
 +0ms A F DoorMotor FRONT LEFT : command == NUDGE
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == NUDGE
 
-;#transition 'DoT 9' Doors reopen upon overweight
+;#transition 'DoT 9' Doors open upon overweight
 +50ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 14001
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = False
 +0ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = False
 
-;#state '5 STATE_DOORS_REOPEN'
-+200ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_REOPEN
+;#state '5 STATE_DOORS_OPEN'
++200ms A S DoorControl[FRONT][LEFT] : STATE == STATE_DOORS_OPEN
 +0ms A F DoorMotor FRONT LEFT : command == OPEN
 +0ms A N DOOR_MOTOR_COMMAND_[FRONT][LEFT]_CAN_ID DoorMotor FRONT LEFT : getDoorCommand == OPEN
