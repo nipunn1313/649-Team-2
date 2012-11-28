@@ -59,7 +59,6 @@ public class HallButtonControl extends Controller {
     private enum State {
         STATE_LIGHT_OFF,
         STATE_PRESSED,
-        STATE_UNPRESSED_ON
     }
     
     // State variable initialized to the initial state STATE_LIGHT_OFF
@@ -120,9 +119,7 @@ public class HallButtonControl extends Controller {
                 // #transition 'HBT1'
                 if (localHallCall.pressed() == true) {
                     newState = State.STATE_PRESSED;
-                } else {
-                    newState = state;
-                }
+                } 
                 break;
             case STATE_PRESSED:
                 // State actions for 'PRESSED'
@@ -136,33 +133,7 @@ public class HallButtonControl extends Controller {
                         mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
                         mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
-                // #transition 'HBT4'
-                } else if (localHallCall.pressed() == false && 
-                           !(mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
-                             mAtFloors.getCurrentFloor() == floor)) {
-                    newState = State.STATE_UNPRESSED_ON;
-                } else {
-                    newState = state;
-                }
-                break;
-            case STATE_UNPRESSED_ON:
-                // State actions for 'UNPRESSED ON'
-                localHallLight.set(true);
-                mHallLight.set(true);
-                mHallCall.set(true);
-                
-                // Transitions
-                // #transition 'HBT5'
-                if (localHallCall.pressed() == true) {
-                    newState = State.STATE_PRESSED;
-                // #transition 'HBT3'
-                } else if (localHallCall.pressed() == false &&
-                           mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
-                           mAtFloors.getCurrentFloor() == floor) {
-                    newState = State.STATE_LIGHT_OFF;
-                } else {
-                    newState = state;
-                }
+                } 
                 break;
             default:
                 throw new RuntimeException("State " + state + " was not recognized.");

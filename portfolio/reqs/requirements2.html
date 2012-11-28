@@ -2556,7 +2556,7 @@ None
   <ul>
     <li>8.2.1&nbsp; HallLight[f,b,d] shall be set to Off.</li>
     <li>8.2.2&nbsp; mHallLight[f,b,d] shall be set to False.</li>
-    <li>8.1.3&nbsp; mHallCall[f,b,d] shall be set to False.</li>
+    <li>8.2.3&nbsp; mHallCall[f,b,d] shall be set to False.</li>
   </ul>
   <li>8.3&nbsp; If HallCall[f,b,d] is Pressed, Active shall be set to True</li>
   <li>8.4&nbsp; If HallCall[f,b,d] is Idle and CurrentFloor is equal to
@@ -2590,22 +2590,6 @@ cellspacing="2">
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b></td>
     </tr>
-    <tr>
-      <td>HBT 3</td>
-      <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor &amp;&amp;
-          CurrentFloor == <b>f</b></td>
-    </tr>
-    <tr>
-      <td>HBT 4</td>
-      <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          !(mDesiredFloor.f == CurrentFloor &amp;&amp;
-            CurrentFloor == <b>f</b>)</td>
-    </tr>
-    <tr>
-      <td>HBT 5</td>
-      <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
-    </tr>
   </tbody>
 </table>
 <h3>Requirements to Statechart Traceability</h3>
@@ -2620,19 +2604,21 @@ cellspacing="2">
       <td><b>State</b></td>
       <td>8.1.1</td>
       <td>8.1.2</td>
+      <td>8.1.3</td>
       <td>8.2.1</td>
       <td>8.2.2</td>
+      <td>8.2.3</td>
       <td>8.3</td>
       <td>8.4</td>
-      <td>8.5</td>
     </tr>
     <tr>
       <td>state 1: Light off</td>
-      <td><br/></td>
-      <td><br/></td>
-      <td>X</td>
-      <td>X</td>
       <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
       <td><br /></td>
       <td>X</td>
     </tr>
@@ -2640,21 +2626,12 @@ cellspacing="2">
       <td>state 2: Pressed</td>
       <td>X</td>
       <td>X</td>
+      <td>X</td>
       <td><br/></td>
+      <td><br /></td>
       <td><br/></td>
       <td>X</td>
       <td><br/></td>
-      <td>X</td>
-    </tr>
-    <tr>    
-      <td>state 3: Unpressed On</td>
-      <td>X</td>
-      <td>X</td>
-      <td><br/></td>
-      <td><br/></td>
-      <td><br/></td>
-      <td><br/></td>
-      <td>X</td>
     </tr>
     <tr>    
       <td><b>Transitions</b></td>
@@ -2665,15 +2642,17 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
+      <td><br /></td>
     </tr>
     <tr>    
       <td>HBT 1</td>
-      <td><br/></td>
-      <td><br/></td>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
-      <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>    
@@ -2681,40 +2660,11 @@ cellspacing="2">
       <td><br /></td>
       <td><br /></td>
       <td><br/></td>
-      <td><br/></td>
-      <td><br /></td>
       <td>X</td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>HBT 3</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br/></td>
-      <td><br/></td>
-      <td><br /></td>
-      <td>X</td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>HBT 4</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
       <td>X</td>
       <td>X</td>
       <td><br /></td>
-    </tr>
-    <tr>    
-      <td>HBT 5</td>
-      <td><br/></td>
-      <td><br/></td>
-      <td><br /></td>
-      <td><br /></td>
       <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
     </tr>
   </tbody>
 </table>
@@ -2783,7 +2733,7 @@ None
   </ul>
   <!-- Turning light on conditions -->
   <li>
-    9.3&nbsp; If CarCall[f,b] is True, then Active shall be set to True
+    9.3&nbsp; If CarCall[f,b] is Pressed, then Active shall be set to True
   </li>
   <li>
     9.4&nbsp; If Active is True, then
@@ -2826,22 +2776,6 @@ cellspacing="2">
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b></td>
     </tr>
-    <tr>
-      <td>CBT 3</td>
-      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          mDesiredFloor.f == CurrentFloor &amp;&amp;
-          CurrentFloor == <b>f</b></td>
-    </tr>
-    <tr>
-      <td>CBT 4</td>
-      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
-          !(mDesiredFloor.f == CurrentFloor &amp;&amp;
-            CurrentFloor == <b>f</b>)</td>
-    </tr>
-    <tr>
-      <td>CBT 5</td>
-      <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Pressed</td>
-    </tr>
   </tbody>
 </table>
 <p><h3>Requirements to Statechart Traceability</h3></p>
@@ -2853,55 +2787,39 @@ cellspacing="2">
     </tr>
     <tr>
       <td><b>State</b></td>
-      <td>9.1.1</td>
-      <td>9.1.2</td>
-      <td>9.1.3</td>
-      <td>9.2</td>
-      <td>9.3.1</td>
-      <td>9.3.2</td>
-      <td>9.3.3</td>
+      <td>9.1</td>
+      <td>9.2.1</td>
+      <td>9.2.2</td>
+      <td>9.2.3</td>
+      <td>9.3</td>
       <td>9.4.1</td>
       <td>9.4.2</td>
+      <td>9.4.3</td>
     </tr>
     <tr>
-      <td>state 1: Light Off</td>
+      <td>state 1: No Call</td>
       <td>X</td>
       <td>X</td>
       <td>X</td>
       <td>X</td>
-      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
     </tr>
     <tr>    
-      <td>state 2: Button Pressed</td>
+      <td>state 2: Called</td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-      <td>X</td>
-      <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>state 3: Unpressed On</td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
+      <td>X<br /></td>
+      <td>X<br /></td>
+      <td>X<br /></td>
     </tr>
     <tr>    
       <td><b>Transitions</b></td>
-      <td><br /></td>
       <td><br /></td>
       <td><br /></td>
       <td><br /></td>
@@ -2920,54 +2838,16 @@ cellspacing="2">
       <td>X</td>
       <td>X</td>
       <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
+      <td>X</td>
     </tr>
     <tr>    
       <td>CBT 2</td>
       <td>X</td>
       <td>X</td>
       <td>X</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>CBT 3</td>
-      <td>X</td>
-      <td>X</td>
       <td>X</td>
       <td><br /></td>
       <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-    </tr>
-    <tr>    
-      <td>CBT 4</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-    </tr>
-    <tr>    
-      <td>CBT 5</td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td><br /></td>
-      <td>X</td>
-      <td>X</td>
-      <td>X</td>
       <td><br /></td>
       <td><br /></td>
     </tr>
