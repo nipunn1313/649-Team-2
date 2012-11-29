@@ -227,7 +227,7 @@ public class SwingDisplay extends javax.swing.JFrame implements BreakpointListen
             }
 
             public void update() {
-                setSelected(call.pressed());
+                setSelected(call.pressed() || light.lighted());
                 setBackground(light.lighted() ? Color.GREEN : Color.getHSBColor(0.0f, 0.0f, 0.93f));
             }
         }
@@ -249,7 +249,7 @@ public class SwingDisplay extends javax.swing.JFrame implements BreakpointListen
             }
 
             public void update() {
-                setSelected(call.pressed());
+                setSelected(call.pressed() || light.lighted());
                 setBackground(light.lighted() ? Color.GREEN : Color.getHSBColor(0.0f, 0.0f, 0.93f));
             }
         }

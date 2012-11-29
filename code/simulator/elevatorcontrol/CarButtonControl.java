@@ -26,11 +26,10 @@ public class CarButtonControl extends Controller {
     
     /* States! */
     private enum State {
-        STATE_LIGHT_OFF,
-        STATE_PRESSED,
-        STATE_UNPRESSED_ON
+        STATE_NO_CALL,
+        STATE_CALLED;
     }
-    private State state = State.STATE_LIGHT_OFF;
+    private State state = State.STATE_NO_CALL;
     
     private final int floor;
     //private final Hallway hallway;
@@ -104,17 +103,17 @@ public class CarButtonControl extends Controller {
             " mDesiredFloor=", mDesiredFloor.getFloor());
         State newState = state;
         switch (state) {
-            case STATE_LIGHT_OFF:
+            case STATE_NO_CALL:
                 mCarCall.set(false);
                 localCarLight.set(false);
                 mCarLight.set(false);
                 
                 //#transition CBT 1
                 if (localCarButton.isPressed()) {
-                    newState = State.STATE_PRESSED;
+                    newState = State.STATE_CALLED;
                 }
                 break;
-            case STATE_PRESSED:
+            case STATE_CALLED:
                 mCarCall.set(true);
                 localCarLight.set(true);
                 mCarLight.set(true);
@@ -123,25 +122,8 @@ public class CarButtonControl extends Controller {
                     //#transition CBT 2
                     if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
                         mAtFloors.getCurrentFloor() == floor) {
-                        newState = State.STATE_LIGHT_OFF;
-                    //#transition CBT 4
-                    } else {
-                        newState = State.STATE_UNPRESSED_ON;
+                        newState = State.STATE_NO_CALL;
                     }
-                }
-                break;
-            case STATE_UNPRESSED_ON:
-                mCarCall.set(false);
-                localCarLight.set(true);
-                mCarLight.set(true);
-                
-                //#transition CBT 5
-                if (localCarButton.isPressed()) {
-                    newState = State.STATE_PRESSED;
-                //#transition CBT 3
-                } else if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
-                           mAtFloors.getCurrentFloor() == floor) {
-                    newState = State.STATE_LIGHT_OFF;
                 }
                 break;
             default:
