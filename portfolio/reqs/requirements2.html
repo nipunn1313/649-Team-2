@@ -1198,13 +1198,12 @@ simulation by scheduling a future task execution at time of expiration)
   </li>
   <li>
     5.9&nbsp; When CountDown &lt;= 0, mDoorClosed[b,r] == False,
-    mDesiredFloor.b == DoorControl.b,
+    mDoorClosed[b,r] == False,
     and HasReversed is false, DoorMotor[b,r] shall be commanded
     to Close.<br>
   </li>
   <li>
-    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, mDesiredFloor.b ==
-    DoorControl.b, and mDoorOpened[b, r] is
+    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
     False, then:<br />
     <ul>
       <li>5.10.1&nbsp; HasReversed should be set to false.</li>
@@ -1228,8 +1227,9 @@ simulation by scheduling a future task execution at time of expiration)
     </ul>
   </li>
   <li>
-    5.14&nbsp; If HasReversed is True and CountDown &lt;=0, then
-    DoorMotor[b,*] shall be commanded to Nudge
+    5.14&nbsp; If HasReversed is True, mDoorClosed[b,r] == False,
+    and CountDown &lt;=0, then
+    DoorMotor[b,*] shall be commanded to Nudge.
   </li>
 </ul>
 <h3>State Chart</h3>
@@ -1266,7 +1266,7 @@ cellspacing="2">
       <td>
         mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp; 
         mAtFloor[f,<b>b</b>]==True &amp;&amp; <br />
-        mDesiredFloor.b == DoorControl.b
+        mDoorClosed[b,r] == False
       </td>
     </tr>
     <tr>
@@ -1274,7 +1274,7 @@ cellspacing="2">
       <td>
         (CountDown &lt;= 0) &amp;&amp;
         (mCarWeight(g) &lt; MaxCarCapacity) &amp;&amp; <br />
-        mDesiredFloor.b == DoorControl.b
+        mDoorClosed[b,r] == False
       </td>
     </tr>
     <tr>
@@ -1300,7 +1300,7 @@ cellspacing="2">
       <td>
         mCarWeight(g) &gt;= MaxCarCapacity &amp;&amp;
         mAtFloor[f,<b>b</b>]==True &amp;&amp; <br />
-        mDesiredFloor.b == DoorControl.b
+        mDoorClosed[b,r] == False
       </td>
     </tr>
     <tr>
