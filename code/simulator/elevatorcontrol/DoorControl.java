@@ -210,8 +210,8 @@ public class DoorControl extends Controller {
                 //transitions
                 //#transition 'DoT 4'
                 if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
-                        mCarWeight.getValue() < Elevator.MaxCarCapacity &&
-                        mDesiredFloor.getHallway() == hallway) {
+                        (mCarWeight.getValue() < Elevator.MaxCarCapacity) &&
+                        (mDoorClosed.getBothClosed(hallway) == false)) {
                     newState = State.STATE_DOORS_CLOSE;
                 } else {
                     newState = state;
