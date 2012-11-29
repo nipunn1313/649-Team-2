@@ -13,18 +13,17 @@
 ; Precondition Front doors are closed. Back doors are open.
 ; Elevator is at floor 2 heading down.
 0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 1 BACK UP
-+30ms I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 1000
-+30ms I 0s N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell = 1000
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++30ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
+;+30ms I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 1000
+;+30ms I 0s N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell = 1000
 +30ms I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = true
 +30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
 +30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 +30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
 +30ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
 
-+30ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
-+30ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
-+30ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
-
++250ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 FRONT UP
 ;#arc '2A/1a' Passenger makes car call
 ;#arc '2A/1b' Physical car call signal
 +150ms I 0s F CarCall 2 BACK = true
@@ -38,7 +37,7 @@
 ;#arc '2A/2b' passenger observes car light
 
 ;#arc '2A/3a' Doors start closing
-+1000ms A F DoorMotor BACK LEFT : command == CLOSE
++200ms A F DoorMotor BACK LEFT : command == CLOSE
 +0ms A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '2A/3b' Doors finish closing
