@@ -174,7 +174,7 @@ public class DoorControl extends Controller {
                 currentFloor = mAtFloors.getCurrentFloor();
                 if ((currentFloor == mDesiredFloor.getFloor() &&
                         mAtFloors.isAtFloor(currentFloor, hallway) &&
-                        mDesiredFloor.getHallway() == hallway &&
+                        (mDesiredFloor.getHallway() == hallway || mDesiredFloor.getHallway() == Hallway.BOTH) &&
                         ((mDriveSpeed.getScaledSpeed()==0) || 
                                 mDriveSpeed.getDirection()==Direction.STOP))) {
                     newState = State.STATE_DOORS_OPEN;
@@ -231,7 +231,7 @@ public class DoorControl extends Controller {
                 //#transition 'DoT 3'
                 else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
                            mAtFloors.isAtFloor(currentFloor, hallway) &&
-                           mDesiredFloor.getHallway() == hallway) {
+                           mDoorClosed.getBothClosed(hallway) == false) {
                     newState = State.STATE_DOORS_OPEN;
                 }
                 //#transition 'DoT 6'
@@ -272,7 +272,7 @@ public class DoorControl extends Controller {
                 //#transition 'DoT 9'
                 if (countdown.isLessThanOrEqual(SimTime.ZERO) &&
                         mCarWeight.getValue() < Elevator.MaxCarCapacity &&
-                        mDesiredFloor.getHallway() == hallway) {
+                        mDoorClosed.getBothClosed(hallway) == false) {
                     newState = State.STATE_DOORS_NUDGE;
                 } else {
                     newState = state;
@@ -292,7 +292,7 @@ public class DoorControl extends Controller {
                 //#transition 'DoT 8'
                 else if ((mCarWeight.getValue() >= Elevator.MaxCarCapacity) &&
                            mAtFloors.isAtFloor(currentFloor, hallway) &&
-                           mDesiredFloor.getHallway() == hallway) {
+                           mDoorClosed.getBothClosed(hallway) == false) {
                     newState = State.STATE_DOORS_OPEN;
                 } else {
                     newState = state;
