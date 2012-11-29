@@ -225,11 +225,28 @@ public class Utility {
         }
     }
     
-    // Half meter slack on the commit point
-    private static final double slack = .5;
+    
+    public static boolean reachedCommitPointNoSlack(int f, int carLevelPositionMM,
+            double driveSpeed, Direction driveDirection) {
+        return reachedCommitPointCommon(f, carLevelPositionMM, driveSpeed, driveDirection, false);
+    }
     
     public static boolean reachedCommitPoint(int f, int carLevelPositionMM, 
             double driveSpeed, Direction driveDirection) {
+        
+        return reachedCommitPointCommon(f, carLevelPositionMM, driveSpeed, driveDirection, true);
+    }
+    
+    
+    /* Helper for determining CommitPoint */
+    private static boolean reachedCommitPointCommon(int f, int carLevelPositionMM, 
+            double driveSpeed, Direction driveDirection, boolean withSlack) {
+        
+        if (driveSpeed == 0.0)
+            return false;
+
+        // Half meter slack on the commit point
+        double slackFactor = withSlack ? 1.8 : 1.0;
         
         double floorHeight = (f - 1) * Elevator.DISTANCE_BETWEEN_FLOORS;
         double carLevelPosition = (double) carLevelPositionMM / 1000;
@@ -242,15 +259,27 @@ public class Utility {
         double timeToStop = driveSpeed / DriveObject.Acceleration;
         double stoppingDistance = .5 * DriveObject.Acceleration * timeToStop * timeToStop;
         
-        // If we're going fast, provide slack. If we're going slow, no slack
+        // If we're going fast, provide slack. If we're going <= slow, no slack
         // DriveControl won't care, since it only uses commit point when going fast
         // CarPositionControl cares, since commit point -> switching floors
-        return distanceToFloor - stoppingDistance <= (driveSpeed <= 1.0 ? 0.0 : slack);
+        return distanceToFloor <= stoppingDistance * (driveSpeed < DriveObject.SlowSpeed ? 1.0 : slackFactor);
     }
     
+    public static int nextReachableFloorWhenMoving(int carLevelPositionMM,
+            double driveSpeed, Direction driveDirection) {
+        switch (driveDirection) {
+            case UP: return nextReachableFloor(1, carLevelPositionMM, driveSpeed, driveDirection, true);
+            case DOWN: return nextReachableFloor(8, carLevelPositionMM, driveSpeed, driveDirection, true);
+            case STOP: 
+            default:
+                throw new RuntimeException("Not moving when calling nextReachableFloorWhileMoving");
+        }
+    }
+    
+    /* For the CarPositionControl and DriveControl */
     public static int nextReachableFloor(int currentFloor,
             int carLevelPositionMM, double driveSpeed, 
-            Direction driveDirection) {
+            Direction driveDirection, boolean withSlack) {
         
         // If we're slower than leveling, we're basically stopped anyway.
         if (driveSpeed <= DriveObject.LevelingSpeed)
@@ -259,13 +288,13 @@ public class Utility {
         switch (driveDirection) {
             case UP:
                 for (int f = currentFloor; f <= Elevator.numFloors; f++) {
-                    if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection))
+                    if (!Utility.reachedCommitPointCommon(f, carLevelPositionMM, driveSpeed, driveDirection, withSlack))
                         return f;
                 }
                 throw new RuntimeException("We're going to launch out the roof!");
             case DOWN:
                 for (int f = currentFloor; f >= 0; f--) {
-                    if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection))
+                    if (!Utility.reachedCommitPointCommon(f, carLevelPositionMM, driveSpeed, driveDirection, withSlack))
                         return f;
                 }
                 throw new RuntimeException("We're going to crash through the basement");
@@ -276,7 +305,41 @@ public class Utility {
         }
     }
     
-    public static DesiredFloor getNextFloor(int carLevelPositionMM, double driveSpeed,
+    /* For dispatcher to determine next floor WHILE moving in a direction */
+    public static DesiredFloor getNextFloorMoving(int carLevelPositionMM, double driveSpeed,
+            Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
+            Direction targetDirection, int currentFloor) {
+        
+        DesiredFloor desired = null;
+        
+        if (driveDirection == Direction.UP) {
+            desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls);
+        } else if (driveDirection == Direction.DOWN) {
+            desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls);
+        }
+        
+        return desired;
+    }
+    
+    public static DesiredFloor getNextFloorDoorsClosed(int carLevelPositionMM, double driveSpeed,
+            Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
+            int currentFloor, int targetFloor) {
+        Direction desiredDirection;
+        
+        if (targetFloor > currentFloor)
+            desiredDirection = Direction.UP;
+        else if (targetFloor < currentFloor)
+            desiredDirection = Direction.DOWN;
+        else
+            desiredDirection = Direction.STOP;
+        
+        // Basically, do the same thing you do when the doors are open, except you can't rely on
+        // mDesiredFloor.d, so you compute based on currentFloor and mDesiredFloor.f
+        return getNextFloorDoorsOpen(carLevelPositionMM, driveSpeed, driveDirection, carCalls,
+                hallCalls, desiredDirection, currentFloor);
+    }
+    
+    public static DesiredFloor getNextFloorDoorsOpen(int carLevelPositionMM, double driveSpeed,
             Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
             Direction targetDirection, int currentFloor) {
         DesiredFloor desired;
@@ -306,7 +369,10 @@ public class Utility {
     
     private static DesiredFloor findDesiredAbove(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
             HallCallArray hallCalls, CarCallArray carCalls) {
-        for (int f = 1; f <= Elevator.numFloors; f++) {
+        
+        /* Add 100 for 10cm granularity */
+        int currentFloor = 1 + (int) (((100.0 + (double)carLevelPositionMM) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
+        for (int f = currentFloor; f <= Elevator.numFloors; f++) {
                if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
                    boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
                    boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);
@@ -336,7 +402,7 @@ public class Utility {
                    }
                }
            }
-           for (int f = Elevator.numFloors; f > 0; f--) {
+           for (int f = Elevator.numFloors; f >= currentFloor; f--) {
                if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
                    boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
                    boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
@@ -352,7 +418,9 @@ public class Utility {
     
     private static DesiredFloor findDesiredBelow(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
             HallCallArray hallCalls, CarCallArray carCalls) {
-        for (int f = Elevator.numFloors; f > 0; f--) {
+        
+        int currentFloor = 1 + (int) (((carLevelPositionMM + 100.0) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
+        for (int f = currentFloor; f >= 1; f--) {
             if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
                 boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
                 boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
@@ -381,7 +449,7 @@ public class Utility {
                 }
             }
         }
-        for (int f = 1; f <= Elevator.numFloors; f++) {
+        for (int f = 1; f <= currentFloor; f++) {
             if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
                 boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
                 boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);

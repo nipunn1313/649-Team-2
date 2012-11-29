@@ -116,7 +116,7 @@ public class CarPositionControl extends Controller {
                 double speed = mDriveSpeed.getSpeed();
                 int carLevelPosition = mCarLevelPosition.getValue();
                 currentlyDisplayedFloor = Utility.nextReachableFloor(currentlyDisplayedFloor,
-                        carLevelPosition, speed, d);
+                        carLevelPosition, speed, d, false);
                 carPositionIndicator.set(currentlyDisplayedFloor);
                 break;
             default:

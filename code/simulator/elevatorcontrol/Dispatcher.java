@@ -15,6 +15,7 @@ import simulator.elevatorcontrol.Utility.CarCallArray;
 import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
+import simulator.elevatormodules.DriveObject;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
 import simulator.framework.Hallway;
@@ -72,6 +73,8 @@ public class Dispatcher extends Controller {
     private enum State {
         STATE_DOORS_CLOSED,
         STATE_DOORS_OPEN_AT_FLOOR,
+        STATE_MOVING,
+        STATE_APPROACHING,
         STATE_DOORS_OPEN_BETWEEN_FLOORS
     }
 
@@ -146,9 +149,9 @@ public class Dispatcher extends Controller {
         switch (state) {
             case STATE_DOORS_CLOSED:
                 // State actions for 'DOORS CLOSED'
-                nextFloor = Utility.getNextFloor(mCarLevelPosition.getPosition(), 
+                nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, TargetDirection, currentFloor);
+                        mHallCalls, currentFloor, TargetFloor);
                 TargetFloor = nextFloor.getFloor();
                 TargetHallway = nextFloor.getHallway();
                 TargetDirection = nextFloor.getDirection();
@@ -162,17 +165,20 @@ public class Dispatcher extends Controller {
                 if (!mDoorClosed.getAllClosed() &&
                     mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
-                // #transition 'DIST3'
-                } else if (!mDoorClosed.getAllClosed() &&
-                           mAtFloors.getCurrentFloor() != MessageDictionary.NONE) {
-                    newState = State.STATE_DOORS_OPEN_AT_FLOOR;
+                } else if (mAtFloors.getCurrentFloor() != TargetFloor &&
+                           mAtFloors.getCurrentFloor() != MessageDictionary.NONE &&
+                           mDriveSpeed.getSpeed() > DriveObject.LevelingSpeed) {
+                    newState = State.STATE_MOVING;
+                } else if (mAtFloors.getCurrentFloor() == TargetFloor &&
+                           TargetHallway != Hallway.NONE) {
+                    newState = State.STATE_APPROACHING;
                 } else {
                     newState = state;
                 }
                 break;
             case STATE_DOORS_OPEN_AT_FLOOR:
                 // State actions for 'DOORS OPEN AT FLOOR'
-                nextFloor = Utility.getNextFloor(mCarLevelPosition.getPosition(), 
+                nextFloor = Utility.getNextFloorDoorsOpen(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
                         mHallCalls, TargetDirection, currentFloor);
                 TargetFloor = nextFloor.getFloor();
@@ -213,6 +219,55 @@ public class Dispatcher extends Controller {
                     newState = state;
                 }
                 break;
+            case STATE_MOVING:
+                // State actions for 'MOVING'
+                nextFloor = Utility.getNextFloorMoving(mCarLevelPosition.getPosition(), 
+                        mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
+                        mHallCalls, TargetDirection, currentFloor);
+                if (nextFloor == null) {
+                    if (mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
+                        throw new RuntimeException("Dispatcher is confused as to why we're moving");
+                    }
+                    // Don't update state variable here.
+                } else {
+                    TargetFloor = nextFloor.getFloor();
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                }
+                
+                mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
+                mDesiredDwellFront.set(DWELL_TIME);
+                mDesiredDwellBack.set(DWELL_TIME);
+                
+                if (Utility.nextReachableFloorWhenMoving(mCarLevelPosition.getPosition(),
+                        mDriveSpeed.getSpeed(), 
+                        mDriveSpeed.getDirection()) == TargetFloor) {
+                    newState = State.STATE_APPROACHING;
+                } else if (!mDoorClosed.getAllClosed()) {
+                    newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                }
+                break;
+            case STATE_APPROACHING:
+                // State actions for 'DOORS CLOSED'
+                nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
+                        mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
+                        mHallCalls, currentFloor, TargetFloor);
+                
+                mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
+                mDesiredDwellFront.set(DWELL_TIME);
+                mDesiredDwellBack.set(DWELL_TIME);
+                
+                // Transitions
+                if (!mDoorClosed.getAllClosed() &&
+                    mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
+                    newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                } else if (!mDoorClosed.getAllClosed() &&
+                           mAtFloors.getCurrentFloor() == TargetFloor) {
+                    newState = State.STATE_DOORS_OPEN_AT_FLOOR;
+                } else {
+                    newState = state;
+                }
+                break;
             default:
                 throw new RuntimeException("State " + state + " was not recognized.");
         }
@@ -222,6 +277,7 @@ public class Dispatcher extends Controller {
             log("remains in state: ", state);
         } else {
             log("Transition: ", state, "->", newState);
+            System.out.println("Transition: " + state + "->" + newState);
         }
 
         // Update the state variable
