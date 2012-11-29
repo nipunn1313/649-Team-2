@@ -13,78 +13,30 @@
 0s I 0s F HallCall 2 BACK DOWN = false
 
 ; Verify that button is not pressed
-210ms A F HallCall 2 BACK DOWN : pressed == false
++210ms A F HallCall 2 BACK DOWN : pressed == false
 
 ;#state '1 STATE_LIGHT_OFF'
-210ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
-210ms A F HallLight 2 BACK DOWN : lighted == false
-210ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
-210ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
++0ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
++0ms A F HallLight 2 BACK DOWN : lighted == false
++0ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
++0ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
 
 ;#transition 'HBT1'
-220ms I 0s F HallCall 2 BACK DOWN = true
++10ms I 0s F HallCall 2 BACK DOWN = true
 
 ;#state '2 STATE_PRESSED'
-510ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_PRESSED
-510ms A F HallLight 2 BACK DOWN : lighted == true
-510ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-510ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-
-;#transition 'HBT4a'
-520ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
-530ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK DOWN
-540ms I 0s F HallCall 2 BACK DOWN = false
-
-;#state '3 STATE_UNPRESSED_ON'
-810ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_UNPRESSED_ON
-810ms A F HallLight 2 BACK DOWN : lighted == true
-810ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-810ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-
-;#transition 'HBT5'
-820ms I 0s F HallCall 2 BACK DOWN = true
-
-;#state '2 STATE_PRESSED'
-1110ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_PRESSED
-1110ms A F HallLight 2 BACK DOWN : lighted == true
-1110ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-1110ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
++350ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_PRESSED
++0ms A F HallLight 2 BACK DOWN : lighted == true
++0ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
++0ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
 
 ;#transition 'HBT2'
-1120ms I 0s F HallCall 2 BACK DOWN = false
-1130ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
-1180ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
++10ms I 0s F HallCall 2 BACK DOWN = false
++10ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
++10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
 
 ;#state '1 STATE_LIGHT_OFF'
-1410ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
-1410ms A F HallLight 2 BACK DOWN : lighted == false
-1410ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
-1410ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
-
-; Setup conditions for before HBT3 (gotta do two state transitions)
-;#transition 'HBT1'
-1420ms I 0s F HallCall 2 BACK DOWN = true
-;#transition 'HBT4b'
-1710ms I 0s F HallCall 2 BACK DOWN = false
-1720ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 3 BACK UP
-1730ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
-1780ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
-
-;#state '3 STATE_UNPRESSED_ON'
-2010ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_UNPRESSED_ON
-2010ms A F HallLight 2 BACK DOWN : lighted == true
-2010ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-2010ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == true
-
-;#transition 'HBT3'
-2020ms I 0s F HallCall 2 BACK DOWN = false
-2030ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
-2040ms I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
-2090ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
-
-;#state '1 STATE_LIGHT_OFF'
-2310ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
-2310ms A F HallLight 2 BACK DOWN : lighted == false
-2310ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
-2310ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
-
++350ms A S HallButtonControl[2][BACK][DOWN] : STATE == STATE_LIGHT_OFF
++0ms A F HallLight 2 BACK DOWN : lighted == false
++0ms A N HALL_LIGHT_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
++0ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID OurBoolean : getValue == false
