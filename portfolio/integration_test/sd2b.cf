@@ -9,5 +9,5 @@
 DoorControl BACK LEFT 10ms true
 DoorControl BACK RIGHT 10ms true
 CarButtonControl 2 BACK 100ms true
-Dispatcher 8 50ms true
+;Dispatcher 8 50ms true
 
