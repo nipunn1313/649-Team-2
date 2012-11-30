@@ -26,7 +26,7 @@
 +50ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
 
 ;#arc '2B/1' Doors start closing
-+600ms A F DoorMotor BACK LEFT : command == CLOSE
++1100ms A F DoorMotor BACK LEFT : command == CLOSE
 +0ms A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '2B/2a' Passenger makes car call
