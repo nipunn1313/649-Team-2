@@ -2139,7 +2139,7 @@ with a floor. </li>
       <td style="vertical-align: top;">
         !(mLevel[*] == True) &amp;&amp;<br/>
         ((mDesiredFloor.f == CurrentFloor) || !(mDoorClosed[*,*] == True)) &amp;&amp;<br/>
-        (Safe == True) &amp;&amp; (Obese == False)
+        (Safe == True)
       </td>
     </tr>
   </tbody>
@@ -2641,7 +2641,10 @@ cellspacing="2">
       <td>HBT 2</td>
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f == CurrentFloor &amp;&amp;
-          CurrentFloor == <b>f</b></td>
+          CurrentFloor == <b>f</b> &amp;&amp;
+          (mDesiredFloor.b == <b>b</b> || mDesiredFloor.b == BOTH) &amp;&amp;
+          mDesiredFloor.d == <b>d</b>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -2827,7 +2830,10 @@ cellspacing="2">
       <td>CBT 2</td>
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f == CurrentFloor &amp;&amp;
-          CurrentFloor == <b>f</b></td>
+          CurrentFloor == <b>f</b> &amp;&amp;
+          (mDesiredFloor.b == <b>b</b>  || mDesiredFloor.b == BOTH) &amp;&amp;
+          mDesiredFloor.d == <b>d</b>
+      </td>
     </tr>
   </tbody>
 </table>

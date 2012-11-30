@@ -13,7 +13,7 @@
 0s I 0s F CarCall 7 BACK = false
 
 ; Verify that button is not pressed
-+200ms A F CarCall 7 BACK : pressed == false
++700ms A F CarCall 7 BACK : pressed == false
 
 ; Verify that the lights are off and that we start in the right state
 ;#state '1 STATE_NO_CALL'
@@ -31,8 +31,8 @@
 +0ms A N CAR_LIGHT_[7][BACK]_CAN_ID OurBoolean : getValue == true
 +0ms A N CAR_CALL_[7][BACK]_CAN_ID OurBoolean : getValue == true
 
-;#transition 'CBT2a'
-+10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 BACK UP
+;#transition 'CBT2b'
++10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 BOTH UP
 +10ms I 0s N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = true
 +10ms I 0s F CarCall 7 BACK = false
 
