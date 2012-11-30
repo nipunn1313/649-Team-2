@@ -245,6 +245,8 @@ public class Dispatcher extends Controller {
                     newState = State.STATE_APPROACHING;
                 } else if (!mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                } else {
+                    newState = state;
                 }
                 break;
             case STATE_APPROACHING:
@@ -277,7 +279,6 @@ public class Dispatcher extends Controller {
             log("remains in state: ", state);
         } else {
             log("Transition: ", state, "->", newState);
-            System.out.println("Transition: " + state + "->" + newState);
         }
 
         // Update the state variable
