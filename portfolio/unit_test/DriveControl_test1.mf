@@ -113,7 +113,7 @@
 +0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 10
 +0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
-;#transition 'DRT9c' mLevel[*] is true
+;#transition 'DRT9a' mLevel[*] is true
 +0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
 +0ms I MESSAGE_PERIOD F DriveSpeed = STOP 0
 
