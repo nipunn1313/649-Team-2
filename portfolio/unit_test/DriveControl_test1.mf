@@ -113,7 +113,7 @@
 +0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getScaledSpeed == 10
 +0ms A N DRIVE_SPEED_CAN_ID DriveSpeed : getDirection == UP
 
-;#transition 'DRT9c' Car is overweight
+;#transition 'DRT9c' mLevel[*] is true
 +0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true
 +0ms I MESSAGE_PERIOD F DriveSpeed = STOP 0
 
@@ -128,7 +128,7 @@
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = True
 
 ;#transition 'DRT10b' mLevel[*] is false and a door is opened
-+0ms I MESSAGE_PERIOD N EMERGENCY_BRAKE_CAN_ID OurBoolean = False
++0ms I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = false
 +0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = False
 +0ms I MESSAGE_PERIOD F DriveSpeed = UP 0.1
 
