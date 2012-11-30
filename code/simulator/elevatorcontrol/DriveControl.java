@@ -307,7 +307,7 @@ public class DriveControl extends Controller {
                 
                 // #transition DRT9
                 if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
-                           !getSafe() || getObese()) {
+                           !getSafe()) {
                     newState = State.STATE_STOPPED;
                 }
                 break;
