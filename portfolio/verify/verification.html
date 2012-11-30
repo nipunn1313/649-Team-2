@@ -81,25 +81,23 @@ warning.
 <img src="runtime_monitor_rt10.png"/>
 
 <h2>Verification Results</h2>
-        The elevator fails R-T7 and R-T8.1. <br/>
-        <br/>
-        R-T7 is failed because of requirement 5.6. When DoorControl detects
-        that the car is stopped at the desired floor and the doors are closed,
-        it commands them to open, providing wrong behavior when there are no
-        pending calls on other floors.<br/>
-        <br/>
-        R-T8.1 is failed because of the Dispatcher. LanternControl relies on
-        mDesiredFloor, and the Dispatcher delivers the wrong one. The failures
-        occur because of how the Dispatcher handles HallCalls and CarCalls,
-        specifically in requirements 11.7.1 and 11.7.2, where Dispatcher
-        invokes the NextFloor macro. The NextFloor macro makes the assumption
-        that when a person makes a hall call, the mHallCall signal is sent out
-        until the elevator stops at the hallway. In reality, this signal is
-        only sent out in the brief moment when the person presses the hall call
-        button. What we should be using is mHallLight, since this has the
-        desired action. As a result of this, the wrong mDesiredFloor is sent
-        out all of the time.
-        <br>
+The elevator fails R-T6, R-T7, R-T8.1, R-T8.2, and R-T9
+<br/>
+R-T6 and R-T7 fail because of a flaw in the runtime monitor. The monitor
+doesn't realize that HallCall's and CarCall's may turn off before the car
+arrives at a floor or opens the doors, which causes it to assume that the high
+level requirement has been violated.
+<br/>
+R-T8.1 and R-T8.2 fail because of a flaw in the runtime monitor. There is a
+slight delay between when the doors open, and when the CarLantern's turn on. As
+a result, the monitor generates false positives every time the elevator doors
+open.
+<br/>
+R-T9 fails because of a flaw in the runtime monitor. The monitor improperly
+reads the position of the car, causing it to believe that it never moves, thus
+violating the high-level requirement.
+<br/>
+<br/>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
@@ -115,6 +113,53 @@ warning.
       </td>
       <td style="vertical-align: top; font-weight: bold;">
         Notes<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj7acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance1_verification.out">proj7acceptance1_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj7acceptance2.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance2_verification.out">proj7acceptance2_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj7acceptance3.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj7acceptance3_verification.out">proj7acceptance3_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">proj8group2acceptance1.pass<br>
+      </td>
+      <td style="vertical-align: top;">fail<br>
+      </td>
+      <td style="vertical-align: top;"><a href="proj8group2acceptance1_verification.out">proj8group2acceptance1_verification.out</a><br>
+      </td>
+      <td style="vertical-align: top;">
+        Failures summarized above
+        <br>
       </td>
     </tr>
     <tr>
