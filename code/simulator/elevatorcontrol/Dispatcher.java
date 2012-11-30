@@ -161,14 +161,16 @@ public class Dispatcher extends Controller {
                 mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
-                // #transition 'DIST1'
+                // #transition 'DIST6'
                 if (!mDoorClosed.getAllClosed() &&
                     mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                // #transition 'DIST1'
                 } else if (mAtFloors.getCurrentFloor() != TargetFloor &&
                            mAtFloors.getCurrentFloor() != MessageDictionary.NONE &&
                            mDriveSpeed.getSpeed() > DriveObject.LevelingSpeed) {
                     newState = State.STATE_MOVING;
+                // #transition 'DIST2'
                 } else if (mAtFloors.getCurrentFloor() == TargetFloor &&
                            TargetHallway != Hallway.NONE) {
                     newState = State.STATE_APPROACHING;
@@ -189,10 +191,10 @@ public class Dispatcher extends Controller {
                 mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
-                // #transition 'DIST4'
+                // #transition 'DIST5'
                 if (mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
-                // #transition 'DIST5'
+                // #transition 'DIST9'
                 } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
@@ -208,10 +210,10 @@ public class Dispatcher extends Controller {
                 mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
-                // #transition 'DIST2'
+                // #transition 'DIST10'
                 if (mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_CLOSED;
-                // #transition 'DIST6'
+                // #transition 'DIST11'
                 } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() != MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_AT_FLOOR;
@@ -239,12 +241,16 @@ public class Dispatcher extends Controller {
                 mDesiredDwellFront.set(DWELL_TIME);
                 mDesiredDwellBack.set(DWELL_TIME);
                 
+                // #transition 'DIST3'
                 if (Utility.nextReachableFloorWhenMoving(mCarLevelPosition.getPosition(),
                         mDriveSpeed.getSpeed(), 
                         mDriveSpeed.getDirection()) == TargetFloor) {
                     newState = State.STATE_APPROACHING;
+                // #transition 'DIST7'
                 } else if (!mDoorClosed.getAllClosed()) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                } else {
+                    newState = state;
                 }
                 break;
             case STATE_APPROACHING:
@@ -258,9 +264,11 @@ public class Dispatcher extends Controller {
                 mDesiredDwellBack.set(DWELL_TIME);
                 
                 // Transitions
+                // #transition 'DIST8'
                 if (!mDoorClosed.getAllClosed() &&
                     mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                     newState = State.STATE_DOORS_OPEN_BETWEEN_FLOORS;
+                // #transition 'DIST4'
                 } else if (!mDoorClosed.getAllClosed() &&
                            mAtFloors.getCurrentFloor() == TargetFloor) {
                     newState = State.STATE_DOORS_OPEN_AT_FLOOR;
@@ -277,7 +285,6 @@ public class Dispatcher extends Controller {
             log("remains in state: ", state);
         } else {
             log("Transition: ", state, "->", newState);
-            System.out.println("Transition: " + state + "->" + newState);
         }
 
         // Update the state variable

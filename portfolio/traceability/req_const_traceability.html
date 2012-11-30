@@ -795,7 +795,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;"><span style="font-weight: bold;">Dispatcher</span><span
- style="font-weight: bold;"> - Completed by (Nick Mazurek, nmazurek)</span> </td>
+ style="font-weight: bold;"> - Completed by (Nick Mazurek, nmazurek, nkoorapa)</span> </td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -848,7 +848,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.7.1 Doors not closed --&gt; TargetFloor=NextFloor.f
+        11.7.1 Doors not closed --&gt; TargetFloor=NextFloorDoorsOpen.f
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -863,7 +863,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.7.2 Doors not closed --&gt; TargetHallway=NextFloor.b
+        11.7.2 Doors not closed --&gt; TargetHallway=NextFloorDoorsOpen.b
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -923,7 +923,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.10.1 Doors closed --&gt; set TargetFloor to NextFloor.f
+        11.10.1 Doors closed --&gt; set TargetFloor to NextFloorDoorsClosed.f
       </td>
       <td style="vertical-align: top;">X<br>
       </td>
@@ -938,7 +938,7 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.10.2 Doors closed --&gt; set TargetHallway to NextFloor.b
+        11.10.2 Doors closed --&gt; set TargetHallway to NextFloorDoorsClosed.b
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
@@ -953,7 +953,52 @@ Requirements/Constraints</b></u></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        11.10.3 Doors closed --&gt; set TargetDirection to NextFloor.d
+        11.10.3 Doors closed --&gt; set TargetDirection to NextFloorDoorsClosed.d
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.11.1 Moving --&gt; set TargetFloor to NextFloorMoving.f
+      </td>
+      <td style="vertical-align: top;">X<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.11.2 Moving --&gt; set TargetHallway to NextFloorMoving.b
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;">~<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        11.11.3 Moving --&gt; set TargetDirection to NextFloorMoving.d
       </td>
       <td style="vertical-align: top;">~<br>
       </td>
