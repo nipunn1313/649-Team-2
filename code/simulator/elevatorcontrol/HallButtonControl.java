@@ -49,7 +49,7 @@ public class HallButtonControl extends Controller {
     
     // These variables keep track of which instance this is
     private final int floor;
-    //private final Hallway hallway;
+    private final Hallway hallway;
     //private final Direction direction;
     
     // Store the period for the controller
@@ -71,7 +71,7 @@ public class HallButtonControl extends Controller {
         // Store the arguments in internal state
         this.period = period;
         this.floor = floor;
-        //this.hallway = hallway;
+        this.hallway = hallway;
         //this.direction = direction;
         
         // Initialize physical state
@@ -131,6 +131,8 @@ public class HallButtonControl extends Controller {
                 // #transition 'HBT2'
                 if (localHallCall.pressed() == false &&
                         mDesiredFloor.getFloor() == mAtFloors.getCurrentFloor() &&
+                        (mDesiredFloor.getHallway() == this.hallway ||
+                         mDesiredFloor.getHallway() == Hallway.BOTH) &&
                         mAtFloors.getCurrentFloor() == floor) {
                     newState = State.STATE_LIGHT_OFF;
                 } 

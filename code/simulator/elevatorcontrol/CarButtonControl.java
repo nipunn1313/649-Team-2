@@ -32,7 +32,7 @@ public class CarButtonControl extends Controller {
     private State state = State.STATE_NO_CALL;
     
     private final int floor;
-    //private final Hallway hallway;
+    private final Hallway hallway;
     private final SimTime period;
 
     /* Input Interface */
@@ -59,7 +59,7 @@ public class CarButtonControl extends Controller {
 
         /* Save floor/hallway/period */
         this.floor = floor;
-        //this.hallway = hallway;
+        this.hallway = hallway;
         this.period = period;
         
         /* Setup mailboxes */
@@ -121,7 +121,9 @@ public class CarButtonControl extends Controller {
                 if (!localCarButton.isPressed()) {
                     //#transition CBT 2
                     if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
-                        mAtFloors.getCurrentFloor() == floor) {
+                        mAtFloors.getCurrentFloor() == floor &&
+                        (mDesiredFloor.getHallway() == this.hallway ||
+                         mDesiredFloor.getHallway() == Hallway.BOTH)) {
                         newState = State.STATE_NO_CALL;
                     }
                 }

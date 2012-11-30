@@ -242,7 +242,7 @@ public class DriveControl extends Controller {
                 } else if (!(mLevelUp.getValue() && mLevelDown.getValue()) &&
                            (mDesiredFloor.getFloor() == mAtFloor.getCurrentFloor() ||
                             !mDoorClosed.getAllClosed()) &&
-                           getSafe() && !getObese()) {
+                           getSafe()) {
                     newState = State.STATE_LEVELING;
                 }
                 break;
@@ -279,7 +279,7 @@ public class DriveControl extends Controller {
                     newState = State.STATE_STOPPED;
                 // #transition DRT6
                 } else if (Utility.reachedCommitPoint(mDesiredFloor.getFloor(), mCarLevelPosition.getPosition(),
-                        driveSpeed.speed(), driveSpeed.direction())) {    
+                        driveSpeed.speed(), driveSpeed.direction())) {
                     newState = State.STATE_APPROACHING_FLOOR;
                 }
                 break;
