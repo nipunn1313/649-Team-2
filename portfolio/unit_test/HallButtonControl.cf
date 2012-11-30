@@ -6,4 +6,4 @@
 ; Benet Clark (brclark)
 ; HallButtonControl.cf
 
-HallButtonControl 2 BACK DOWN 100ms true
+HallButtonControl 7 BACK DOWN 100ms true

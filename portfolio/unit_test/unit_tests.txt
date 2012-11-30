@@ -7,9 +7,11 @@
 ;unit_tests.txt
 
 CarButtonControl CarButtonControl.cf CarButtonControl_test1.mf
+CarButtonControl CarButtonControl.cf CarButtonControl_test2.mf
 DoorControl DoorControl.cf DoorControl_test1.mf
 DriveControl DriveControl.cf DriveControl_test1.mf
 HallButtonControl HallButtonControl.cf HallButtonControl_test1.mf
+HallButtonControl HallButtonControl.cf HallButtonControl_test2.mf
 Dispatcher Dispatcher.cf Dispatcher_test1.mf
 CarPositionControl CarPositionControl.cf CarPositionControl_test1.mf
 LanternControl LanternControl.cf LanternControl_test1.mf

@@ -2642,7 +2642,7 @@ cellspacing="2">
       <td>HallCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b> &amp;&amp;
-          mDesiredFloor.b == <b>b</b> &amp;&amp;
+          (mDesiredFloor.b == <b>b</b> || mDesiredFloor.b == BOTH) &amp;&amp;
           mDesiredFloor.d == <b>d</b>
       </td>
     </tr>
@@ -2831,7 +2831,7 @@ cellspacing="2">
       <td>CarCall[<b>f</b>, <b>b</b>, <b>d</b>] == Idle &amp;&amp;
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b> &amp;&amp;
-          mDesiredFloor.b == <b>b</b> &amp;&amp;
+          (mDesiredFloor.b == <b>b</b>  || mDesiredFloor.b == BOTH) &amp;&amp;
           mDesiredFloor.d == <b>d</b>
       </td>
     </tr>
