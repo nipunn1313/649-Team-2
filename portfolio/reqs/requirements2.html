@@ -1203,11 +1203,11 @@ simulation by scheduling a future task execution at time of expiration)
     to Close.<br>
   </li>
   <li>
-    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorOpened[b, r] is
+    5.10&nbsp; If mCarWeight(g) &gt;= MaxCarCapacity, and mDoorClosed[b, r] is
     False, then:<br />
     <ul>
       <li>5.10.1&nbsp; HasReversed should be set to false.</li>
-      <li>5.10.2&nbsp; DoorMotor[<b>b</b>, r] shall be commanded to Open.</li>
+      <li>5.10.2&nbsp; DoorMotor[b, r] shall be commanded to Open.</li>
     </ul>
   </li>
   <li>

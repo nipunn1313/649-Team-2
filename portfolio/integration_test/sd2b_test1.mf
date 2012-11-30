@@ -12,21 +12,24 @@
 
 ; Precondition Front doors are closed. Back doors are open.
 ; Elevator is at floor 2 heading up.
-0s I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 2 BACK UP
-+30ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
-+50ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
-+50ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
-+50ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
-+30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
-+30ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
-+30ms I 0s N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell = 1000
-+30ms I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 2000
+0s I 0s N HALL_CALL_[2][BACK][UP]_CAN_ID HallCall = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
+;+230ms I 0s N CAR_WEIGHT_CAN_ID CarWeight = 0
++150ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = true
++150ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = false
++150ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = false
+;+30s I 0s F HallCall 2 BACK UP = false
+;+30ms I 0s N DESIRED_DWELL_[BACK]_CAN_ID DesiredDwell = 1000
+;+30ms I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 2000
 
-+50ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
-+50ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
++150ms I 0s N DOOR_OPEN_SENSOR_[BACK][LEFT]_CAN_ID DoorOpened BACK LEFT = true
++150ms I 0s N DOOR_OPEN_SENSOR_[BACK][RIGHT]_CAN_ID DoorOpened BACK RIGHT = true
 
 ;#arc '2B/1' Doors start closing
-+600ms A F DoorMotor BACK LEFT : command == CLOSE
++5100ms A F DoorMotor BACK LEFT : command == CLOSE
 +0ms A F DoorMotor BACK RIGHT : command == CLOSE
 
 ;#arc '2B/2a' Passenger makes car call
