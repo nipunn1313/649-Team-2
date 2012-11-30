@@ -3056,38 +3056,43 @@ below Lobby (1). </li>
   <li>
     TargetDirection: State variable that represents the desired
     direction of travel after you reach TargetFloor.
+  </li>
+</ul>
+<h3> Macros: </h3>
+<ul>
   <li>
     CurrentFloor, is a shorthand notation for the value of whichever
     mAtFloor[f, b] is True, if any. If CurrentFloor is invalid it has a
     mnemonic value of None.
   </li>
   <li>
-    NextFloor is a macro. Outputs: (f,b,d)
+    NextFloorMoving[<b>d0</b>] is a macro. Outputs: <b>(f,b,d)</b> or null
     <ul>
       <li>
-        It computes the nearest floor <b>f</b> (if it exists) in the
-        TargetDirection <b>d'</b> (or <b>Up</b> if <b>d'</b> is <b>Stop</b>)
-        such that:
+        If <b>d0</b> == Stop, return null
+      </li>
+      <li>
+        Iterate through floors <b>f</b> in the direction
+        TargetDirection <b>d0</b> starting with the closest.
         <ul>
-          <li>The CommitPoint[<b>f</b>] is NotReached and</li>
           <li>
-            Either of the following is true:
+            If CommitPoint[<b>f</b>] is NotReached and
             <ul>
-              <li>A HallCall[<b>f, d'</b>] is True</li>
-              <ul><li>If found, set <b>d</b> field to <b>d'</b></li></ul>
-              <li>A CarCall[<b>f</b>] is True</li>
-              <ul>If found, and 
+              <li>A HallCall[<b>f, b, d0</b>] is True</li>
+                <ul><li>If found, return <b>(f, b, d0)</b></li></ul>
+              <li>A CarCall[<b>f, b</b>] is True</li>
+              <ul>
                 <li>
-                  Another HallCall or CarCall exists past floor <b>f</b>.
-                  Set <b>d</b> field to <b>d'</b>
+                  If another HallCall or CarCall exists past floor <b>f</b>,
+                  return <b>(f, b, d0)</b>
                 </li>
                 <li>
-                  Another HallCall or CarCall exists in the other direction.
-                  Set <b>d</b> field to <b>~d'</b>
+                  If another HallCall or CarCall exists in the other direction.
+                  return <b>(f, b, ~d0)</b>
                 </li>
                 <li>
-                  No other HallCall or CarCall exists.
-                  Set <b>d</b> field to <b>Stop</b>
+                  If no other HallCall or CarCall exists.
+                  return <b>(f, b, Stop)</b>
                 </li>
               </ul>
             </ul>
@@ -3095,28 +3100,56 @@ below Lobby (1). </li>
         </ul>
       </li>
       <li>
-        If there is no such floor in the direction, then it computes the
-        furthest floor <b>f</b> in the TargetDirection <b>d'</b> such
-        that:
+        Iterate through floors <b>f</b> in the direction
+        TargetDirection <b>d0</b> starting with the furthest.
         <ul>
-          <li>There is a HallCall[<b>f, ~d'</b>]</li>
+          <li>
+            If there is a HallCall[<b>f, b, ~d0</b>]
+            return <b>(f, b, ~d0)</b>
+          </li>
         </ul>
-        If found, set <b>d</b> field to <b>~d'</b>
+      </li>
+      <li>Otherwise, return null</li>
+    </ul>
+  </li>
+  <li>
+    NextFloorDoorsOpen is a macro. Returns <b>(f,b,d)</b>
+    <ul>
+      <li>
+        If TargetDirection == Up or TargetDirection == Stop
+        <ul>
+          <li>If NextFloorMoving[Up] is non-null, return it</li>
+          <li>Otherwise, if NextFloorMoving[Down] is non-null, return it</li>
+        </ul>
       </li>
       <li>
-        If no such floor exists, then the same computations are made for 
-        the opposite direction <b>~d'</b>. 
-      </li>
-      <li>
-        If none are true then it evaluates to CurrentFloor.  
-        Set <b>d</b> field to Stop.
-      </li>
-      <li>
-        If CurrentFloor is none, it evaluates to 1.
-        Set <b>d</b> field to Stop.
+        If TargetDirection == Down
+        <ul>
+          <li>If NextFloorMoving[Down] is non-null, return it</li>
+          <li>Otherwise, if NextFloorMoving[Up] is non-null, return it</li>
+        </ul>
       </li>
     </ul>
   </li>
+  <li>
+    NextFloorDoorsClosed is a macro. Returns <b>(f,b,d)</b>.
+    Let <b>d0</b> be the direction toward TargetFloor from CurrentFloor.
+    <ul>
+      <li>
+        If <b>d0</b> == Up or <b>d0</b> == Stop
+        <ul>
+          <li>If NextFloorMoving[Up] is non-null, return it</li>
+          <li>Otherwise, if NextFloorMoving[Down] is non-null, return it</li>
+        </ul>
+      </li>
+      <li>
+        If <b>d0</b> == Down
+        <ul>
+          <li>If NextFloorMoving[Down] is non-null, return it</li>
+          <li>Otherwise, if NextFloorMoving[Up] is non-null, return it</li>
+        </ul>
+      </li>
+    </ul>
   <li>
     CommitPoint[f](v); v = {Reached, NotReached} calculated based on
     car's acceleration profile, current speed, and distance from the floor
@@ -3155,10 +3188,10 @@ below Lobby (1). </li>
   </li>
   <ul>
     <li>
-      11.7.1&nbsp; TargetFloor shall be set to NextFloor.f<br>
+      11.7.1&nbsp; TargetFloor shall be set to NextFloorDoorsOpen.f<br>
     </li>
     <li>
-      11.7.2&nbsp; TargetHallway shall be set to NextFloor.b<br />
+      11.7.2&nbsp; TargetHallway shall be set to NextFloorDoorsOpen.b<br />
     </li>
   </ul>
   <li>
@@ -3180,17 +3213,37 @@ below Lobby (1). </li>
     appropriate value for door open dwell.
   </li>
   <li>
-    11.10&nbsp; Whenever all mDoorClosed[b,r] are True then
+    11.10&nbsp; Whenever all mDoorClosed[b,r] are True and mDriveSpeed &le;
+    Leveling then
     <ul>
       <li>
-        11.10.1&nbsp; TargetFloor shall be set to NextFloor.f
+        11.10.1&nbsp; TargetFloor shall be set to NextFloorDoorsClosed.f
       </li>
       <li>
-        11.10.2&nbsp; TargetHallway shall be set to NextFloor.b
+        11.10.2&nbsp; TargetHallway shall be set to NextFloorsClosed.b
       </li>
       <li>
-        11.10.3&nbsp; TargetDirection shall be set to NextFloor.d
+        11.10.3&nbsp; TargetDirection shall be set to NextFloorDoorsClosed.d
       </li>
+    </ul>
+  </li>
+  <li>
+    11.11&nbps; Whenever mDriveSpeed.s &gt; Slow and the desired floor is
+    further than one commit point away, then
+    <ul>
+      <li>
+        11.11.1&nbsp; TargetFloor shall be set to
+        NextFloorMoving[mDriveSpeed.d].f
+      </li>
+      <li>
+        11.11.2&nbsp; TargetHallway shall be set to
+        NextFloorMoving[mDriveSpeed.d].b
+      </li>
+      <li>
+        11.11.3&nbsp; TargetDirection shall be set to
+        NextFloorMoving[mDriveSpeed.d.d
+      </li>
+    </ul>
   </li>
 </ul>
 <h3>STATE DIAGRAM</h3>
@@ -3208,41 +3261,75 @@ below Lobby (1). </li>
     <tr>
       <td style="vertical-align: top;">DIST 1</td>
       <td style="vertical-align: top;">
-        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
-        (mAtFloor[*,*] == False)
+        CurrentFloor != TargetFloor &amp;&amp;<br/>
+        CurrentFloor != None &amp;&amp;<br/>
+        mDriveSpeed.s &gt; DriveObject.LevelingSpeed
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 2</td>
       <td style="vertical-align: top;">
-        mDoorClosed[*,*] == True
+        CurrentFloor == TargetFloor &amp;&amp;<br/>
+        TargetHallway != None
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 3</td>
       <td style="vertical-align: top;">
-        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
-        (mAtFloor[b,r] == True)
+        NextReachableFloorWhenMoving == TargetFloor
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 4</td>
       <td style="vertical-align: top;">
-        mDoorClosed[*,*] == True
+        !(all mDoorClosed[*,*] == True) &amp;&amp;<br/>
+        CurrentFloor == TargetFloor
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 5</td>
       <td style="vertical-align: top;">
-        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
-        (mAtFloor[*,*] == False)
+        All mDoorClosed[b,r] == True
       </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 6</td>
       <td style="vertical-align: top;">
-        (mDoorClosed[b,r] == False) &amp;&amp;<br/>
-        (mAtFloor[b,r] == True)
+        !(all mDoorClosed[b,r] == True) &amp;&amp;<br/>
+        CurrentFloor == None
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 7</td>
+      <td style="vertical-align: top;">
+        !(all mDoorClosed[b,r] == True)
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 8</td>
+      <td style="vertical-align: top;">
+        !(all mDoorClosed[b,r] == True) &amp;&amp;<br/>
+        CurrentFloor == None
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 9</td>
+      <td style="vertical-align: top;">
+        !(all mDoorClosed[b,r] == True) &amp;&amp;<br/>
+        CurrentFloor == None
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 10</td>
+      <td style="vertical-align: top;">
+        all mDoorClosed[b,r] == True
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 11</td>
+      <td style="vertical-align: top;">
+        !(all mDoorClosed[b,r] == True) &amp;&amp;<br/>
+        CurrentFloor != None
       </td>
     </tr>
   </tbody>
@@ -3255,7 +3342,7 @@ completed by Jacob Olson (jholson)<br>
       <td
         style="vertical-align: top;"><br>
       </td>
-      <td colspan="11">Requirements<br>
+      <td colspan="14">Requirements<br>
       </td>
     </tr>
     <tr>
@@ -3273,6 +3360,9 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">11.10.1</td>
       <td style="vertical-align: top;">11.10.2</td>
       <td style="vertical-align: top;">11.10.3</td>
+      <td style="vertical-align: top;">11.11.1</td>
+      <td style="vertical-align: top;">11.11.2</td>
+      <td style="vertical-align: top;">11.11.3</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -3289,10 +3379,51 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">X</td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 2:&nbsp; Doors Open At Floor
+        State 2:&nbsp; Moving
+      </td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 3:&nbsp; Approaching
+      </td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+        State 4:&nbsp; Doors Open At Floor
       </td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
@@ -3305,10 +3436,13 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-        State 3:&nbsp; Doors Open Between Floors
+        State 5:&nbsp; Doors Open Between Floors
       </td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
@@ -3318,6 +3452,9 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -3337,6 +3474,9 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 1</td>
@@ -3345,12 +3485,15 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 2</td>
@@ -3365,17 +3508,23 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 3</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -3385,20 +3534,24 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
-      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 5</td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
@@ -3406,15 +3559,105 @@ completed by Jacob Olson (jholson)<br>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
-      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
     </tr>
     <tr>
       <td style="vertical-align: top;">DIST 6</td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;">X<br/></td>
       <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 7</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 8</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 9</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 10</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">DIST 11</td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;">X<br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
+      <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
       <td style="vertical-align: top;"><br/></td>
