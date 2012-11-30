@@ -8,30 +8,31 @@
 
 #INCLUDE defines.mf
 
-0s I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
-0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
-0s I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
-0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
-0s I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
-0s I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
+0ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][RIGHT]_CAN_ID DoorClosed BACK RIGHT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = true
++150ms I 0s N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
++50ms I 0s N AT_FLOOR_[1][FRONT]_CAN_ID AtFloor 1 FRONT = true
++50ms I 0s N CAR_CALL_[1][FRONT]_CAN_ID CarCall = true
 
 ; #arc '7B/1a' Desired floor set to the current floor, hallway, and Stop direction 
-+200ms A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
++200ms A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
 ; #arc '7B/1b' Doors open
-+0ms A F DoorMotor FRONT RIGHT : command == OPEN
-+0ms A F DoorMotor FRONT LEFT : command == OPEN
++100ms A F DoorMotor FRONT RIGHT : command == OPEN
++100ms A F DoorMotor FRONT LEFT : command == OPEN
 ; #arc '7B/2a' Doors are not closed
-+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
-+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
 ; #arc '7B/2b' Carlanterns remain off
-+100ms A F CarLantern UP : lighted == false
++500ms A F CarLantern UP : lighted == false
 +0ms A F CarLantern DOWN : lighted == false
 
 ; #arc '7B/3a' Doors are opened
-+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
-+0s I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
-+0s I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
-+0s I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
++100ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false
++100ms I 0s N DOOR_OPEN_SENSOR_[FRONT][LEFT]_CAN_ID DoorOpened FRONT LEFT = true
++100ms I 0s N DOOR_OPEN_SENSOR_[FRONT][RIGHT]_CAN_ID DoorOpened FRONT RIGHT = true
 ; #arc '7B/3b' DoorMotor set to stop
 +150ms A F DoorMotor FRONT RIGHT : command == STOP
 +0ms A F DoorMotor FRONT LEFT : command == STOP
