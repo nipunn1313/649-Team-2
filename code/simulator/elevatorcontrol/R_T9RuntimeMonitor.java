@@ -22,11 +22,9 @@ public class R_T9RuntimeMonitor {
         STATE_STOPPED,
         STATE_CAN_GO_FASTER,
         STATE_MOVING,
-        STATE_SHOULD_SLOW,
-        STATE_COMMIT_POINT_REACHED,
         STATE_COMMIT_POINT_NOT_REACHED,
     };
-    private static final int TIME = 5;
+    private static final int TIME = 10;
     private int timer = TIME;
     private boolean approachingFloor = false;
     
@@ -44,7 +42,7 @@ public class R_T9RuntimeMonitor {
             case STATE_CAN_GO_FASTER:
                 if (driveActualSpeed.speed() == DriveObject.StopSpeed)
                     nextState = State.STATE_STOPPED;
-                else if (driveActualSpeed.speed() >= DriveObject.FastSpeed)
+                else if (driveActualSpeed.speed() > DriveObject.SlowSpeed)
                     nextState = State.STATE_MOVING;
                 break;
             case STATE_STOPPED:
@@ -54,41 +52,23 @@ public class R_T9RuntimeMonitor {
                 break;
             case STATE_MOVING:
                 timer = TIME;
-                if (driveActualSpeed.speed() == DriveObject.SlowSpeed && 
+                if (driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
                     !Utility.reachedCommitPoint(mDesiredFloor.getFloor(),
                             carLevelPosition.position(),
                             driveActualSpeed.speed(),
                             driveCommandedSpeed.direction()) &&
                             approachingFloor == false)
                     nextState = State.STATE_COMMIT_POINT_NOT_REACHED;
-                else if (driveActualSpeed.speed() == DriveObject.FastSpeed && 
-                        Utility.reachedCommitPoint(mDesiredFloor.getFloor(),
-                                carLevelPosition.position(),
-                                driveActualSpeed.speed(),
-                                driveCommandedSpeed.direction())
-                        )
-                    nextState = State.STATE_COMMIT_POINT_REACHED;
+                else
+                    nextState = state;
                 break;
             case STATE_COMMIT_POINT_NOT_REACHED:
-                if (driveActualSpeed.speed() == DriveObject.SlowSpeed && 
+                if (driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
                         timer == 0)
                     nextState = State.STATE_CAN_GO_FASTER;
                 else
                     timer--;
-                break;
-            case STATE_COMMIT_POINT_REACHED:
-                if (driveActualSpeed.speed() == DriveObject.SlowSpeed)
-                    nextState = State.STATE_MOVING;
-                else if (driveActualSpeed.speed() == DriveObject.FastSpeed &&
-                        timer == 0)
-                    nextState = State.STATE_SHOULD_SLOW;
-                else
-                    timer--;
-                break;
-            case STATE_SHOULD_SLOW:
-                if (driveActualSpeed.speed() == DriveObject.SlowSpeed)
-                    nextState = State.STATE_MOVING;
-                break;                
+                break;  
             default:
                 throw new RuntimeException("Unknown state in R_T6RuntimeMonitor");
         }
@@ -97,9 +77,6 @@ public class R_T9RuntimeMonitor {
             warnings.add("Car is driving at slow speed at position: " + carLevelPosition.position() + 
                     " but can drive at fast speed!");
         }
-        else if (state != nextState && nextState == State.STATE_SHOULD_SLOW)
-            warnings.add("Car is driving at fast speed at position: "  + carLevelPosition.position() + 
-                    " but the car has reached the commit point for desired floor: " + mDesiredFloor.getFloor());
         state = nextState;
     }
 }
