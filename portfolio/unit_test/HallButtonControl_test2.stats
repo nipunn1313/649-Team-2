@@ -6,13 +6,13 @@ Nick Mazurek (nmazurek)
 Benet Clark (brclark)
 
 Simulator Parameters:
-Command line = -cf HallButtonControl.cf -mf HallButtonControl_test1.mf -head head.txt
-RandomSeed = 1354315775082
+Command line = -cf HallButtonControl.cf -mf HallButtonControl_test2.mf -head head.txt
+RandomSeed = 1354315775288
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
 Real time rate = null
-Message File = HallButtonControl_test1.mf
+Message File = HallButtonControl_test2.mf
 Controller File = HallButtonControl.cf
 
 Assertion Results:

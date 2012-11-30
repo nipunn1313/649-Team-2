@@ -29,8 +29,11 @@
 +100ms A F Drive : speed == LEVEL
 +0ms  A F Drive : direction == UP
 
-;#arc '4A/2' Verify CarLight[f,b] shall be set to Off
+;#arc '4A/2a' Verify CarLight[f,b] shall be set to Off
 +300ms A F CarLight 2 BACK : lighted == false
+
+;#arc '4A/2b' verify mCarCall is set to off
++0ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID HallCall : getValue == false
 
 ;#arc '4A/4a'
 +100ms I 0s N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = true

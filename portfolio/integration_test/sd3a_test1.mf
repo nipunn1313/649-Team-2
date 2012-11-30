@@ -20,6 +20,9 @@
 +300ms A F HallLight 2 BACK UP : lighted == false
 +0ms A F HallLight 2 BACK DOWN : lighted == false
 
+;#arc '3A/2c'
++100ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID HallCall : getValue == false
+
 ;#arc '3A/4'
 +0ms A F CarLantern UP : lighted == false
 +0ms A F CarLantern DOWN : lighted == false

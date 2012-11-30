@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd2b.cf -mf sd2b_test1.mf -head head.txt
-RandomSeed = 1352415639235
+RandomSeed = 1354313740854
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,12 +16,12 @@ Message File = sd2b_test1.mf
 Controller File = sd2b.cf
 
 Assertion Results:
-@5.34s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@5289cf1e :: command ?== CLOSE PASSED
-@5.34s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@7a982589 :: command ?== CLOSE PASSED
-@5.79s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@acfec48 :: getValue ?== true PASSED
-@5.79s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@4ee1d5ea :: lighted ?== true PASSED
-@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@690da5eb :: command ?== STOP PASSED
-@6.0s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6db3f829 :: command ?== STOP PASSED
+@6.25s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@ae000d :: command ?== CLOSE PASSED
+@6.25s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@169e11 :: command ?== CLOSE PASSED
+@6.7s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a39137 :: getValue ?== true PASSED
+@6.7s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@9fbe93 :: lighted ?== true PASSED
+@6.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1858610 :: command ?== STOP PASSED
+@6.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1a5ab41 :: command ?== STOP PASSED
 
 
 ******************Summary******************

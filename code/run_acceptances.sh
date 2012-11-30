@@ -9,8 +9,5 @@ testfiles=`ls *.pass`
 
 for testfile in $testfiles
 do
-  for i in {1..5}
-  do
-    java -cp ../../code simulator.framework.Elevator -pf $testfile -head head.txt
-  done
+    java -cp ../../code simulator.framework.Elevator -pf $testfile -head head.txt -b 200 -fs 5
 done

@@ -6,6 +6,8 @@
 ;; Nipunn Koorapati (nkoorapa)
 ;; @file sd1a_test1.mf
 
+#INCLUDE defines.mf
+
 ;Arc 1a. and 1b. Passenger presses hall call button
 ;#arc '1A/1a'
 ;#arc '1A/1b'
@@ -16,3 +18,7 @@
 ;#arc '1A/2a'
 ;#arc '1A/2b'
 310ms A F HallLight 2 BACK DOWN : lighted == true
+
+; Hall call goes to dispatcher
+;#arch '1A/2c'
++100ms A N HALL_CALL_[2][BACK][DOWN]_CAN_ID HallCall : getValue == true

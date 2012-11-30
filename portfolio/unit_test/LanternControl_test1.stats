@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf LanternControl.cf -mf LanternControl_test1.mf -head head.txt
-RandomSeed = 1352415634329
+RandomSeed = 1354315776610
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -17,14 +17,14 @@ Controller File = LanternControl.cf
 
 Assertion Results:
 @0.201s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_OFF PASSED
-@0.401s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@eb64435 :: lighted ?== false PASSED
-@0.401s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@7b479feb :: getValue ?== false PASSED
+@0.401s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@18ac738 :: lighted ?== false PASSED
+@0.401s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@b02e7a :: getValue ?== false PASSED
 @2.001s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_ON PASSED
-@2.201s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@6d4c1103 :: lighted ?== true PASSED
-@2.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@17592174 :: getValue ?== true PASSED
+@2.201s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1a2961b :: lighted ?== true PASSED
+@2.201s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1ac3c08 :: getValue ?== true PASSED
 @3.801s:  PASSED LanternControl[UP]::checkState(STATE) ?== STATE_LIGHT_OFF PASSED
-@4.001s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@2897a560 :: lighted ?== false PASSED
-@4.001s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@55d15445 :: getValue ?== false PASSED
+@4.001s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@1c5c1 :: lighted ?== false PASSED
+@4.001s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@dc840f :: getValue ?== false PASSED
 
 
 ******************Summary******************

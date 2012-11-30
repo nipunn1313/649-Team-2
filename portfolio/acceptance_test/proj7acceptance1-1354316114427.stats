@@ -1,0 +1,118 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -pf proj7acceptance1.pass -head head.txt -b 200 -fs 5
+RandomSeed = 1354316114427
+CanNetworkBitTime = 5000 ns
+Effective Can Bitrate = 199999.99999999997
+Run Time = null
+Real time rate = null
+Acceptance Test File = proj7acceptance1.pass
+
+STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
+-----------------------------------------------------
+
+
+These passengers were delivered:
+Passenger 0: INJECTED AT 600.0s and DELIVERED in 65.449s
+  Satisfaction score: 72.9
+    @629.900000000: 0.90 Repeated hall call press
+    @662.329000000: 0.90 Repeated car call press
+    @663.029000000: 0.90 Repeated car call press
+Passenger 1: INJECTED AT 905.7s and DELIVERED in 44.704s
+  Satisfaction score: 81.0
+    @928.800000000: 0.90 Repeated hall call press
+    @947.644000000: 0.90 Repeated car call press
+Passenger 2: INJECTED AT 974.6s and DELIVERED in 59.008s
+  Satisfaction score: 72.9
+    @997.700000000: 0.90 Repeated hall call press
+    @1030.128000000: 0.90 Repeated car call press
+    @1030.828000000: 0.90 Repeated car call press
+Passenger 3: INJECTED AT 1531.4s and DELIVERED in 13.012s
+  Satisfaction score: 90.0
+    @1540.700000000: 0.90 Repeated hall call press
+Passenger 4: INJECTED AT 2082.0s and DELIVERED in 30.233s
+  Satisfaction score: 81.0
+    @2091.300000000: 0.90 Repeated hall call press
+    @2109.793000000: 0.90 Repeated car call press
+Passenger 5: INJECTED AT 2217.5s and DELIVERED in 58.707s
+  Satisfaction score: 81.0
+    @2240.600000000: 0.90 Repeated hall call press
+    @2273.207000000: 0.90 Repeated car call press
+Passenger 6: INJECTED AT 2805.4s and DELIVERED in 21.719s
+  Satisfaction score: 90.0
+    @2823.999000000: 0.90 Repeated car call press
+Passenger 7: INJECTED AT 3269.2s and DELIVERED in 51.614s
+  Satisfaction score: 72.9
+    @3278.500000000: 0.90 Repeated hall call press
+    @3317.574000000: 0.90 Repeated car call press
+    @3318.274000000: 0.90 Repeated car call press
+Passenger 8: INJECTED AT 3705.3s and DELIVERED in 72.541s
+  Satisfaction score: 81.0
+    @3742.000000000: 0.90 Repeated hall call press
+    @3774.601000000: 0.90 Repeated car call press
+Passenger 9: INJECTED AT 4204.2s and DELIVERED in 35.894s
+  Satisfaction score: 45.0
+    @4233.900000000: 0.90 Repeated hall call press
+    @4237.094000000: 0.50 Failed to exit at 7, FRONT even though the doors opened.
+Passenger 10: INJECTED AT 4487.2s and DELIVERED in 45.033s
+  Satisfaction score: 72.9
+    @4510.300000000: 0.90 Repeated hall call press
+    @4511.000000000: 0.90 Repeated hall call press
+    @4529.233000000: 0.90 Repeated car call press
+Passenger 11: INJECTED AT 4917.5s and DELIVERED in 58.938s
+  Satisfaction score: 81.0
+    @4947.600000000: 0.90 Repeated hall call press
+    @4973.198000000: 0.90 Repeated car call press
+Passenger 12: INJECTED AT 5104.0s and DELIVERED in 44.968s
+  Satisfaction score: 81.0
+    @5120.500000000: 0.90 Repeated hall call press
+    @5146.208000000: 0.90 Repeated car call press
+Passenger 13: INJECTED AT 5553.4s and DELIVERED in 51.968s
+  Satisfaction score: 81.0
+    @5583.300000000: 0.90 Repeated hall call press
+    @5602.248000000: 0.90 Repeated car call press
+Passenger 14: INJECTED AT 5713.7s and DELIVERED in 41.46s
+  Satisfaction score: 45.0
+    @5750.400000000: 0.90 Repeated hall call press
+    @5752.840000000: 0.50 Failed to exit at 7, BACK even though the doors opened.
+Passenger 15: INJECTED AT 6184.5s and DELIVERED in 71.752s
+  Satisfaction score: 72.9
+    @6227.000000000: 0.90 Repeated hall call press
+    @6252.932000000: 0.90 Repeated car call press
+    @6253.432000000: 0.90 Repeated car call press
+Passenger 16: INJECTED AT 6407.5s and DELIVERED in 78.604s
+  Satisfaction score: 81.0
+    @6424.000000000: 0.90 Repeated hall call press
+    @6483.064000000: 0.90 Repeated car call press
+Passenger 17: INJECTED AT 6866.1s and DELIVERED in 48.805s
+  Satisfaction score: 81.0
+    @6911.505000000: 0.90 Repeated car call press
+    @6912.405000000: 0.90 Repeated car call press
+
+Passenger Delivery Summary
+Delivered: 18
+Stranded: 0
+Total: 18
+
+Deliver Stats (lower is better):
+Average_delivery_time: 49.689
+Maximum_delivery_time:  78.604
+Delivery_performance_score:  277.362
+
+Satisfaction Stats (higher is better):
+Average_satisfaction_score: 75.750
+Min_satisfaction_score:  45.000
+Satisfaction_performance_score:  348.000
+
+
+
+
+Network Utilization Summary:
+Recent: 86.16 % Max: 86.16 %  Overall:  86.16 %
+
