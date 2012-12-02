@@ -9,7 +9,7 @@
 ; Integration test for SD#3B
 
 #INCLUDE defines.mf
-#DEFINE MESSAGE_PERIOD 10ms
+#DEFINE MESSAGE_PERIOD 0ms
 
 ; Set the back doors to closed
 ;0ms I MESSAGE_PERIOD N DOOR_CLOSED_SENSOR_[BACK][LEFT]_CAN_ID DoorClosed BACK LEFT = True 
@@ -22,6 +22,10 @@
 ; mDriveSpeed == Stop Stop
 0s I MESSAGE_PERIOD N DRIVE_SPEED_CAN_ID DriveSpeed = 0 STOP
 0s I 0s N DESIRED_DWELL_[FRONT]_CAN_ID DesiredDwell = 5000
+
+;; Pre-Condition for DriveControl at a floor
+0s I MESSAGE_PERIOD N LEVEL_SENSOR_[UP]_CAN_ID Leveling UP = True
+0s I MESSAGE_PERIOD N LEVEL_SENSOR_[DOWN]_CAN_ID Leveling DOWN = True
 
 
 ; Pre-Conditions <doors are open and car is at hallway f,b>
@@ -40,6 +44,11 @@
 
 ;#arc '3B/2b' CarWeightAlarm = True (doesn't affect any modules so we don't need to set it)
 +0ms I MESSAGE_PERIOD N CAR_WEIGHT_ALARM_CAN_ID CarWeightAlarm = True
+
+;#arc '3B/2c' Assure drive is set to stop when overweight
++100ms A F Drive : speed == STOP
++0ms A F Drive : direction == STOP
+
 ;#arc '3B/3a' CarWeightAlarm = True to passenger
 ;#arc '3B/3b' Passenger exits
  
