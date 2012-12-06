@@ -64,7 +64,7 @@ public class Dispatcher extends Controller {
     private final SimTime period;
     
     // Store dwell time
-    public static final int DWELL_TIME = 5000;
+    public static final int DWELL_TIME = 3000;
 
     // Store the number of floors
     //private final int numFloors;
