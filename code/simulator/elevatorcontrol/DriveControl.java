@@ -350,9 +350,13 @@ public class DriveControl extends Controller {
     
     private Direction getLevelingDirection() {
         if (mLevelUp.getValue() == false) {
-            return Direction.UP;
+            if (currentDirection == Direction.DOWN) {
+                return currentDirection;
+            } else return Direction.UP;
         } else if (mLevelDown.getValue() == false) {
-            return Direction.DOWN;
+            if (currentDirection == Direction.UP) {
+                return currentDirection;
+            } else return Direction.DOWN;
         } else {
             return Direction.STOP;
         }
