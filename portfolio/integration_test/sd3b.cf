@@ -9,5 +9,6 @@
 
 ; Let [f,b] = 1, FRONT
 
-DoorControl FRONT RIGHT 10ms True
+DoorControl FRONT RIGHT 10ms False
 DoorControl FRONT LEFT 10ms False
+DriveControl 10ms True
