@@ -306,8 +306,7 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT9
-                if ((mLevelUp.getValue() && mLevelDown.getValue()) ||
-                           !getSafe()) {
+                if (isLevel(currentDirection) || !getSafe()) {
                     newState = State.STATE_STOPPED;
                 }
                 break;
@@ -349,17 +348,21 @@ public class DriveControl extends Controller {
     }
     
     private Direction getLevelingDirection() {
-        if (mLevelUp.getValue() == false) {
-            if (currentDirection == Direction.DOWN) {
-                return currentDirection;
-            } else return Direction.UP;
-        } else if (mLevelDown.getValue() == false) {
-            if (currentDirection == Direction.UP) {
-                return currentDirection;
-            } else return Direction.DOWN;
-        } else {
-            return Direction.STOP;
+        if (driveSpeed.direction() == Direction.STOP &&
+                driveSpeed.speed() == DriveObject.StopSpeed) {
+            if (mLevelUp.getValue() == false) {
+                return Direction.UP;
+            } else if (mLevelDown.getValue() == false) {
+                return Direction.DOWN;
+            } 
         }
+        return driveSpeed.direction();
+    }
+    
+    private boolean isLevel(Direction d) {
+        if (d == Direction.UP)
+            return mLevelUp.getValue();
+        return mLevelDown.getValue();
     }
     
     private boolean getSafe() {
