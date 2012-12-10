@@ -1992,7 +1992,7 @@ with a floor. </li>
     6.7&nbsp; If DriveSpeed equals (s,d), mDriveSpeed shall be set to (s,d).
   </li>
   <li>
-    6.8&nbsp; If exactly one mLevel[d] is False, and DriveSpeed.s &lt;= Slow, and either mDesiredFloor.f
+    6.8&nbsp; If exactly one mLevel[d] is False, and DriveSpeed.s &lt;= SlowSpeed, and either mDesiredFloor.f
     equals CurrentFloor or any mDoorClosed[b,r] are False, then
   </li>
   <ul>
@@ -3056,6 +3056,9 @@ below Lobby (1). </li>
   <li>
     TargetDirection: State variable that represents the desired
     direction of travel after you reach TargetFloor.
+  </li>
+  <li>
+    Dwell: Variable that represents the desiredDwell of this elevator.
   </li>
 </ul>
 <h3> Macros: </h3>
