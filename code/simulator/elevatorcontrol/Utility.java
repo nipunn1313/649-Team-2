@@ -15,6 +15,7 @@ import simulator.framework.Direction;
 import simulator.framework.Elevator;
 import simulator.framework.Hallway;
 import simulator.framework.Harness;
+import simulator.framework.PassengerController.Passenger;
 import simulator.framework.ReplicationComputer;
 import simulator.framework.Side;
 import simulator.payloads.CanMailbox;
@@ -308,14 +309,14 @@ public class Utility {
     /* For dispatcher to determine next floor WHILE moving in a direction */
     public static DesiredFloor getNextFloorMoving(int carLevelPositionMM, double driveSpeed,
             Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
-            Direction targetDirection, int currentFloor) {
+            Direction targetDirection, int currentFloor, int carWeight) {
         
         DesiredFloor desired = null;
         
         if (driveDirection == Direction.UP) {
-            desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls);
+            desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight);
         } else if (driveDirection == Direction.DOWN) {
-            desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls);
+            desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight);
         }
         
         return desired;
@@ -323,7 +324,7 @@ public class Utility {
     
     public static DesiredFloor getNextFloorDoorsClosed(int carLevelPositionMM, double driveSpeed,
             Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
-            int currentFloor, int targetFloor) {
+            int currentFloor, int targetFloor, int carWeight) {
         Direction desiredDirection;
         
         if (targetFloor > currentFloor)
@@ -336,28 +337,28 @@ public class Utility {
         // Basically, do the same thing you do when the doors are open, except you can't rely on
         // mDesiredFloor.d, so you compute based on currentFloor and mDesiredFloor.f
         return getNextFloorDoorsOpen(carLevelPositionMM, driveSpeed, driveDirection, carCalls,
-                hallCalls, desiredDirection, currentFloor);
+                hallCalls, desiredDirection, currentFloor, carWeight);
     }
     
     public static DesiredFloor getNextFloorDoorsOpen(int carLevelPositionMM, double driveSpeed,
             Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
-            Direction targetDirection, int currentFloor) {
+            Direction targetDirection, int currentFloor, int carWeight) {
         DesiredFloor desired;
         
         if (targetDirection == Direction.STOP)
             targetDirection = Direction.UP;
         
         if (targetDirection == Direction.UP) {
-            if((desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls)) != null)
+            if((desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight)) != null)
                 return desired;
-            if ((desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls)) != null)
+            if ((desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight)) != null)
                 return desired;
         }
 
         if (targetDirection == Direction.DOWN) {
-            if((desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls)) != null)
+            if((desired = findDesiredBelow(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight)) != null)
                 return desired;
-            if ((desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls)) != null)
+            if ((desired = findDesiredAbove(carLevelPositionMM, driveSpeed, driveDirection, hallCalls, carCalls, carWeight)) != null)
                 return desired;
         }
         
@@ -368,18 +369,22 @@ public class Utility {
     }
     
     private static DesiredFloor findDesiredAbove(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
-            HallCallArray hallCalls, CarCallArray carCalls) {
+            HallCallArray hallCalls, CarCallArray carCalls, int carWeight) {
+
+        boolean carFull = carWeight + Passenger.weight > Elevator.MaxCarCapacity;
         
         /* Add 100 for 10cm granularity */
         int currentFloor = 1 + (int) (((100.0 + (double)carLevelPositionMM) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
         for (int f = currentFloor; f <= Elevator.numFloors; f++) {
                if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
-                   boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
-                   boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);
-                   if(frontHallCall || backHallCall) {
-                       Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
-                                                     (frontHallCall ? Hallway.FRONT : Hallway.BACK);
-                       return new DesiredFloor(f, desiredFloorHallway, Direction.UP);
+                   if (!carFull) {
+                       boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
+                       boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);
+                       if(frontHallCall || backHallCall) {
+                           Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
+                                                         (frontHallCall ? Hallway.FRONT : Hallway.BACK);
+                           return new DesiredFloor(f, desiredFloorHallway, Direction.UP);
+                       }
                    }
                    
                    boolean frontCarCall = carCalls.getCarCall(f, Hallway.FRONT);
@@ -402,14 +407,16 @@ public class Utility {
                    }
                }
            }
-           for (int f = Elevator.numFloors; f >= currentFloor; f--) {
-               if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
-                   boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
-                   boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
-                   if(frontHallCall || backHallCall) {
-                       Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
-                                                     (frontHallCall ? Hallway.FRONT : Hallway.BACK);
-                       return new DesiredFloor(f, desiredFloorHallway, Direction.DOWN);
+           if (!carFull) {
+               for (int f = Elevator.numFloors; f >= currentFloor; f--) {
+                   if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
+                       boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
+                       boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
+                       if(frontHallCall || backHallCall) {
+                           Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
+                                                         (frontHallCall ? Hallway.FRONT : Hallway.BACK);
+                           return new DesiredFloor(f, desiredFloorHallway, Direction.DOWN);
+                       }
                    }
                }
            }
@@ -417,17 +424,20 @@ public class Utility {
     }
     
     private static DesiredFloor findDesiredBelow(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
-            HallCallArray hallCalls, CarCallArray carCalls) {
+            HallCallArray hallCalls, CarCallArray carCalls, int carWeight) {
         
+        boolean carFull = carWeight + Passenger.weight > Elevator.MaxCarCapacity;
         int currentFloor = 1 + (int) (((carLevelPositionMM + 100.0) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
         for (int f = currentFloor; f >= 1; f--) {
             if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
-                boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
-                boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
-                if(frontHallCall || backHallCall) {
-                    Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
-                                                  (frontHallCall ? Hallway.FRONT : Hallway.BACK);
-                    return new DesiredFloor(f, desiredFloorHallway, Direction.DOWN);
+                if (!carFull) {
+                    boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.DOWN);
+                    boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.DOWN);
+                    if(frontHallCall || backHallCall) {
+                        Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
+                                                      (frontHallCall ? Hallway.FRONT : Hallway.BACK);
+                        return new DesiredFloor(f, desiredFloorHallway, Direction.DOWN);
+                    }
                 }
                 
                 boolean frontCarCall = carCalls.getCarCall(f, Hallway.FRONT);
@@ -449,14 +459,16 @@ public class Utility {
                 }
             }
         }
-        for (int f = 1; f <= currentFloor; f++) {
-            if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
-                boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
-                boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);
-                if(frontHallCall || backHallCall) {
-                    Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
-                                                  (frontHallCall ? Hallway.FRONT : Hallway.BACK);
-                    return new DesiredFloor(f, desiredFloorHallway, Direction.UP);
+        if (!carFull) {
+            for (int f = 1; f <= currentFloor; f++) {
+                if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
+                    boolean frontHallCall = hallCalls.getHallCall(f,  Hallway.FRONT,  Direction.UP);
+                    boolean backHallCall = hallCalls.getHallCall(f, Hallway.BACK, Direction.UP);
+                    if(frontHallCall || backHallCall) {
+                        Hallway desiredFloorHallway = frontHallCall && backHallCall ? Hallway.BOTH :
+                                                      (frontHallCall ? Hallway.FRONT : Hallway.BACK);
+                        return new DesiredFloor(f, desiredFloorHallway, Direction.UP);
+                    }
                 }
             }
         }

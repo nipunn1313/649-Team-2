@@ -3090,7 +3090,10 @@ below Lobby (1). </li>
           <li>
             If CommitPoint[<b>f</b>] is NotReached and
             <ul>
-              <li>A HallCall[<b>f, b, d0</b>] is True</li>
+              <li>
+                Car can fit another passenger and a
+                HallCall[<b>f, b, d0</b>] is True
+              </li>
                 <ul><li>If found, return <b>(f, b, d0)</b></li></ul>
               <li>A CarCall[<b>f, b</b>] is True</li>
               <ul>
@@ -3116,7 +3119,8 @@ below Lobby (1). </li>
         TargetDirection <b>d0</b> starting with the furthest.
         <ul>
           <li>
-            If there is a HallCall[<b>f, b, ~d0</b>]
+            If car can fit another passenger and
+            there is a HallCall[<b>f, b, ~d0</b>]
             return <b>(f, b, ~d0)</b>
           </li>
         </ul>

@@ -15,6 +15,7 @@ import simulator.elevatorcontrol.Utility.CarCallArray;
 import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
+import simulator.elevatormodules.CarWeightCanPayloadTranslator;
 import simulator.elevatormodules.DriveObject;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
@@ -40,7 +41,7 @@ public class Dispatcher extends Controller {
 
     // Receive car weight messages
     private ReadableCanMailbox networkCarWeight;
-    //private CarWeightCanPayloadTranslator mCarWeight;
+    private CarWeightCanPayloadTranslator mCarWeight;
     
     // Receive car level position
     private ReadableCanMailbox networkCarLevelPosition;
@@ -62,6 +63,9 @@ public class Dispatcher extends Controller {
 
     // Store the period for the controller
     private final SimTime period;
+    
+    private final int doorBackoff = 5;
+    private int doorBackoffCountdown = doorBackoff;
     
     // Store dwell time
     public static final int DWELL_TIME = 3000;
@@ -109,7 +113,7 @@ public class Dispatcher extends Controller {
         
         // Create mCarWeight interface
         networkCarWeight = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
-        //mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
+        mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
         canInterface.registerTimeTriggered(networkCarWeight);
         
         // Create mCarLevelPosition interface
@@ -149,12 +153,22 @@ public class Dispatcher extends Controller {
         switch (state) {
             case STATE_DOORS_CLOSED:
                 // State actions for 'DOORS CLOSED'
+                if (doorBackoffCountdown > 0)
+                    doorBackoffCountdown--;
+                
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor);
-                TargetFloor = nextFloor.getFloor();
-                TargetHallway = nextFloor.getHallway();
-                TargetDirection = nextFloor.getDirection();
+                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
+                
+                if (doorBackoffCountdown == 0) {
+                    TargetFloor = nextFloor.getFloor();
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                } else if (nextFloor.getFloor() == TargetFloor &&
+                           TargetFloor == mAtFloors.getCurrentFloor()) {
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                }
                 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
@@ -180,11 +194,15 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_AT_FLOOR:
                 // State actions for 'DOORS OPEN AT FLOOR'
+                doorBackoffCountdown = this.doorBackoff;
                 nextFloor = Utility.getNextFloorDoorsOpen(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, TargetDirection, currentFloor);
+                        mHallCalls, TargetDirection, currentFloor,
+                        mCarWeight.getWeight());
                 TargetFloor = nextFloor.getFloor();
-                TargetHallway = nextFloor.getHallway();
+                // Condition to avoid zoidberg problem
+                TargetHallway = (nextFloor.getFloor() == mAtFloors.getCurrentFloor()) ?
+                        Hallway.NONE : nextFloor.getHallway();
 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
@@ -204,6 +222,7 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_BETWEEN_FLOORS:
                 // State actions for 'DOORS OPEN BETWEEN FLOORS'
+                doorBackoffCountdown = this.doorBackoff;
                 TargetFloor = 1;
                 mDesiredFloor.set(TargetFloor, Hallway.NONE, Direction.STOP);
                 mDesiredDwellFront.set(DWELL_TIME);
@@ -225,7 +244,8 @@ public class Dispatcher extends Controller {
                 // State actions for 'MOVING'
                 nextFloor = Utility.getNextFloorMoving(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, TargetDirection, currentFloor);
+                        mHallCalls, TargetDirection, currentFloor,
+                        mCarWeight.getWeight());
                 if (nextFloor == null) {
                     if (mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                         throw new RuntimeException("Dispatcher is confused as to why we're moving");
@@ -257,7 +277,7 @@ public class Dispatcher extends Controller {
                 // State actions for 'DOORS CLOSED'
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor);
+                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
                 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
