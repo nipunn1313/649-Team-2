@@ -1985,7 +1985,9 @@ with a floor. </li>
 -->
 <ul>
   <li>
-    6.6&nbsp; If either Safe equals False or Obese equals True, then Drive shall be set to (Stop, Stop).
+    6.6&nbsp; If either Safe equals False or Obese equals True, and
+    DriveSpeed &gt; LevelingSpeed then Drive
+    shall be set to (Stop, Stop)
     (This requirement takes precedence over every following requirement).
   </li>
   <li>
@@ -2613,7 +2615,10 @@ None
   </ul>
   <li>8.3&nbsp; If HallCall[f,b,d] is Pressed, Active shall be set to True</li>
   <li>8.4&nbsp; If HallCall[f,b,d] is Idle and CurrentFloor is equal to
-      mDesiredFloor.f and CurrentFloor is equal to <b>f</b>,
+      mDesiredFloor.f and CurrentFloor is equal to <b>f</b> and
+      mDesiredFloor.h is equal to <b>h</b> and
+      mDesiredFloor.d is equal to <b>d</b> and not all
+      mDoorClosed[<b>b, *</b>] are True then
       Active shall be set to False</li>
 </ul>
 
@@ -2643,7 +2648,9 @@ cellspacing="2">
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b> &amp;&amp;
           (mDesiredFloor.b == <b>b</b> || mDesiredFloor.b == BOTH) &amp;&amp;
-          mDesiredFloor.d == <b>d</b>
+          (mDesiredFloor.d == <b>d</b> || mDesiredFloor.d == STOP) &amp;&amp;
+          mDesiredFloor.d == <b>d</b> &amp;&amp;
+          !mDoorClosed[<b>b</b>, *]
       </td>
     </tr>
   </tbody>
@@ -2770,7 +2777,8 @@ None
   <!-- Turning light off conditions -->
   <li>
     9.1&nbsp; If mAtFloor[f,b] is True and mDesiredFloor.f equals
-    CurrentFloor and CurrentFloor equals <b>f</b>, then 
+    CurrentFloor and CurrentFloor equals <b>f</b> and mDesiredFloor.b
+    equals <b>b</b> and not all mDoorClosed[<b>b,*</b>] are True, then 
     Active shall be set to False
   </li>
   <li>
@@ -2832,7 +2840,8 @@ cellspacing="2">
           mDesiredFloor.f == CurrentFloor &amp;&amp;
           CurrentFloor == <b>f</b> &amp;&amp;
           (mDesiredFloor.b == <b>b</b>  || mDesiredFloor.b == BOTH) &amp;&amp;
-          mDesiredFloor.d == <b>d</b>
+          mDesiredFloor.d == <b>d</b> &amp;&amp;
+          !mDoorClosed[<b>b</b>, *]
       </td>
     </tr>
   </tbody>

@@ -11,6 +11,7 @@ package simulator.elevatorcontrol;
 
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
+import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.framework.Controller;
 import simulator.framework.Hallway;
 import simulator.framework.ReplicationComputer;
@@ -39,6 +40,7 @@ public class CarButtonControl extends Controller {
     ReadableCarCallPayload localCarButton;
     AtFloorArray mAtFloors;
     DesiredFloorCanPayloadTranslator mDesiredFloor;
+    DoorClosedArray mDoorClosed;
     
     /* Output Interface */
     WriteableCarLightPayload localCarLight;
@@ -76,6 +78,7 @@ public class CarButtonControl extends Controller {
         localCarButton = CarCallPayload.getReadablePayload(floor, hallway);
         mAtFloors = new AtFloorArray(canInterface);
         mDesiredFloor = new DesiredFloorCanPayloadTranslator(networkDesiredFloor);
+        mDoorClosed = new DoorClosedArray(canInterface);
         
         /* Setup output payloads/messages */
         localCarLight = CarLightPayload.getWriteablePayload(floor, hallway);
@@ -123,7 +126,8 @@ public class CarButtonControl extends Controller {
                     if (mAtFloors.getCurrentFloor() == mDesiredFloor.getFloor() &&
                         mAtFloors.getCurrentFloor() == floor &&
                         (mDesiredFloor.getHallway() == this.hallway ||
-                         mDesiredFloor.getHallway() == Hallway.BOTH)) {
+                         mDesiredFloor.getHallway() == Hallway.BOTH) &&
+                        !mDoorClosed.getBothClosed(this.hallway)) {
                         newState = State.STATE_NO_CALL;
                     }
                 }
