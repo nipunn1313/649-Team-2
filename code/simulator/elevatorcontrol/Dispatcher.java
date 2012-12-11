@@ -64,6 +64,9 @@ public class Dispatcher extends Controller {
     // Store the period for the controller
     private final SimTime period;
     
+    private final int doorBackoff = 5;
+    private int doorBackoffCountdown = doorBackoff;
+    
     // Store dwell time
     public static final int DWELL_TIME = 3000;
 
@@ -150,12 +153,22 @@ public class Dispatcher extends Controller {
         switch (state) {
             case STATE_DOORS_CLOSED:
                 // State actions for 'DOORS CLOSED'
+                if (doorBackoffCountdown > 0)
+                    doorBackoffCountdown--;
+                
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
                         mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
-                TargetFloor = nextFloor.getFloor();
-                TargetHallway = nextFloor.getHallway();
-                TargetDirection = nextFloor.getDirection();
+                
+                if (doorBackoffCountdown == 0) {
+                    TargetFloor = nextFloor.getFloor();
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                } else if (nextFloor.getFloor() == TargetFloor &&
+                           TargetFloor == mAtFloors.getCurrentFloor()) {
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                }
                 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
@@ -181,12 +194,15 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_AT_FLOOR:
                 // State actions for 'DOORS OPEN AT FLOOR'
+                doorBackoffCountdown = this.doorBackoff;
                 nextFloor = Utility.getNextFloorDoorsOpen(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
                         mHallCalls, TargetDirection, currentFloor,
                         mCarWeight.getWeight());
                 TargetFloor = nextFloor.getFloor();
-                TargetHallway = nextFloor.getHallway();
+                // Condition to avoid zoidberg problem
+                TargetHallway = (nextFloor.getFloor() == mAtFloors.getCurrentFloor()) ?
+                        Hallway.NONE : nextFloor.getHallway();
 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
@@ -206,6 +222,7 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_DOORS_OPEN_BETWEEN_FLOORS:
                 // State actions for 'DOORS OPEN BETWEEN FLOORS'
+                doorBackoffCountdown = this.doorBackoff;
                 TargetFloor = 1;
                 mDesiredFloor.set(TargetFloor, Hallway.NONE, Direction.STOP);
                 mDesiredDwellFront.set(DWELL_TIME);
