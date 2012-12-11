@@ -21,6 +21,7 @@ name=
 seed=
 stranded=
 emergency=
+mkdir -p logs
 for testfile in $testfiles
 do
     name=`echo $testfile | cut -d . -f 1`
