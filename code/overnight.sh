@@ -29,7 +29,7 @@ do
     do
       seed=$RANDOM
       echo -n "running test $name with seed $seed..."
-      java -cp ../../code simulator.framework.Elevator -pf normal_final.pass -head head.txt -b 200 -fs 5 -rt 2h &> "logs/$name-$seed.log"
+      java -cp ../../code simulator.framework.Elevator -pf normal_final.pass -head head.txt -seed $seed -b 200 -fs 5 -rt 2h &> "logs/$name-$seed.log"
       grep -i "stranded: 0" logs/$name-$seed.log > /dev/null
       if [ $? -eq 0 ]
       then
@@ -43,4 +43,5 @@ do
     done
 done
 
-rm elevator*.stats
+mkdir -p stats-$date
+mv elevator*.stats stats-$date/
