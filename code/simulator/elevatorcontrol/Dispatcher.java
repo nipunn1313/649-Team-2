@@ -15,6 +15,7 @@ import simulator.elevatorcontrol.Utility.CarCallArray;
 import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
+import simulator.elevatormodules.CarWeightCanPayloadTranslator;
 import simulator.elevatormodules.DriveObject;
 import simulator.framework.Controller;
 import simulator.framework.Direction;
@@ -40,7 +41,7 @@ public class Dispatcher extends Controller {
 
     // Receive car weight messages
     private ReadableCanMailbox networkCarWeight;
-    //private CarWeightCanPayloadTranslator mCarWeight;
+    private CarWeightCanPayloadTranslator mCarWeight;
     
     // Receive car level position
     private ReadableCanMailbox networkCarLevelPosition;
@@ -109,7 +110,7 @@ public class Dispatcher extends Controller {
         
         // Create mCarWeight interface
         networkCarWeight = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
-        //mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
+        mCarWeight = new CarWeightCanPayloadTranslator(networkCarWeight);
         canInterface.registerTimeTriggered(networkCarWeight);
         
         // Create mCarLevelPosition interface
@@ -151,7 +152,7 @@ public class Dispatcher extends Controller {
                 // State actions for 'DOORS CLOSED'
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor);
+                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
                 TargetFloor = nextFloor.getFloor();
                 TargetHallway = nextFloor.getHallway();
                 TargetDirection = nextFloor.getDirection();
@@ -182,7 +183,8 @@ public class Dispatcher extends Controller {
                 // State actions for 'DOORS OPEN AT FLOOR'
                 nextFloor = Utility.getNextFloorDoorsOpen(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, TargetDirection, currentFloor);
+                        mHallCalls, TargetDirection, currentFloor,
+                        mCarWeight.getWeight());
                 TargetFloor = nextFloor.getFloor();
                 TargetHallway = nextFloor.getHallway();
 
@@ -225,7 +227,8 @@ public class Dispatcher extends Controller {
                 // State actions for 'MOVING'
                 nextFloor = Utility.getNextFloorMoving(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, TargetDirection, currentFloor);
+                        mHallCalls, TargetDirection, currentFloor,
+                        mCarWeight.getWeight());
                 if (nextFloor == null) {
                     if (mAtFloors.getCurrentFloor() == MessageDictionary.NONE) {
                         throw new RuntimeException("Dispatcher is confused as to why we're moving");
@@ -257,7 +260,7 @@ public class Dispatcher extends Controller {
                 // State actions for 'DOORS CLOSED'
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor);
+                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
                 
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
