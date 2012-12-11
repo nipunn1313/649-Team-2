@@ -1985,7 +1985,9 @@ with a floor. </li>
 -->
 <ul>
   <li>
-    6.6&nbsp; If either Safe equals False or Obese equals True, then Drive shall be set to (Stop, Stop).
+    6.6&nbsp; If either Safe equals False or Obese equals True, and
+    DriveSpeed &gt; LevelingSpeed then Drive
+    shall be set to (Stop, Stop)
     (This requirement takes precedence over every following requirement).
   </li>
   <li>
