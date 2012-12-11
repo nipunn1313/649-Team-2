@@ -306,7 +306,7 @@ public class DriveControl extends Controller {
                 mDriveSpeed.set(driveSpeed.speed(), driveSpeed.direction());
                 
                 // #transition DRT9
-                if (isLevel(currentDirection) || !getSafe()) {
+                if ((mLevelUp.getValue() && mLevelDown.getValue()) || !getSafe()) {
                     newState = State.STATE_STOPPED;
                 }
                 break;
@@ -359,11 +359,6 @@ public class DriveControl extends Controller {
         return Direction.STOP;
     }
     
-    private boolean isLevel(Direction d) {
-        if (d == Direction.UP)
-            return mLevelUp.getValue();
-        return mLevelDown.getValue();
-    }
     
     private boolean getSafe() {
         return mEmergencyBrake.getValue() == false;

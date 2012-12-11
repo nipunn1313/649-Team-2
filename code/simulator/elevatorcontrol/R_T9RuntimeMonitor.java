@@ -24,7 +24,7 @@ public class R_T9RuntimeMonitor {
         STATE_MOVING,
         STATE_COMMIT_POINT_NOT_REACHED,
     };
-    private static final int TIME = 10;
+    private static final int TIME = 50;
     private int timer = TIME;
     private boolean approachingFloor = false;
     
@@ -52,7 +52,9 @@ public class R_T9RuntimeMonitor {
                 break;
             case STATE_MOVING:
                 timer = TIME;
-                if (driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
+                if (driveActualSpeed.speed() == DriveObject.StopSpeed)
+                    nextState = State.STATE_STOPPED;
+                else if (driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
                     !Utility.reachedCommitPoint(mDesiredFloor.getFloor(),
                             carLevelPosition.position(),
                             driveActualSpeed.speed(),
@@ -66,6 +68,16 @@ public class R_T9RuntimeMonitor {
                 if (driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
                         timer == 0)
                     nextState = State.STATE_CAN_GO_FASTER;
+                else if ((driveActualSpeed.speed() > DriveObject.SlowSpeed &&
+                        timer != 0) || 
+                        driveActualSpeed.speed() <= DriveObject.SlowSpeed && 
+                        Utility.reachedCommitPoint(mDesiredFloor.getFloor(), 
+                                carLevelPosition.position(),
+                                driveActualSpeed.speed(),
+                                driveCommandedSpeed.direction())) {
+                    approachingFloor = true;
+                    nextState = State.STATE_MOVING;
+                }
                 else
                     timer--;
                 break;  
