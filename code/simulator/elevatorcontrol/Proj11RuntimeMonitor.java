@@ -40,7 +40,7 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
     int wastedOpenings = 0;
     boolean isWastedOpening = true;
     
-    R_T6RuntimeMonitor R_T6Monitor = new R_T6RuntimeMonitor();
+    R_T6RuntimeMonitor R_T6Monitor = new R_T6RuntimeMonitor(this.hallLights, this.carLights);
     R_T7RuntimeMonitor R_T7Monitor = new R_T7RuntimeMonitor();
     R_T81RuntimeMonitor R_T81Monitor = new R_T81RuntimeMonitor();
     R_T82RuntimeMonitor R_T82Monitor = new R_T82RuntimeMonitor();
@@ -67,6 +67,7 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
         
         R_T6Monitor.onTimerExpired(this.driveActualSpeed, this.atFloors, this.hallLights, this.carLights,
                 warnings, messages);
+        
         R_T7Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights, this.carLights,
                 warnings, messages);
         R_T81Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights,
