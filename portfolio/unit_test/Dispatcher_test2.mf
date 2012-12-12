@@ -26,8 +26,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST1'
 +0ms  I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = false
@@ -42,8 +42,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST7'
 +100ms I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
@@ -55,5 +55,5 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
