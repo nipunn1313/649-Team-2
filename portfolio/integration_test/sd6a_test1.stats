@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd6a.cf -mf sd6a_test1.mf -head head.txt
-RandomSeed = 1354313746660
+RandomSeed = 1355278324123
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,16 +16,16 @@ Message File = sd6a_test1.mf
 Controller File = sd6a.cf
 
 Assertion Results:
-@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1b10d42 :: speed ?== FAST PASSED
-@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1f7d134 :: direction ?== UP PASSED
-@0.25s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@e2eec8 :: getScaledSpeed ?== 100 PASSED
-@0.5s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@1813fac :: floor ?== 2 PASSED
-@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@136228 :: speed ?== SLOW PASSED
-@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1c672d0 :: direction ?== UP PASSED
-@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@84abc9 :: direction ?== UP PASSED
-@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@bfbdb0 :: speed ?== LEVEL PASSED
-@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1050169 :: direction ?== STOP PASSED
-@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@253498 :: speed ?== STOP PASSED
+@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@6e70c7 :: speed ?== FAST PASSED
+@0.15s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@228a02 :: direction ?== UP PASSED
+@0.25s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@126804e :: getScaledSpeed ?== 100 PASSED
+@0.5s:  PASSED simulator.payloads.CarPositionIndicatorPayload$ReadableCarPositionIndicatorPayload@d2906a :: floor ?== 2 PASSED
+@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1df38fd :: speed ?== SLOW PASSED
+@0.6s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1507fb2 :: direction ?== UP PASSED
+@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@126e85f :: direction ?== UP PASSED
+@0.75s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1193779 :: speed ?== LEVEL PASSED
+@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@2ce908 :: direction ?== STOP PASSED
+@0.82s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@27391d :: speed ?== STOP PASSED
 
 
 ******************Summary******************
