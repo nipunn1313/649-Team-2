@@ -8,6 +8,9 @@
  */
 
 package simulator.elevatorcontrol;
+import jSimPack.SimTime;
+import jSimPack.SimTime.SimTimeUnit;
+
 import java.util.List;
 
 import simulator.elevatorcontrol.Proj11RuntimeMonitor.DoorStateMachine;
@@ -22,6 +25,7 @@ public class R_T82RuntimeMonitor {
     //enumerate states
     private enum State {
         STATE_DOORS_CLOSED,
+        STATE_DOORS_DELAY,
         STATE_DOORS_OPENED,
         STATE_LANTERNS_CHANGED
     };
@@ -29,11 +33,13 @@ public class R_T82RuntimeMonitor {
     private State state = State.STATE_DOORS_CLOSED;
     boolean upLanternState;
     boolean downLanternState;
+    private SimTime delay;
     
     public void onTimerExpired(ReadableAtFloorPayload[][] atFloors,
             DoorStateMachine doorState, ReadableHallLightPayload[][][] hallLights, 
             ReadableCarLightPayload[][] carLights, 
-            ReadableCarLanternPayload[] carLanterns, 
+            ReadableCarLanternPayload[] carLanterns,
+            SimTime runtimePeriod,
             List<String> warnings, List<String> messages) {
         
         State nextState = state;
@@ -56,12 +62,19 @@ public class R_T82RuntimeMonitor {
         
         switch (state) {
             case STATE_DOORS_CLOSED:
+            	delay = SimTime.multiply(MessageDictionary.LANTERN_CONTROL_PERIOD, 3);
                 if (doorState.anyDoorOpen()) {
-                    nextState = State.STATE_DOORS_OPENED;
-                    upLanternState = upLantern;
-                    downLanternState = downLantern;
+                    nextState = State.STATE_DOORS_DELAY;
                 }
                 break;
+            case STATE_DOORS_DELAY:
+            	delay = SimTime.subtract(delay, runtimePeriod);
+            	if (delay.isLessThanOrEqual(SimTime.ZERO)) {
+            		nextState = State.STATE_DOORS_OPENED;
+            		upLanternState = upLantern;
+            		downLanternState = downLantern;
+            	}
+            	break;
             case STATE_DOORS_OPENED:
                 if (!doorState.anyDoorOpen()) {
                     nextState = State.STATE_DOORS_CLOSED;
@@ -77,7 +90,7 @@ public class R_T82RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_LANTERNS_CHANGED) {
-            warnings.add("Lanterns changed when at floor " + (f+1) + " hallway " + h +
+            warnings.add("RT 8-2 Lanterns changed when at floor " + (f+1) + " hallway " + h +
                     " from (" + upLanternState + "," + downLanternState + ") to (" +
                     upLantern + "," + downLantern + ") while doors were open");
         }
