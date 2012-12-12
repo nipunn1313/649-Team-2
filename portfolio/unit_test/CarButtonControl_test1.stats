@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf CarButtonControl.cf -mf CarButtonControl_test1.mf -head head.txt
-RandomSeed = 1354315773169
+RandomSeed = 1355278307960
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,19 +16,19 @@ Message File = CarButtonControl_test1.mf
 Controller File = CarButtonControl.cf
 
 Assertion Results:
-@0.2s:  PASSED simulator.payloads.CarCallPayload$ReadableCarCallPayload@1d6096 :: pressed ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CarCallPayload$ReadableCarCallPayload@17e6a96 :: pressed ?== false PASSED
 @0.2s:  PASSED CarButtonControl[7][BACK]::checkState(STATE) ?== STATE_NO_CALL PASSED
-@0.2s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@5afd29 :: lighted ?== false PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@12d03f9 :: getValue ?== false PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@15dfd77 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@b42cbf :: lighted ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@15a8767 :: getValue ?== false PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@171bbc9 :: getValue ?== false PASSED
 @0.61s:  PASSED CarButtonControl[7][BACK]::checkState(STATE) ?== STATE_CALLED PASSED
-@0.61s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@1ac3c08 :: lighted ?== true PASSED
-@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1f630dc :: getValue ?== true PASSED
-@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@5e0602 :: getValue ?== true PASSED
-@1.04s:  PASSED CarButtonControl[7][BACK]::checkState(STATE) ?== STATE_NO_CALL PASSED
-@1.04s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@ca8327 :: lighted ?== false PASSED
-@1.04s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1bf6770 :: getValue ?== false PASSED
-@1.04s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@94948a :: getValue ?== false PASSED
+@0.61s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@143c8b3 :: lighted ?== true PASSED
+@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a8c488 :: getValue ?== true PASSED
+@0.61s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@998b08 :: getValue ?== true PASSED
+@1.05s:  PASSED CarButtonControl[7][BACK]::checkState(STATE) ?== STATE_NO_CALL PASSED
+@1.05s:  PASSED simulator.payloads.CarLightPayload$ReadableCarLightPayload@6d084b :: lighted ?== false PASSED
+@1.05s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@152544e :: getValue ?== false PASSED
+@1.05s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@17471e0 :: getValue ?== false PASSED
 
 
 ******************Summary******************
