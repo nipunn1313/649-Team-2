@@ -70,7 +70,7 @@ public class R_T10RuntimeMonitor {
         }
         
         if (state != nextState && nextState == State.STATE_BAD_NUDGE) {
-            warnings.add("Doors in hallway " + h + " nudged without a reversal. YIKES");
+            warnings.add("Warning RT 10: Doors in hallway " + h + " nudged without a reversal. YIKES");
         }
         
         state = nextState;
