@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf sd8a.cf -mf sd8a_test1.mf -head head.txt
-RandomSeed = 1354313750131
+RandomSeed = 1355278328138
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -16,15 +16,15 @@ Message File = sd8a_test1.mf
 Controller File = sd8a.cf
 
 Assertion Results:
-@0.71s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@9fef6f :: lighted ?== true PASSED
-@0.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@17172ea :: command ?== CLOSE PASSED
-@0.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@f38798 :: command ?== CLOSE PASSED
-@1.09s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1855af5 :: command ?== STOP PASSED
-@1.12s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@e39a3e :: command ?== STOP PASSED
-@1.55s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@198dfaf :: lighted ?== false PASSED
-@1.55s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@12498b5 :: lighted ?== false PASSED
-@1.66s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@1a125f0 :: direction ?== UP PASSED
-@1.66s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@181afa3 :: speed ?== SLOW PASSED
+@0.71s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@8916a2 :: lighted ?== true PASSED
+@0.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@13f3045 :: command ?== CLOSE PASSED
+@0.91s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1434234 :: command ?== CLOSE PASSED
+@1.09s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@15e83f9 :: command ?== STOP PASSED
+@1.12s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@bb7465 :: command ?== STOP PASSED
+@1.55s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@c8f6f8 :: lighted ?== false PASSED
+@1.55s:  PASSED simulator.payloads.CarLanternPayload$ReadableCarLanternPayload@122cdb6 :: lighted ?== false PASSED
+@1.66s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@3ecfff :: direction ?== UP PASSED
+@1.66s:  PASSED simulator.payloads.DrivePayload$ReadableDrivePayload@65a77f :: speed ?== SLOW PASSED
 
 
 ******************Summary******************

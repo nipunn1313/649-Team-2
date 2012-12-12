@@ -7,7 +7,7 @@ Benet Clark (brclark)
 
 Simulator Parameters:
 Command line = -cf DoorControl.cf -mf DoorControl_test2.mf -head head.txt
-RandomSeed = 1354315774138
+RandomSeed = 1355278309659
 CanNetworkBitTime = 0 ns
 Effective Can Bitrate = Infinity
 Run Time = null
@@ -17,11 +17,11 @@ Controller File = DoorControl.cf
 
 Assertion Results:
 @0.1s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_CLOSED PASSED
-@0.1s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@fa9cf :: command ?== STOP PASSED
-@0.1s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@ca8327 :: getDoorCommand ?== STOP PASSED
+@0.1s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@12d7a10 :: command ?== STOP PASSED
+@0.1s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@1feca64 :: getDoorCommand ?== STOP PASSED
 @0.2s:  PASSED DoorControl[FRONT][LEFT]::checkState(STATE) ?== STATE_DOORS_OPEN PASSED
-@0.2s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@1201a25 :: command ?== OPEN PASSED
-@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@a401c2 :: getDoorCommand ?== OPEN PASSED
+@0.2s:  PASSED simulator.payloads.DoorMotorPayload$ReadableDoorMotorPayload@6d084b :: command ?== OPEN PASSED
+@0.2s:  PASSED simulator.payloads.CanMailbox$ReadableCanMailbox@152544e :: getDoorCommand ?== OPEN PASSED
 @0.2s:  PASSED DoorControl[FRONT][LEFT]::checkState(DWELL) ?== 5.0s PASSED
 
 
