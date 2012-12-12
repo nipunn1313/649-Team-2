@@ -32,6 +32,7 @@ public class R_T81RuntimeMonitor {
     
     private State state = State.STATE_DOORS_CLOSED;
     private SimTime delay;
+    private boolean checkCallsOnOtherFloors = false;
     
     public void onTimerExpired(ReadableAtFloorPayload[][] atFloors,
             DoorStateMachine doorState, ReadableHallLightPayload[][][] hallLights, 
@@ -52,9 +53,10 @@ public class R_T81RuntimeMonitor {
                 if (atFloors[i][h2.ordinal()].getValue()) {
                     f = i;
                     h = h2;
-                } else if (carLights[i][h2.ordinal()].lighted() ||
-                        hallLights[i][h2.ordinal()][Direction.UP.ordinal()].lighted() ||
-                        hallLights[i][h2.ordinal()][Direction.DOWN.ordinal()].lighted()) {
+                } else if (!checkCallsOnOtherFloors && 
+                		(carLights[i][h2.ordinal()].lighted() ||
+                		hallLights[i][h2.ordinal()][Direction.UP.ordinal()].lighted() ||
+                		hallLights[i][h2.ordinal()][Direction.DOWN.ordinal()].lighted())) {
                     callOnAnotherFloor = true;
                 }
             }
@@ -63,8 +65,10 @@ public class R_T81RuntimeMonitor {
         switch (state) {
             case STATE_DOORS_CLOSED:
             	delay = SimTime.multiply(MessageDictionary.LANTERN_CONTROL_PERIOD, 3);
+            	checkCallsOnOtherFloors = false;
                 if (doorState.anyDoorOpen()) {
                 	nextState = State.STATE_DOORS_DELAY;
+                	checkCallsOnOtherFloors = true;
                 }
                 break;
             case STATE_DOORS_DELAY:
