@@ -324,15 +324,12 @@ public class Utility {
     
     public static DesiredFloor getNextFloorDoorsClosed(int carLevelPositionMM, double driveSpeed,
             Direction driveDirection, CarCallArray carCalls, HallCallArray hallCalls,
-            int currentFloor, int targetFloor, int carWeight) {
-        Direction desiredDirection;
+            int currentFloor, int targetFloor, int carWeight, Direction promisedDirection) { 
         
-        if (targetFloor > currentFloor)
+        Direction desiredDirection;
+        if (promisedDirection == Direction.STOP)
             desiredDirection = Direction.UP;
-        else if (targetFloor < currentFloor)
-            desiredDirection = Direction.DOWN;
-        else
-            desiredDirection = Direction.STOP;
+        else desiredDirection = promisedDirection;
         
         // Basically, do the same thing you do when the doors are open, except you can't rely on
         // mDesiredFloor.d, so you compute based on currentFloor and mDesiredFloor.f
