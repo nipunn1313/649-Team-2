@@ -86,7 +86,7 @@ public class R_T9RuntimeMonitor {
         }
         
         if (state != nextState && nextState == State.STATE_CAN_GO_FASTER) {
-            warnings.add("Car is driving at slow speed at position: " + carLevelPosition.position() + 
+            warnings.add("Warning RT 9: Car is driving at slow speed at position: " + carLevelPosition.position() + 
                     " but can drive at fast speed!");
         }
         state = nextState;

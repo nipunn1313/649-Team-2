@@ -92,7 +92,7 @@ public class R_T81RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_LANTERN_OFF_PENDING_CALL) {
-            warnings.add("RT 8-1 Lanterns are off when doors are open at floor " + (f+1) + " hallway " + h +
+            warnings.add("Warning RT 8.1: Lanterns are off when doors are open at floor " + (f+1) + " hallway " + h +
                     " but there are pending calls");
         }
         

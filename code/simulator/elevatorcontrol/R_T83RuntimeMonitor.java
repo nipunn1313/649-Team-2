@@ -104,7 +104,7 @@ public class R_T83RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_MOVE_TO_INCORRECT_FLOOR) {
-            warnings.add("Car started moving from floor " + (f+1) + " hallway " + h +
+            warnings.add("Warning RT 8.3: Car started moving from floor " + (f+1) + " hallway " + h +
                     " in direction " + driveActualSpeed.direction() + " when lantern indicated " +
                     "that it should go " + direction);
         }

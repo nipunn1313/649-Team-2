@@ -84,7 +84,7 @@ public class R_T6RuntimeMonitor {
                 throw new RuntimeException("Unknown state in R_T6RuntimeMonitor");
         }
         if (state != nextState && nextState == State.STATE_STOP_NO_CALL) {
-            warnings.add("Car is stopped on floor " + (f+1) +
+            warnings.add("Warning RT 6: Car is stopped on floor " + (f+1) +
                     " but no CarCall or HallCall is true!");
         }
         
