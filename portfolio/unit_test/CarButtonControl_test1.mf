@@ -35,6 +35,7 @@
 +10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 BACK UP
 +10ms I 0s N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = true
 +10ms I 0s F CarCall 7 BACK = false
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false 
 
 ;#state '1 STATE_NO_CALL'
 +400ms A S CarButtonControl[7][BACK] : STATE == STATE_NO_CALL
