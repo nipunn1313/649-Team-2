@@ -3069,6 +3069,18 @@ below Lobby (1). </li>
   <li>
     Dwell: Variable that represents the desiredDwell of this elevator.
   </li>
+  <li>
+    DoorBackoff: Constant for how many periods to remain in the Doors Closed
+    state (avoids a race condition causing doors to open while moving).
+  </li>
+  <li>
+    DoorBackoffCountdown: Variable that counts down to when the Doors Closed
+    state is allowed to exit.
+  </li>
+  <li>
+    PromisedDirection: Variable that contains the direction that the elevator
+    "promised" to go when the doors opened.
+  </li>
 </ul>
 <h3> Macros: </h3>
 <ul>
