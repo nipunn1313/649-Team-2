@@ -1,0 +1,79 @@
+18649-Fall-2012
+group #2
+Nipunn Koorapati (nkoorapa)
+Jacob Olson (jholson)
+Nick Mazurek (nmazurek)
+Benet Clark (brclark)
+
+Simulator Parameters:
+Command line = -pf proj10acceptance1.pass -head head.txt -seed 14039 -b 200 -fs 5 -rt 2h
+RandomSeed = 14039
+CanNetworkBitTime = 5000 ns
+Effective Can Bitrate = 199999.99999999997
+Run Time = 7200.0s
+Real time rate = null
+Acceptance Test File = proj10acceptance1.pass
+
+STATISTICS FOR ELEVATOR SIMULATION PASSENGER DELIVERY
+-----------------------------------------------------
+
+
+These passengers were delivered:
+Passenger 9: INJECTED AT 5.0s and DELIVERED in 45.642s
+  Satisfaction score: 100.0
+Passenger 12: INJECTED AT 7.1s and DELIVERED in 60.045s
+  Satisfaction score: 100.0
+Passenger 0: INJECTED AT 0.0s and DELIVERED in 68.371s
+  Satisfaction score: 100.0
+Passenger 10: INJECTED AT 6.0s and DELIVERED in 77.776s
+  Satisfaction score: 100.0
+Passenger 5: INJECTED AT 3.0s and DELIVERED in 96.528s
+  Satisfaction score: 100.0
+Passenger 4: INJECTED AT 2.0s and DELIVERED in 114.713s
+  Satisfaction score: 100.0
+Passenger 1: INJECTED AT 0.3s and DELIVERED in 133.014s
+  Satisfaction score: 100.0
+Passenger 3: INJECTED AT 1.0s and DELIVERED in 133.991s
+  Satisfaction score: 100.0
+Passenger 6: INJECTED AT 3.0s and DELIVERED in 146.679s
+  Satisfaction score: 100.0
+Passenger 16: INJECTED AT 101.0s and DELIVERED in 81.6s
+  Satisfaction score: 100.0
+Passenger 15: INJECTED AT 100.0s and DELIVERED in 115.756s
+  Satisfaction score: 100.0
+Passenger 14: INJECTED AT 66.2s and DELIVERED in 182.553s
+  Satisfaction score: 100.0
+Passenger 13: INJECTED AT 58.0s and DELIVERED in 207.556s
+  Satisfaction score: 100.0
+Passenger 11: INJECTED AT 7.0s and DELIVERED in 309.642s
+  Satisfaction score: 100.0
+Passenger 8: INJECTED AT 4.0s and DELIVERED in 329.175s
+  Satisfaction score: 100.0
+Passenger 2: INJECTED AT 0.6s and DELIVERED in 419.812s
+  Satisfaction score: 90.0
+    @287.420000000: 0.90 Repeated hall call press
+Passenger 7: INJECTED AT 3.0s and DELIVERED in 419.541s
+  Satisfaction score: 90.0
+    @287.420000000: 0.90 Repeated hall call press
+
+Passenger Delivery Summary
+Delivered: 17
+Stranded: 0
+Total: 17
+
+Deliver Stats (lower is better):
+Average_delivery_time: 173.082
+Maximum_delivery_time:  419.812
+Delivery_performance_score:  1112.140
+
+Satisfaction Stats (higher is better):
+Average_satisfaction_score: 98.824
+Min_satisfaction_score:  90.000
+Satisfaction_performance_score:  485.294
+
+
+
+
+Network Utilization Summary:
+Recent: 86.16 % Max: 86.16 %  Overall:  86.16 %
+
