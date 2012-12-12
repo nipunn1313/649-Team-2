@@ -88,6 +88,7 @@ public class Dispatcher extends Controller {
     // State variable holding the desired floor, initialized to 1
     private int TargetFloor = 1;
     private Direction TargetDirection = Direction.STOP;
+    private Direction PromisedDirection = Direction.STOP;
     private Hallway TargetHallway = Hallway.NONE;
     
     public Dispatcher(int numFloors, SimTime period, boolean verbose) {
@@ -158,7 +159,7 @@ public class Dispatcher extends Controller {
                 
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
+                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight(), PromisedDirection);
                 
                 if (doorBackoffCountdown == 0) {
                     TargetFloor = nextFloor.getFloor();
@@ -203,7 +204,7 @@ public class Dispatcher extends Controller {
                 // Condition to avoid zoidberg problem
                 TargetHallway = (nextFloor.getFloor() == mAtFloors.getCurrentFloor()) ?
                         Hallway.NONE : nextFloor.getHallway();
-
+                PromisedDirection = TargetDirection;
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
                 mDesiredDwellBack.set(DWELL_TIME);
@@ -275,10 +276,11 @@ public class Dispatcher extends Controller {
                 break;
             case STATE_APPROACHING:
                 // State actions for 'DOORS CLOSED'
+                /*
                 nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
                         mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
-                
+                */
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
                 mDesiredDwellBack.set(DWELL_TIME);
@@ -305,8 +307,8 @@ public class Dispatcher extends Controller {
             log("remains in state: ", state);
         } else {
             log("Transition: ", state, "->", newState);
+            
         }
-
         // Update the state variable
         state = newState;
         
