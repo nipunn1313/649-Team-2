@@ -33,7 +33,8 @@
 ;#transition 'HBT2b'
 +10ms I 0s F HallCall 7 BACK DOWN = false
 +10ms I 0s N AT_FLOOR_[7][BACK]_CAN_ID AtFloor 7 BACK = true
-+10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 BOTH UP
++10ms I 0s N DESIRED_FLOOR_CAN_ID DesiredFloor = 7 BOTH DOWN
++10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][LEFT]_CAN_ID DoorClosed FRONT LEFT = false 
 
 ;#state '1 STATE_LIGHT_OFF'
 +350ms A S HallButtonControl[7][BACK][DOWN] : STATE == STATE_LIGHT_OFF
