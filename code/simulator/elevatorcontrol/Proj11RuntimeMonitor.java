@@ -71,9 +71,9 @@ public class Proj11RuntimeMonitor extends RuntimeMonitor {
         R_T7Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights, this.carLights,
                 warnings, messages);
         R_T81Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights,
-                this.carLights, this.carLanterns, warnings, messages);
+                this.carLights, this.carLanterns, this.period, warnings, messages);
         R_T82Monitor.onTimerExpired(this.atFloors, this.doorState, this.hallLights,
-                this.carLights, this.carLanterns, warnings, messages);
+                this.carLights, this.carLanterns, this.period, warnings, messages);
         R_T83Monitor.onTimerExpired(this.driveActualSpeed, this.atFloors, this.doorState, this.hallLights,
                 this.carLights, this.carLanterns, warnings, messages);
         R_T9Monitor.onTimerExpired(this.driveActualSpeed, this.carLevelPosition, this.driveCommandedSpeed, 

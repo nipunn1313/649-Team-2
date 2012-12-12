@@ -8,7 +8,10 @@
  */
 
 package simulator.elevatorcontrol;
+import jSimPack.SimTime;
+
 import java.util.List;
+import java.util.concurrent.Delayed;
 
 import simulator.elevatorcontrol.Proj11RuntimeMonitor.DoorStateMachine;
 import simulator.framework.Direction;
@@ -22,16 +25,19 @@ public class R_T81RuntimeMonitor {
     //enumerate states
     private enum State {
         STATE_DOORS_CLOSED,
+        STATE_DOORS_DELAY,
         STATE_LANTERN_ON,
         STATE_LANTERN_OFF_PENDING_CALL
     };
     
     private State state = State.STATE_DOORS_CLOSED;
+    private SimTime delay;
     
     public void onTimerExpired(ReadableAtFloorPayload[][] atFloors,
             DoorStateMachine doorState, ReadableHallLightPayload[][][] hallLights, 
             ReadableCarLightPayload[][] carLights, 
-            ReadableCarLanternPayload[] carLanterns, 
+            ReadableCarLanternPayload[] carLanterns,
+            SimTime runtimePeriod,
             List<String> warnings, List<String> messages) {
         
         State nextState = state;
@@ -56,13 +62,20 @@ public class R_T81RuntimeMonitor {
         
         switch (state) {
             case STATE_DOORS_CLOSED:
+            	delay = SimTime.multiply(MessageDictionary.LANTERN_CONTROL_PERIOD, 3);
                 if (doorState.anyDoorOpen()) {
-                    if (upLantern || downLantern) {
-                        nextState = State.STATE_LANTERN_ON;
-                    } else if (callOnAnotherFloor) {
-                        nextState = State.STATE_LANTERN_OFF_PENDING_CALL;
-                    }
+                	nextState = State.STATE_DOORS_DELAY;
                 }
+                break;
+            case STATE_DOORS_DELAY:
+            	delay = SimTime.subtract(delay, runtimePeriod);
+            	if (delay.isLessThanOrEqual(SimTime.ZERO)) {
+            		if (upLantern || downLantern) {
+            			nextState = State.STATE_LANTERN_ON;
+            		} else if (callOnAnotherFloor) {
+            			nextState = State.STATE_LANTERN_OFF_PENDING_CALL;
+            		}
+            	}
                 break;
             case STATE_LANTERN_ON:
                 if (!doorState.anyDoorOpen())
@@ -75,7 +88,7 @@ public class R_T81RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_LANTERN_OFF_PENDING_CALL) {
-            warnings.add("Lanterns are off when doors are open at floor " + (f+1) + " hallway " + h +
+            warnings.add("RT 8-1 Lanterns are off when doors are open at floor " + (f+1) + " hallway " + h +
                     " but there are pending calls");
         }
         
