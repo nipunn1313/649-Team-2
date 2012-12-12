@@ -26,8 +26,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST1'
 +0ms  I 0s N AT_FLOOR_[1][BACK]_CAN_ID AtFloor 1 BACK = false
@@ -42,8 +42,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST3'
 +10ms I 0s N CAR_LEVEL_POSITION_CAN_ID CarLevelPosition = 5000
@@ -53,8 +53,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST4'
 +10ms  I 0s N AT_FLOOR_[2][BACK]_CAN_ID AtFloor 2 BACK = false
@@ -71,8 +71,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST5'
 +10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
@@ -86,8 +86,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST2'
 +10ms I 0s N HALL_CALL_[3][FRONT][UP]_CAN_ID OurBoolean = true
@@ -98,8 +98,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == FRONT
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST8'
 +10ms  I 0s N HALL_CALL_[3][FRONT][UP]_CAN_ID OurBoolean = false
@@ -112,8 +112,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST11'
 +10ms   I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = true
@@ -126,8 +126,8 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 3
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == UP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST9'
 +10ms   I 0s N AT_FLOOR_[3][FRONT]_CAN_ID AtFloor 3 FRONT = false
@@ -138,22 +138,22 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST10'
 +10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = true
 
 ;#state '1 STATE_DOORS_CLOSED'
-+210ms A S Dispatcher : STATE == STATE_DOORS_CLOSED
++1000ms A S Dispatcher : STATE == STATE_DOORS_CLOSED
 +0ms   A S Dispatcher : TARGET_FLOOR == 1
 +0ms   A S Dispatcher : TARGET_HALLWAY == NONE
 +0ms   A S Dispatcher : TARGET_DIRECTION == STOP
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
 ;#transition 'DIST6'
 +10ms I 0s N DOOR_CLOSED_SENSOR_[FRONT][RIGHT]_CAN_ID DoorClosed FRONT RIGHT = false
@@ -164,6 +164,6 @@
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getFloor == 1
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getHallway == NONE
 +0ms   A N DESIRED_FLOOR_CAN_ID DesiredFloor : getDirection == STOP
-+0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 5000
-+0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 5000
++0ms   A N DESIRED_DWELL_[BACK]_CAN_ID Integer : getValue == 3000
++0ms   A N DESIRED_DWELL_[FRONT]_CAN_ID Integer : getValue == 3000
 
