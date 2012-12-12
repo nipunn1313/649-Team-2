@@ -3161,23 +3161,43 @@ below Lobby (1). </li>
   </li>
   <li>
     NextFloorDoorsClosed is a macro. Returns <b>(f,b,d)</b>.
-    Let <b>d0</b> be the direction toward TargetFloor from CurrentFloor.
+    Let <b>d0</b> be the PromisedDirection (from the CarLantern before)
     <ul>
       <li>
-        If <b>d0</b> == Up or <b>d0</b> == Stop
+        Let <b>(f', b', d')</b> be the result of.
         <ul>
-          <li>If NextFloorMoving[Up] is non-null, return it</li>
-          <li>Otherwise, if NextFloorMoving[Down] is non-null, return it</li>
+        <li>
+          If <b>d0</b> == Up or <b>d0</b> == Stop
+          <ul>
+            <li>If NextFloorMoving[Up] is non-null, return it</li>
+            <li>Otherwise, if NextFloorMoving[Down] is non-null, return it</li>
+          </ul>
+        </li>
+        <li>
+          If <b>d0</b> == Down
+          <ul>
+            <li>If NextFloorMoving[Down] is non-null, return it</li>
+            <li>Otherwise, if NextFloorMoving[Up] is non-null, return it</li>
+          </ul>
+        </li>
         </ul>
       </li>
       <li>
-        If <b>d0</b> == Down
-        <ul>
-          <li>If NextFloorMoving[Down] is non-null, return it</li>
-          <li>Otherwise, if NextFloorMoving[Up] is non-null, return it</li>
-        </ul>
+        If doorBackoffCountdown == 0 || <b>f'</b> == CurrentFloor ==
+        TargetFloor return <b>(f', b', d')</b>
       </li>
     </ul>
+  </li>
+  <li>
+    NextFloorApproaching is a macro. Returns <b>(f,b,d)</b>
+    Let <b>(f',b',d')</b> be the result of NextFloorMoving
+    <li>
+      If <b>f'</b> == TargetFloor then return <b>(f',b',d')</b>
+    </li>
+    <li>
+      Otherwise, return (TargetFloor, TargetHallway, TargetDirection)
+    </li>
+  </li>
   <li>
     CommitPoint[f](v); v = {Reached, NotReached} calculated based on
     car's acceleration profile, current speed, and distance from the floor
