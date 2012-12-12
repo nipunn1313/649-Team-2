@@ -3103,8 +3103,7 @@ below Lobby (1). </li>
             If CommitPoint[<b>f</b>] is NotReached and
             <ul>
               <li>
-                Car can fit another passenger and a
-                HallCall[<b>f, b, d0</b>] is True
+                A HallCall[<b>f, b, d0</b>] is True
               </li>
                 <ul><li>If found, return <b>(f, b, d0)</b></li></ul>
               <li>A CarCall[<b>f, b</b>] is True</li>
@@ -3191,12 +3190,14 @@ below Lobby (1). </li>
   <li>
     NextFloorApproaching is a macro. Returns <b>(f,b,d)</b>
     Let <b>(f',b',d')</b> be the result of NextFloorMoving
-    <li>
-      If <b>f'</b> == TargetFloor then return <b>(f',b',d')</b>
-    </li>
-    <li>
-      Otherwise, return (TargetFloor, TargetHallway, TargetDirection)
-    </li>
+    <ul>
+      <li>
+        If <b>f'</b> == TargetFloor then return <b>(f',b',d')</b>
+      </li>
+      <li>
+        Otherwise, return (TargetFloor, TargetHallway, TargetDirection)
+      </li>
+    </ul>
   </li>
   <li>
     CommitPoint[f](v); v = {Reached, NotReached} calculated based on

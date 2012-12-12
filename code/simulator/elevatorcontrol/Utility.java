@@ -389,7 +389,7 @@ public class Utility {
     private static DesiredFloor findDesiredAbove(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
             HallCallArray hallCalls, CarCallArray carCalls, int carWeight) {
 
-        boolean carFull = carWeight + Passenger.weight > Elevator.MaxCarCapacity;
+        boolean carFull = false;//carWeight + Passenger.weight > Elevator.MaxCarCapacity;
         
         /* Add 100 for 10cm granularity */
         int currentFloor = 1 + (int) (((100.0 + (double)carLevelPositionMM) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
@@ -444,7 +444,7 @@ public class Utility {
     private static DesiredFloor findDesiredBelow(int carLevelPositionMM, double driveSpeed, Direction driveDirection,
             HallCallArray hallCalls, CarCallArray carCalls, int carWeight) {
         
-        boolean carFull = carWeight + Passenger.weight > Elevator.MaxCarCapacity;
+        boolean carFull = false; //carWeight + Passenger.weight > Elevator.MaxCarCapacity;
         int currentFloor = 1 + (int) (((carLevelPositionMM + 100.0) / 1000.0) / Elevator.DISTANCE_BETWEEN_FLOORS);
         for (int f = currentFloor; f >= 1; f--) {
             if (!Utility.reachedCommitPoint(f, carLevelPositionMM, driveSpeed, driveDirection)) {
