@@ -37,7 +37,7 @@
 +150ms I 0s F CarCall 2 BACK = true
 
 ;#arc '2B/2c' mCarCall sent
-+300ms A N CAR_CALL_[2][BACK]_CAN_ID CarCall : getValue == true
++500ms A N CAR_CALL_[2][BACK]_CAN_ID CarCall : getValue == true
 
 ;#arc '2B/3a' car light turns on
 +0ms A F CarLight 2 BACK : lighted == true
