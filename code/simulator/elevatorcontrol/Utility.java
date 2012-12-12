@@ -210,6 +210,27 @@ public class Utility {
                     getCarCall(f,Hallway.BACK));
         }
     }
+    
+    public static class CarLanternArray {
+        public HashMap<Direction, CarLanternCanPayloadTranslator> networkCarLanternTranslators =
+                new HashMap<Direction, CarLanternCanPayloadTranslator>();
+        
+        public CarLanternArray(CANNetwork.CanConnection conn) {
+            for (Direction d : Direction.replicationValues) {
+                int index = ReplicationComputer.computeReplicationId(d);
+                ReadableCanMailbox m = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_LANTERN_BASE_CAN_ID + index);
+                CarLanternCanPayloadTranslator t = new CarLanternCanPayloadTranslator(m);
+                conn.registerTimeTriggered(m);
+                networkCarLanternTranslators.put(d, t);
+            }
+        }
+        
+        public boolean areBothOff() {
+            boolean up = networkCarLanternTranslators.get(Direction.UP).getValue();
+            boolean down = networkCarLanternTranslators.get(Direction.DOWN).getValue();
+            return !(up || down);
+        }
+    }
 
     public static Hallway getLandings(int f) {
         boolean frontHallway = Elevator.hasLanding(f, Hallway.FRONT);

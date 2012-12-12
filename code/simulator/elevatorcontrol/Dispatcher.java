@@ -12,6 +12,7 @@ package simulator.elevatorcontrol;
 import jSimPack.SimTime;
 import simulator.elevatorcontrol.Utility.AtFloorArray;
 import simulator.elevatorcontrol.Utility.CarCallArray;
+import simulator.elevatorcontrol.Utility.CarLanternArray;
 import simulator.elevatorcontrol.Utility.DesiredFloor;
 import simulator.elevatorcontrol.Utility.DoorClosedArray;
 import simulator.elevatorcontrol.Utility.HallCallArray;
@@ -38,6 +39,9 @@ public class Dispatcher extends Controller {
 
     // Receive car call messages
     private CarCallArray mCarCalls;
+
+    // Receive lantern status
+    private CarLanternArray mCarLanterns;
 
     // Receive car weight messages
     private ReadableCanMailbox networkCarWeight;
@@ -111,6 +115,9 @@ public class Dispatcher extends Controller {
         
         // Create mCarCall interface
         mCarCalls = new CarCallArray(canInterface);
+        
+        // Create mCarLanterns input interface
+        mCarLanterns = new CarLanternArray(canInterface);
         
         // Create mCarWeight interface
         networkCarWeight = CanMailbox.getReadableCanMailbox(MessageDictionary.CAR_WEIGHT_CAN_ID);
@@ -211,7 +218,7 @@ public class Dispatcher extends Controller {
                 
                 // Transitions
                 // #transition 'DIST5'
-                if (mDoorClosed.getAllClosed()) {
+                if (mDoorClosed.getAllClosed() && mCarLanterns.areBothOff()) {
                     newState = State.STATE_DOORS_CLOSED;
                 // #transition 'DIST9'
                 } else if (!mDoorClosed.getAllClosed() &&
