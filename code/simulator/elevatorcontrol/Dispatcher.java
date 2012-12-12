@@ -275,12 +275,16 @@ public class Dispatcher extends Controller {
                 }
                 break;
             case STATE_APPROACHING:
-                // State actions for 'DOORS CLOSED'
-                /*
-                nextFloor = Utility.getNextFloorDoorsClosed(mCarLevelPosition.getPosition(), 
+                // State actions for 'APPROACHING'
+                nextFloor = Utility.getNextFloorMoving(mCarLevelPosition.getPosition(), 
                         mDriveSpeed.getSpeed(), mDriveSpeed.getDirection(), mCarCalls,
-                        mHallCalls, currentFloor, TargetFloor, mCarWeight.getWeight());
-                */
+                        mHallCalls, TargetDirection, currentFloor, mCarWeight.getWeight());
+                
+                if (nextFloor != null && nextFloor.getFloor() == TargetFloor) {
+                    TargetHallway = nextFloor.getHallway();
+                    TargetDirection = nextFloor.getDirection();
+                }
+                
                 mDesiredFloor.set(TargetFloor, TargetHallway, TargetDirection);
                 mDesiredDwellFront.set(DWELL_TIME);
                 mDesiredDwellBack.set(DWELL_TIME);
@@ -307,7 +311,6 @@ public class Dispatcher extends Controller {
             log("remains in state: ", state);
         } else {
             log("Transition: ", state, "->", newState);
-            
         }
         // Update the state variable
         state = newState;
