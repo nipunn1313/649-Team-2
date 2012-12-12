@@ -90,7 +90,7 @@ public class R_T82RuntimeMonitor {
         }
         
         if (nextState != state && nextState == State.STATE_LANTERNS_CHANGED) {
-            warnings.add("RT 8-2 Lanterns changed when at floor " + (f+1) + " hallway " + h +
+            warnings.add("Warning RT 8.2: Lanterns changed when at floor " + (f+1) + " hallway " + h +
                     " from (" + upLanternState + "," + downLanternState + ") to (" +
                     upLantern + "," + downLantern + ") while doors were open");
         }
